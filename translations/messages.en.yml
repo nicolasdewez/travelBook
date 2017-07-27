@@ -1,0 +1,94 @@
+locale:
+    fr: Français
+    en: English
+
+menu:
+    my_account: My account
+    logout: Logout
+    my_travels: My travels
+    new_travel: New travel
+    my_pictures: My pictures
+    search: Search
+    admin:
+        title: Admin
+        users: Users
+        pictures_validator: Pictures Validator
+
+breadcrumb:
+    app_home: Welcome
+    app_registration: Registration
+    app_password_lost: Password lost
+    app_login: Connection
+    app_change_password: Edit password
+    app_my_account: My account
+    app_travels: My travels
+
+form:
+    save: Save
+    registration:
+        firstname: Firstname
+        lastname: Lastname
+        email: Email
+        username: Username
+        locale: Language
+    password_lost:
+        username: Username
+        email: Email
+    login:
+        submit: Connection
+        username: Username
+        password: Password
+    change_password:
+        current: Current password
+        password_1: New password
+        password_2: Repeat password
+    my_account:
+        firstname: Firstname
+        lastname: Lastname
+        email: Email
+        locale: Language
+        current_password: Current password
+        new_password_1: New password
+        new_password_2: Repeat password
+
+errors:
+    404:
+        title: Page not found
+        description: Sorry, this page seems to have gone on a journey !
+        link_text: You can think again about your travels by going on our
+        link: home page
+    403:
+        title: Forbidden
+        description: Sorry, you have no necessary authorizations to access this page!
+    others:
+        title: Error
+        description: An error occured :-(
+        status_text: The error is:
+
+
+registration:
+    title: Registration
+    ok: Your registration is in progress. An email will be sent in few minutes.
+    link_login: I have an account
+
+active:
+    ok: Your account is active. You can now use the username and the password indicated in the email to connect you.
+
+password_lost:
+    title: Password lost
+    ok: Your request again password is in progress. An email will be sent in few minutes.
+    link_login: I sign in
+
+login:
+    title: Sign-in
+    link_password: I lost my password
+    link_registration: I haven't account
+
+change_password:
+    title: Edit password
+    notice: You should edit password in first connection.
+    ok: Your password is updated
+
+my_account:
+    title: Edit my personal information
+    ok: Your information are updated

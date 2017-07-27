@@ -8,24 +8,17 @@ use Twig\Environment as Twig;
 
 class HomeController
 {
-    /** @var Twig */
-    private $twig;
-
     /**
      * @param Twig $twig
-     */
-    public function __construct(Twig $twig)
-    {
-        $this->twig = $twig;
-    }
-
-    /**
+     *
      * @return Response
      *
-     * @Route("/", name="app_home")
+     * @Route("/", name="app_home", methods={"GET"})
      */
-    public function indexAction(): Response
+    public function indexAction(Twig $twig): Response
     {
-        return new Response($this->twig->render('home/index.html.twig'));
+        return new Response(
+            $twig->render('home/index.html.twig')
+        );
     }
 }

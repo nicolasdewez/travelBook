@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Travel Book{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ asset('build/style-app.css') }}" />
+    {% block stylesheets %}{% endblock %}
+    {#<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />#}
+</head>
+<body>
+
+{# User bar #}
+{{ render(controller('App\\Controller\\SecurityController:userBarAction')) }}
+
+{# Header #}
+{{ include('common/header.html.twig') }}
+
+{# Menu #}
+{% autoescape false %}
+    {{ display_menu() }}
+{% endautoescape %}
+
+<div class="body">
+    {# Breadcrumb #}
+    {% autoescape false %}
+        {{ display_breadcrumb() }}
+    {% endautoescape %}
+
+    {# Flash#}
+    {{ include('common/flash.html.twig') }}
+
+    {% block body %}{% endblock %}
+
+</div>
+
+<script type="text/javascript" src="{{ asset('build/script-app.js') }}"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

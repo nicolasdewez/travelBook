@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('build/style-errors.css') }}" />
+{% endblock %}
+
+{% block body %}
+    <div id="noResult">
+        <div id="errorCont" class="pos-abs">
+            <strong>404 - {{ 'errors.404.title'|trans }}</strong> <br>
+            <strong style="font-size:18px;">{{ 'errors.404.description'|trans }}</strong>
+            <div style="font-size:16px;">
+                <br>
+                {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {{ 'errors.404.link_text'|trans }} <a href="{{ path('app_home') }}">{{ 'errors.404.link'|trans }}</a> ;-)
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% if items|length %}
+    <ol class="breadcrumb">
+        {% for item in items %}
+            <li{% if item.active %} class="active"{% endif %}>
+                <span class="glyphicon glyphicon-tag"></span>
+                {% if not item.active %}
+                    <a href="{{ item.url }}">
+                {% endif %}
+
+                {{ item.title }}
+
+                {% if not item.active %}
+                    </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ol>
+{% endif %}

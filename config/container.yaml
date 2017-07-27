@@ -1,6 +1,50 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'en'
+    locale: 'fr'
+    app_version: '1.0.0-dev'
+    router.request_context.host: '%env(APP_HOST)%'
+    router.request_context.scheme: '%env(APP_SCHEME)%'
+    router.request_context.base_url: '%env(APP_BASE_URL)%'
 
 services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true
+        public: false
+
+    Doctrine\ORM\EntityManagerInterface:
+        alias: 'doctrine.orm.default_entity_manager'
+
+    App\Builder\BreadcrumbBuilder:
+        arguments:
+            $configPath: '%kernel.root_dir%/../config/breadcrumb.yaml'
+
+    App\Producer\MailChangePasswordProducer:
+        arguments:
+            $producer: '@old_sound_rabbit_mq.mail_change_password_producer'
+
+    App\Producer\MailUpdateAccountProducer:
+        arguments:
+            $producer: '@old_sound_rabbit_mq.mail_update_account_producer'
+
+    App\Producer\PasswordLostProducer:
+        arguments:
+            $producer: '@old_sound_rabbit_mq.password_lost_producer'
+
+    App\Producer\RegistrationProducer:
+        arguments:
+            $producer: '@old_sound_rabbit_mq.registration_producer'
+
+    App\Repository\UserRepository:
+        factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
+        arguments:
+            - 'App\Entity\User'
+
+    App\Security\CheckRegistrationCode:
+        arguments:
+            $secret: '%env(APP_SECRET)%'
+
+    App\Security\GenerateRegistrationCode:
+        arguments:
+            $secret: '%env(APP_SECRET)%'

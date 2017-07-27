@@ -1,1 +1,11 @@
-Home
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    EXPLICATIONS ET LIENS VERS IDENTIFICATION / INSCRIPTIONS
+
+    <ul>
+        <li><a href="{{ path('app_registration') }}">Inscription</a></li>
+        <li><a href="{{ path('app_login') }}">Connexion</a></li>
+        <li><a href="{{ path('app_password_lost') }}">Mot de passe oublié</a></li>
+    </ul>
+{% endblock %}

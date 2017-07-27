@@ -1,0 +1,11 @@
+registration:
+    subject: Inscription à Travelbook
+
+password_lost:
+    subject: "[Travelbook] Création d'un nouveau mot de passe"
+
+change_password:
+    subject: "[Travelbook] Mise à jour de votre mot de passe"
+
+update_account:
+    subject: "[Travelbook] Mise à jour de votre compte"

@@ -1,0 +1,93 @@
+locale:
+    fr: Français
+    en: English
+
+menu:
+    my_account: Mon compte
+    logout: Se déconnecter
+    my_travels: Mes voyages
+    new_travel: Nouveau voyage
+    my_pictures: Mes photos
+    search: Rechercher
+    admin:
+        title: Administration
+        users: Utilisateurs
+        pictures_validator: Validations des Photos
+
+breadcrumb:
+    app_home: Bienvenue
+    app_registration: Inscription
+    app_password_lost: Mot de passe perdu
+    app_login: Identification
+    app_change_password: Mise à jour du mot de passe
+    app_my_account: Mon compte
+    app_travels: Mes voyages
+
+form:
+    save: Enregistrer
+    registration:
+        firstname: Prénom
+        lastname: Nom
+        email: Email
+        username: Nom d'utilisateur
+        locale: Langue
+    password_lost:
+        username: Nom d'utilisateur
+        email: Email
+    login:
+        submit: Se connecter
+        username: Nom d'utilisateur
+        password: Mot de passe
+    change_password:
+        current: Mot de passe actuel
+        password_1: Nouveau mot de passe
+        password_2: Répêter le mot de passe
+    my_account:
+        firstname: Prénom
+        lastname: Nom
+        email: Email
+        locale: Langue
+        current_password: Mot de passe actuel
+        new_password_1: Nouveau mot de passe
+        new_password_2: Répêter le mot de passe
+
+errors:
+    404:
+        title: Page non trouvée
+        description: Désolé, cette page semble être partie en voyage !
+        link_text: Vous pouvez repenser à vos voyages en allant sur notre
+        link: page d'accueil
+    403:
+        title: Accès interdit
+        description: Désolé, vous n'avez pas les autorisations nécessaires pour accéder à cette page !
+    others:
+        title: Erreur
+        description: Désolé, une erreur est survenue :-(
+        status_text: L'erreur est la suivante :
+
+registration:
+    title: Inscription
+    link_login: J'ai déjà un compte.
+    ok: Votre demande d'inscription est en cours. Un email va être envoyé d'ici quelques minutes.
+
+active:
+    ok: Votre compte est activé. Vous pouvez maintenant utiliser le nom d'utilisateur et le mot de passe indiqués dans le mail pour vous connecter.
+
+password_lost:
+    title: Mot de passe perdu
+    ok: Votre demande de nouveau mot de passe est en cours. Un email va être envoyé d'ici quelques minutes.
+    link_login: Je me connecte.
+
+login:
+    title: Identifiez-vous
+    link_password: J'ai perdu mon mot de passe
+    link_registration: Je n'ai pas de compte
+
+change_password:
+    title: Mise à jour du mot de passe
+    notice: Il est très conseillé de modifier le mot de passe lors de la première connexion.
+    ok: Votre mot de passe a été mis à jour
+
+my_account:
+    title: Mise à jour de mes informations personnelles
+    ok: Vos informations personnelles ont été mises à jour

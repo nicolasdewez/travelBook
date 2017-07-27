@@ -10,4 +10,7 @@ return [
     'Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle' => ['all' => true],
     'Symfony\Bundle\MonologBundle\MonologBundle' => ['all' => true],
     'Symfony\Bundle\SecurityBundle\SecurityBundle' => ['all' => true],
+    'Symfony\Bundle\DebugBundle\DebugBundle' => ['dev' => true, 'test' => true],
+    'OldSound\RabbitMqBundle\OldSoundRabbitMqBundle' => ['all' => true],
+    'Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle' => ['all' => true],
 ];

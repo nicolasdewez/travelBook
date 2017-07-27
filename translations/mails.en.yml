@@ -1,0 +1,11 @@
+registration:
+    subject: Registration to Travelbook
+
+password_lost:
+    subject: "[Travelbook] Create new password"
+
+change_password:
+    subject: "[Travelbook] Update of your password"
+
+update_account:
+    subject: "[Travelbook] Update of your account"

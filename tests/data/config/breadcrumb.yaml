@@ -1,0 +1,6 @@
+app_home:
+    title: 'breadcrumb.app_home'
+
+app_registration:
+    title: 'breadcrumb.app_registration'
+    parent: 'app_home'

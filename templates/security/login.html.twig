@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ error.message }}
+        </div>
+    {% endif %}
+
+    <div class="mini-body">
+
+        <h2>{{ 'login.title'|trans }}</h2>
+
+        {{ form_start(form, {'action': path('app_login_check')}) }}
+            {{ form_widget(form) }}
+
+            <input type="submit" value="{{ 'form.login.submit'|trans }}" class="btn btn-primary pull-right" />
+        {{ form_end(form) }}
+
+        <a href="{{ path('app_password_lost') }}">{{ 'login.link_password'|trans }}</a>
+        <a href="{{ path('app_registration') }}">{{ 'login.link_registration'|trans }}</a>
+    </div>
+{% endblock %}

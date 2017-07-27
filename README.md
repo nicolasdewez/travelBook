@@ -29,3 +29,18 @@ make start
 
 You can go to: [http://web.travelbook/](http://web.travelbook/)
 
+
+-----------------------------
+A SUPPRIMER
+
+Il faut penser à :
+- Interface admin user pour :
+    - activer / désactiver un utilisateur
+    - relancer le process d'inscription
+    - créer un utilisateur (admin ou +)
+- Revoir les rôles
+- Ecran de feedback
+- Traduction des mails et faire une vraie page d'accueil
+- Ajouter une préférence sur l'utilisateur pour décider s'il veut les notifs ou non
+- Style à améliorer
+- Utiliser un workflow pour le process d'inscription

@@ -1,0 +1,23 @@
+app_home:
+    title: 'breadcrumb.app_home'
+
+app_registration:
+    title: 'breadcrumb.app_registration'
+    parent: 'app_home'
+
+app_password_lost:
+    title: 'breadcrumb.app_password_lost'
+    parent: 'app_home'
+
+app_login:
+    title: 'breadcrumb.app_login'
+    parent: 'app_home'
+
+app_change_password:
+    title: 'breadcrumb.app_change_password'
+
+app_my_account:
+    title: 'breadcrumb.app_my_account'
+
+app_travels:
+    title: 'breadcrumb.app_travels'

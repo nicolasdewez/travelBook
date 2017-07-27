@@ -4,3 +4,6 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+/build/
+/node_modules/
+/public/build/

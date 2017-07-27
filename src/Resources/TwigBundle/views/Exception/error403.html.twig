@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('build/style-errors.css') }}" />
+{% endblock %}
+
+{% block body %}
+    <div id="noResult">
+        <div id="errorCont" class="pos-abs">
+            <strong>403 - {{ 'errors.403.title'|trans }}</strong> <br>
+            <strong style="font-size:18px;">{{ 'errors.403.description'|trans }}</strong>
+        </div>
+    </div>
+{% endblock %}

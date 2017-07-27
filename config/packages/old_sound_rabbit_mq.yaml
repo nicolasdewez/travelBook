@@ -1,0 +1,45 @@
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host: '%env(RABBITMQ_HOST)%'
+            port: '%env(RABBITMQ_PORT)%'
+            user: '%env(RABBITMQ_USER)%'
+            password: '%env(RABBITMQ_PASSWORD)%'
+            vhost: '%env(RABBITMQ_VHOST)%'
+            lazy: false
+            connection_timeout: 3
+            read_write_timeout: 3
+    producers:
+        registration:
+            connection: default
+            exchange_options: {name: 'registration', type: direct}
+        password_lost:
+            connection: default
+            exchange_options: {name: 'password_lost', type: direct}
+        mail_change_password:
+            connection: default
+            exchange_options: {name: 'mail_change_password', type: direct}
+        mail_update_account:
+            connection: default
+            exchange_options: {name: 'mail_update_account', type: direct}
+    consumers:
+        registration:
+            connection: default
+            exchange_options: {name: 'registration', type: direct}
+            queue_options: {name: 'registration'}
+            callback: App\Consumer\RegistrationConsumer
+        password_lost:
+            connection: default
+            exchange_options: {name: 'password_lost', type: direct}
+            queue_options: {name: 'password_lost'}
+            callback: App\Consumer\PasswordLostConsumer
+        mail_change_password:
+            connection: default
+            exchange_options: {name: 'mail_change_password', type: direct}
+            queue_options: {name: 'mail_change_password'}
+            callback: App\Consumer\MailChangePasswordConsumer
+        mail_update_account:
+            connection: default
+            exchange_options: {name: 'mail_update_account', type: direct}
+            queue_options: {name: 'mail_update_account'}
+            callback: App\Consumer\MailUpdateAccountConsumer

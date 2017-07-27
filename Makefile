@@ -7,10 +7,12 @@ SHELL = /bin/bash -o pipefail
 
 # Global
 PROJECT ?= travelbook
-APP = php
+APP = app
 WEB = web
 DB = db
 DB_NAME = travelbook
+RABBITMQ = rabbitmq
+MAILER = mailer
 NETWORK = travelbook
 DEBUG = $(debug)
 
@@ -58,10 +60,24 @@ ready: pretty ## Check if environment is ready
 	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(APP):9000 ddn0/wait 2> /dev/null
 	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(WEB):80 ddn0/wait 2> /dev/null
 	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(DB):5432 ddn0/wait 2> /dev/null
+	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(RABBITMQ):5672 ddn0/wait 2> /dev/null
+	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(MAILER):1025 ddn0/wait 2> /dev/null
 
 .PHONY: open
 open: ## Open the browser
 	@xdg-open http://$(WEB).$(NETWORK)/ > /dev/null
+
+.PHONY: open-rabbitmq
+open-rabbitmq: ## Open the admin rabbitmq
+	@xdg-open http://$(RABBITMQ).$(NETWORK):15672/ > /dev/null
+
+.PHONY: open-mailer
+open-mailer: ## Open the mailer
+	@xdg-open http://$(MAILER).$(NETWORK):1080/ > /dev/null
+
+.PHONY: phpmetrics
+phpmetrics: ## Run phpmetrics
+	@$(EXEC) $(APP) vendor/bin/phpmetrics src --report-html=build/phpmetrics
 
 .PHONY: phpunit
 phpunit: ## Run phpunit test suite
@@ -86,6 +102,7 @@ lint-twig: ## Run lint-twig
 .PHONY: lint-yaml
 lint-yaml: ## Run lint-yaml
 	@$(RUN) bin/console lint:yaml config/
+	@$(RUN) bin/console lint:yaml translations/
 
 .PHONY: checker
 checker: security-check lint-twig lint-yaml php-cs-fixer ## Run checker: security-check, lint-twig, lint-yaml, php-cs-fixer
@@ -99,16 +116,33 @@ endif
 	@$(RUN) $(cmd)
 
 .PHONY: exec
-exec: ## Open a shell in the application container (options: user [www-data], cmd [bash], cont [`php`])
+exec: ## Open a shell in the application container (options: user [www-data], cmd [bash], cont [`app`])
 	$(eval cont ?= $(APP))
 	$(eval user ?= www-data)
 	$(eval cmd ?= bash)
 	@$(COMPOSE) exec --user $(user) $(cont) $(cmd)
 
+.PHONY: assets-compile
+assets-compile: ## Compile assets
+	$(eval env ?= dev)
+	@$(RUN) ./node_modules/.bin/encore $(env)
+
 .PHONY: pgsql
 pgsql: ## Run pgsql cli (options: db_name [`travelbook`])
 	$(eval db_name ?= $(DB_NAME))
 	@$(COMPOSE) exec $(DB) psql -U travelbook
+
+.PHONY: queue-purge
+queue-purge: ## Purge rabbitmq queue (ie. make purge-queue queue="registration")
+ifndef queue
+	@echo "To use the 'purge-queue' target, you MUST add the 'queue' argument"
+	exit 1
+endif
+	@$(RUN) bin/console rabbitmq:purge $(queue) --no-interaction
+
+.PHONY: mailer-test
+mailer-test: ## Send an email
+	@$(RUN) bin/console swiftmailer:email:send --from=from@travelbook.com --to=to@travelbook.com --subject=test --body="It's a test !" --no-interaction
 
 .PHONY: migrate
 migrate: ## Run doctrine migrations
@@ -131,7 +165,6 @@ rm: ## Remove containers
 	@$(COMPOSE) rm --all -f 2>&1 | $(call $(PRINT),REMOVE,$(COLOR_INSTALL))
 
 .PHONY: down
-.PHONY: down
 down: ## Stop and remove containers, networks, volumes
 	@$(COMPOSE) down -v --remove-orphans
 
@@ -151,7 +184,7 @@ cache-warmup: clear ## Clear cache & warmup
 
 .PHONY: reset
 reset: down clear ## Reset application
-	rm -rf vendor/ app/bootstrap.php.cache app/config/parameters.yml node_modules/
+	rm -rf vendor/ app/bootstrap.php.cache node_modules/
 
 .PHONY: init-composer
 init-composer:

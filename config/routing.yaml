@@ -1,9 +1,11 @@
-#index:
-#    path: /
-#    defaults: { _controller: 'App\Controller\DefaultController::index' }
-
-# Depends on sensio/framework-extra-bundle, doctrine/annotations, and doctrine/cache
-#   install with composer req sensio/framework-extra-bundle annot
 controllers:
-    resource: ../src/Controller/
-    type: annotation
+    resource: '../src/Controller/'
+    type: 'annotation'
+
+app_login_check:
+    path: '/login-check'
+    methods: ['POST']
+
+app_logout:
+    path: '/logout'
+    methods: ['GET']
