@@ -43,7 +43,7 @@ class GeneratePassword
     private function getChar(array $ascii, int $random): string
     {
         $size = $ascii[1] - $ascii[0] + 1;
-        $index = $ascii[0] - 1 + ($random % $size);
+        $index = $ascii[0] + (($random - 1) % $size);
 
         return chr($index);
     }

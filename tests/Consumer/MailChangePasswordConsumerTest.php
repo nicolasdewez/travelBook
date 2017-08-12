@@ -17,12 +17,19 @@ class MailChangePasswordConsumerTest extends TestCase
 {
     public function testPing()
     {
-        $consumer = new MailChangePasswordConsumer(
-            $this->createMock(SerializerInterface::class),
-            $this->createMock(ChangePasswordMailer::class),
-            new NullLogger()
-        );
+        $serializer = $this->createMock(SerializerInterface::class);
+        $serializer
+            ->expects($this->never())
+            ->method('deserialize')
+        ;
 
+        $mailer = $this->createMock(ChangePasswordMailer::class);
+        $mailer
+            ->expects($this->never())
+            ->method('execute')
+        ;
+
+        $consumer = new MailChangePasswordConsumer($serializer, $mailer, new NullLogger());
         $this->assertTrue($consumer->execute(new AMQPMessage(Ping::BODY)));
     }
 
@@ -32,6 +39,7 @@ class MailChangePasswordConsumerTest extends TestCase
 
         $serializer = $this->createMock(SerializerInterface::class);
         $serializer
+            ->expects($this->once())
             ->method('deserialize')
             ->with('body', User::class, Formats::JSON, ['groups' => [Groups::EVENT_CHANGE_PASSWORD]])
             ->willReturn($user)
@@ -39,16 +47,13 @@ class MailChangePasswordConsumerTest extends TestCase
 
         $updateAccountMailer = $this->createMock(ChangePasswordMailer::class);
         $updateAccountMailer
+            ->expects($this->once())
             ->method('execute')
             ->with($user)
             ->willReturn(true)
         ;
-        $consumer = new MailChangePasswordConsumer(
-            $serializer,
-            $updateAccountMailer,
-            new NullLogger()
-        );
 
+        $consumer = new MailChangePasswordConsumer($serializer, $updateAccountMailer, new NullLogger());
         $this->assertTrue($consumer->execute(new AMQPMessage('body')));
     }
 }

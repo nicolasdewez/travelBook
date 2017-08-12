@@ -13,8 +13,17 @@ class UserTest extends TestCase
     public function testCurrentAndNewPasswordAreDifferentNoViolation()
     {
         $context = $this->createMock(ExecutionContextInterface::class);
-        $context->method('getGroup')->willReturn(Group::USER_MY_ACCOUNT);
-        $context->expects($this->never())->method('buildViolation');
+        $context
+            ->expects($this->once())
+            ->method('getGroup')
+            ->withAnyParameters()
+            ->willReturn(Group::USER_MY_ACCOUNT)
+        ;
+
+        $context
+            ->expects($this->never())
+            ->method('buildViolation')
+        ;
 
         $user = new User();
         $this->assertNull($user->currentAndNewPasswordAreDifferent($context, null));
@@ -30,15 +39,21 @@ class UserTest extends TestCase
     public function testCurrentAndNewPasswordAreDifferentBuildViolation()
     {
         $constraint = $this->createMock(ConstraintViolationBuilderInterface::class);
-        $constraint->method('addViolation')->willReturn(true);
+        $constraint
+            ->expects($this->once())
+            ->method('addViolation')
+            ->withAnyParameters()
+            ->willReturn(true)
+        ;
 
         $context = $this->createMock(ExecutionContextInterface::class);
         $context
+            ->expects($this->never())
             ->method('getGroup')
-            ->willReturn(Group::USER_CHANGE_PASSWORD)
         ;
 
         $context
+            ->expects($this->once())
             ->method('buildViolation')
             ->with('password.current_new_not_different')
             ->willReturn($constraint)
@@ -55,7 +70,10 @@ class UserTest extends TestCase
     public function testCurrentAndNewPasswordAreEmptyOrNotNoViolation()
     {
         $context = $this->createMock(ExecutionContextInterface::class);
-        $context->expects($this->never())->method('buildViolation');
+        $context
+            ->expects($this->never())
+            ->method('buildViolation')
+        ;
 
         $user = new User();
         $this->assertNull($user->currentAndNewPasswordAreEmptyOrNot($context, null));
@@ -68,18 +86,19 @@ class UserTest extends TestCase
         $this->assertNull($user->currentAndNewPasswordAreEmptyOrNot($context, null));
     }
 
-    public function testCurrentANdNEwPasswordAreEmptyOrNotBuildViolation()
+    public function testCurrentAndNewPasswordAreEmptyOrNotBuildViolation()
     {
         $constraint = $this->createMock(ConstraintViolationBuilderInterface::class);
-        $constraint->method('addViolation')->willReturn(true);
+        $constraint
+            ->expects($this->once())
+            ->method('addViolation')
+            ->withAnyParameters()
+            ->willReturn(true)
+        ;
 
         $context = $this->createMock(ExecutionContextInterface::class);
         $context
-            ->method('getGroup')
-            ->willReturn(Group::USER_CHANGE_PASSWORD)
-        ;
-
-        $context
+            ->expects($this->once())
             ->method('buildViolation')
             ->with('password.current_new_not_empty')
             ->willReturn($constraint)
@@ -87,6 +106,6 @@ class UserTest extends TestCase
 
         $user = (new User())->setCurrentPassword('password');
 
-        $this->assertNull($user->currentAndNewPasswordAreDifferent($context, null));
+        $this->assertNull($user->currentAndNewPasswordAreEmptyOrNot($context, null));
     }
 }

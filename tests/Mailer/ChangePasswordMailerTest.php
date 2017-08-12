@@ -21,7 +21,10 @@ class ChangePasswordMailerTest extends TestCase
         ;
 
         $swiftMailer = $this->createMock(\Swift_Mailer::class);
-        $swiftMailer->expects($this->once())->method('send');
+        $swiftMailer
+            ->expects($this->once())
+            ->method('send')
+        ;
 
         $translator = $this->createMock(TranslatorInterface::class);
         $translator

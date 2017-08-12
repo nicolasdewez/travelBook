@@ -17,12 +17,19 @@ class MailUpdateAccountConsumerTest extends TestCase
 {
     public function testPing()
     {
-        $consumer = new MailUpdateAccountConsumer(
-            $this->createMock(SerializerInterface::class),
-            $this->createMock(UpdateAccountMailer::class),
-            new NullLogger()
-        );
+        $serializer = $this->createMock(SerializerInterface::class);
+        $serializer
+            ->expects($this->never())
+            ->method('deserialize')
+        ;
 
+        $mailer = $this->createMock(UpdateAccountMailer::class);
+        $mailer
+            ->expects($this->never())
+            ->method('execute')
+        ;
+
+        $consumer = new MailUpdateAccountConsumer($serializer, $mailer, new NullLogger());
         $this->assertTrue($consumer->execute(new AMQPMessage(Ping::BODY)));
     }
 
@@ -32,6 +39,7 @@ class MailUpdateAccountConsumerTest extends TestCase
 
         $serializer = $this->createMock(SerializerInterface::class);
         $serializer
+            ->expects($this->once())
             ->method('deserialize')
             ->with('body', User::class, Formats::JSON, ['groups' => [Groups::EVENT_UPDATE_ACCOUNT]])
             ->willReturn($user)
@@ -39,16 +47,13 @@ class MailUpdateAccountConsumerTest extends TestCase
 
         $updateAccountMailer = $this->createMock(UpdateAccountMailer::class);
         $updateAccountMailer
+            ->expects($this->once())
             ->method('execute')
             ->with($user)
             ->willReturn(true)
         ;
-        $consumer = new MailUpdateAccountConsumer(
-            $serializer,
-            $updateAccountMailer,
-            new NullLogger()
-        );
 
+        $consumer = new MailUpdateAccountConsumer($serializer, $updateAccountMailer, new NullLogger());
         $this->assertTrue($consumer->execute(new AMQPMessage('body')));
     }
 }

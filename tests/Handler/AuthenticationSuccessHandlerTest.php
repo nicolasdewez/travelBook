@@ -18,6 +18,7 @@ class AuthenticationSuccessHandlerTest extends TestCase
     {
         $router = $this->createMock(RouterInterface::class);
         $router
+            ->expects($this->once())
             ->method('generate')
             ->with(AuthenticationSuccessHandler::DEFAULT_ROUTE)
             ->willReturn('route')
@@ -29,10 +30,20 @@ class AuthenticationSuccessHandlerTest extends TestCase
         );
 
         $user = $this->createMock(UserInterface::class);
-        $user->method('getUsername')->willReturn('');
+        $user
+            ->expects($this->once())
+            ->method('getUsername')
+            ->withAnyParameters()
+            ->willReturn('')
+        ;
 
         $token = $this->createMock(TokenInterface::class);
-        $token->method('getUser')->willReturn($user);
+        $token
+            ->expects($this->once())
+            ->method('getUser')
+            ->withAnyParameters()
+            ->willReturn($user)
+        ;
 
         $expected = new RedirectResponse('route');
 
@@ -43,6 +54,7 @@ class AuthenticationSuccessHandlerTest extends TestCase
     {
         $router = $this->createMock(RouterInterface::class);
         $router
+            ->expects($this->once())
             ->method('generate')
             ->with(AuthenticationSuccessHandler::DEFAULT_ROUTE)
             ->willReturn('route')
@@ -56,7 +68,12 @@ class AuthenticationSuccessHandlerTest extends TestCase
         $user = (new User())->setFirstConnection(false);
 
         $token = $this->createMock(TokenInterface::class);
-        $token->method('getUser')->willReturn($user);
+        $token
+            ->expects($this->once())
+            ->method('getUser')
+            ->withAnyParameters()
+            ->willReturn($user)
+        ;
 
         $expected = new RedirectResponse('route');
 
@@ -67,6 +84,7 @@ class AuthenticationSuccessHandlerTest extends TestCase
     {
         $router = $this->createMock(RouterInterface::class);
         $router
+            ->expects($this->once())
             ->method('generate')
             ->with(AuthenticationSuccessHandler::CHANGE_PASSWORD_ROUTE)
             ->willReturn('route')
@@ -80,7 +98,12 @@ class AuthenticationSuccessHandlerTest extends TestCase
         $user = new User();
 
         $token = $this->createMock(TokenInterface::class);
-        $token->method('getUser')->willReturn($user);
+        $token
+            ->expects($this->once())
+            ->method('getUser')
+            ->withAnyParameters()
+            ->willReturn($user)
+        ;
 
         $expected = new RedirectResponse('route');
 

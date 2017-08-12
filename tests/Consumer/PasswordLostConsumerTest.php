@@ -17,12 +17,19 @@ class PasswordLostConsumerTest extends TestCase
 {
     public function testPing()
     {
-        $consumer = new PasswordLostConsumer(
-            $this->createMock(SerializerInterface::class),
-            $this->createMock(UserPasswordLost::class),
-            new NullLogger()
-        );
+        $serializer = $this->createMock(SerializerInterface::class);
+        $serializer
+            ->expects($this->never())
+            ->method('deserialize')
+        ;
 
+        $mailer = $this->createMock(UserPasswordLost::class);
+        $mailer
+            ->expects($this->never())
+            ->method('execute')
+        ;
+
+        $consumer = new PasswordLostConsumer($serializer, $mailer, new NullLogger());
         $this->assertTrue($consumer->execute(new AMQPMessage(Ping::BODY)));
     }
 
@@ -32,6 +39,7 @@ class PasswordLostConsumerTest extends TestCase
 
         $serializer = $this->createMock(SerializerInterface::class);
         $serializer
+            ->expects($this->once())
             ->method('deserialize')
             ->with('body', User::class, Formats::JSON, ['groups' => [Groups::EVENT_PASSWORD_LOST]])
             ->willReturn($user)
@@ -39,16 +47,13 @@ class PasswordLostConsumerTest extends TestCase
 
         $userPasswordLost = $this->createMock(UserPasswordLost::class);
         $userPasswordLost
+            ->expects($this->once())
             ->method('execute')
             ->with($user)
             ->willReturn(true)
         ;
-        $consumer = new PasswordLostConsumer(
-            $serializer,
-            $userPasswordLost,
-            new NullLogger()
-        );
 
+        $consumer = new PasswordLostConsumer($serializer, $userPasswordLost, new NullLogger());
         $this->assertTrue($consumer->execute(new AMQPMessage('body')));
     }
 }

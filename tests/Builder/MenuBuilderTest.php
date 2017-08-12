@@ -116,17 +116,43 @@ class MenuBuilderTest extends TestCase
     public function testBuildItem()
     {
         $currentRequest = $this->createMock(Request::class);
-        $currentRequest->method('getPathInfo')->willReturn('');
+        $currentRequest
+            ->expects($this->exactly(3))
+            ->method('getPathInfo')
+            ->withAnyParameters()
+            ->willReturn('pathinfo')
+        ;
 
         $request = $this->createMock(RequestStack::class);
-        $request->method('getCurrentRequest')->willReturn($currentRequest);
+        $request
+            ->expects($this->exactly(3))
+            ->method('getCurrentRequest')
+            ->withAnyParameters()
+            ->willReturn($currentRequest)
+        ;
 
         $router = $this->createMock(RouterInterface::class);
-        $router->method('generate')->willReturn('route');
-        $router->method('match')->willReturn(['_route' => 'currentRoute']);
+        $router
+            ->expects($this->exactly(2))
+            ->method('generate')
+            ->withConsecutive(['aRoute'], ['currentRoute'])
+            ->willReturn('route')
+        ;
+
+        $router
+            ->expects($this->exactly(3))
+            ->method('match')
+            ->with('pathinfo')
+            ->willReturn(['_route' => 'currentRoute'])
+        ;
 
         $translator = $this->createMock(TranslatorInterface::class);
-        $translator->method('trans')->willReturn('title');
+        $translator
+            ->expects($this->exactly(3))
+            ->method('trans')
+            ->with('title')
+            ->willReturn('title')
+        ;
 
         $builder = new MenuBuilder(
             $request,

@@ -16,22 +16,33 @@ class BreadcrumbBuilderTest extends TestCase
     public function testExecuteCurrentRouteNotValid()
     {
         $currentRequest = $this->createMock(Request::class);
-        $currentRequest->method('getPathInfo')->willReturn('');
+        $currentRequest
+            ->expects($this->once())
+            ->method('getPathInfo')
+            ->withAnyParameters()
+            ->willReturn('pathinfo')
+        ;
 
         $request = $this->createMock(RequestStack::class);
-        $request->method('getCurrentRequest')->willReturn($currentRequest);
+        $request
+            ->expects($this->once())
+            ->method('getCurrentRequest')
+            ->withAnyParameters()
+            ->willReturn($currentRequest)
+        ;
 
         $router = $this->createMock(RouterInterface::class);
-        $router->method('generate')->willReturn('route');
-        $router->method('match')->willReturn(['_route' => 'invalidRoute']);
-
-        $translator = $this->createMock(TranslatorInterface::class);
-        $translator->method('trans')->willReturn('title');
+        $router
+            ->expects($this->once())
+            ->method('match')
+            ->with('pathinfo')
+            ->willReturn(['_route' => 'invalidRoute'])
+        ;
 
         $builder = new BreadcrumbBuilder(
             $request,
             $router,
-            $translator,
+            $this->createMock(TranslatorInterface::class),
             new NullLogger(),
             realpath(sprintf('%s/../data/config/breadcrumb.yaml', __DIR__))
         );
@@ -42,17 +53,42 @@ class BreadcrumbBuilderTest extends TestCase
     public function testExecute()
     {
         $currentRequest = $this->createMock(Request::class);
-        $currentRequest->method('getPathInfo')->willReturn('');
+        $currentRequest
+            ->expects($this->once())
+            ->method('getPathInfo')
+            ->withAnyParameters()
+            ->willReturn('pathinfo')
+        ;
 
         $request = $this->createMock(RequestStack::class);
-        $request->method('getCurrentRequest')->willReturn($currentRequest);
+        $request
+            ->expects($this->once())
+            ->method('getCurrentRequest')
+            ->withAnyParameters()
+            ->willReturn($currentRequest)
+        ;
 
         $router = $this->createMock(RouterInterface::class);
-        $router->method('generate')->willReturnOnConsecutiveCalls('route1', 'route2');
-        $router->method('match')->willReturn(['_route' => 'app_registration']);
+        $router
+            ->expects($this->exactly(2))
+            ->method('generate')
+            ->withConsecutive(['app_registration', []], ['app_home', []])
+            ->willReturnOnConsecutiveCalls('route1', 'route2')
+        ;
+        $router
+            ->expects($this->once())
+            ->method('match')
+            ->with('pathinfo')
+            ->willReturn(['_route' => 'app_registration'])
+        ;
 
         $translator = $this->createMock(TranslatorInterface::class);
-        $translator->method('trans')->willReturnOnConsecutiveCalls('title1', 'title2');
+        $translator
+            ->expects($this->exactly(2))
+            ->method('trans')
+            ->withConsecutive(['breadcrumb.app_registration', []], ['breadcrumb.app_home', []])
+            ->willReturnOnConsecutiveCalls('title1', 'title2')
+        ;
 
         $expected = [
             new BreadcrumbItem('title2', 'route2', false),
@@ -73,10 +109,20 @@ class BreadcrumbBuilderTest extends TestCase
     public function testBuildItem()
     {
         $router = $this->createMock(RouterInterface::class);
-        $router->method('generate')->willReturn('route');
+        $router
+            ->expects($this->exactly(2))
+            ->method('generate')
+            ->with('current', [])
+            ->willReturn('route')
+        ;
 
         $translator = $this->createMock(TranslatorInterface::class);
-        $translator->method('trans')->willReturn('title');
+        $translator
+            ->expects($this->exactly(2))
+            ->method('trans')
+            ->with('', [])
+            ->willReturn('title')
+        ;
 
         $builder = new BreadcrumbBuilder(
             $this->createMock(RequestStack::class),

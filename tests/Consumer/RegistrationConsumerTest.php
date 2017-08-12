@@ -17,12 +17,19 @@ class RegistrationConsumerTest extends TestCase
 {
     public function testPing()
     {
-        $consumer = new RegistrationConsumer(
-            $this->createMock(SerializerInterface::class),
-            $this->createMock(UserRegistration::class),
-            new NullLogger()
-        );
+        $serializer = $this->createMock(SerializerInterface::class);
+        $serializer
+            ->expects($this->never())
+            ->method('deserialize')
+        ;
 
+        $mailer = $this->createMock(UserRegistration::class);
+        $mailer
+            ->expects($this->never())
+            ->method('execute')
+        ;
+
+        $consumer = new RegistrationConsumer($serializer, $mailer, new NullLogger());
         $this->assertTrue($consumer->execute(new AMQPMessage(Ping::BODY)));
     }
 
@@ -32,6 +39,7 @@ class RegistrationConsumerTest extends TestCase
 
         $serializer = $this->createMock(SerializerInterface::class);
         $serializer
+            ->expects($this->once())
             ->method('deserialize')
             ->with('body', User::class, Formats::JSON, ['groups' => [Groups::EVENT_REGISTRATION]])
             ->willReturn($user)
@@ -39,16 +47,13 @@ class RegistrationConsumerTest extends TestCase
 
         $userRegistration = $this->createMock(UserRegistration::class);
         $userRegistration
+            ->expects($this->once())
             ->method('execute')
             ->with($user)
             ->willReturn(true)
         ;
-        $consumer = new RegistrationConsumer(
-            $serializer,
-            $userRegistration,
-            new NullLogger()
-        );
 
+        $consumer = new RegistrationConsumer($serializer, $userRegistration, new NullLogger());
         $this->assertTrue($consumer->execute(new AMQPMessage('body')));
     }
 }
