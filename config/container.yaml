@@ -48,3 +48,7 @@ services:
     App\Security\GenerateRegistrationCode:
         arguments:
             $secret: '%env(APP_SECRET)%'
+
+    App\Workflow\RegistrationWorkflow:
+        arguments:
+            $stateMachine: '@state_machine.registration'

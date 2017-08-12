@@ -133,12 +133,12 @@ pgsql: ## Run pgsql cli (options: db_name [`travelbook`])
 	@$(COMPOSE) exec $(DB) psql -U travelbook
 
 .PHONY: queue-purge
-queue-purge: ## Purge rabbitmq queue (ie. make purge-queue queue="registration")
-ifndef queue
-	@echo "To use the 'purge-queue' target, you MUST add the 'queue' argument"
+queue-purge: ## Purge rabbitmq queue (ie. make purge-queue name="registration")
+ifndef name
+	@echo "To use the 'purge-queue' target, you MUST add the 'name' argument"
 	exit 1
 endif
-	@$(RUN) bin/console rabbitmq:purge $(queue) --no-interaction
+	@$(RUN) bin/console rabbitmq:purge $(name) --no-interaction
 
 .PHONY: mailer-test
 mailer-test: ## Send an email
@@ -147,6 +147,15 @@ mailer-test: ## Send an email
 .PHONY: migrate
 migrate: ## Run doctrine migrations
 	@$(RUN) bin/console doctrine:migrations:migrate --no-interaction
+
+.PHONY: workflow
+workflow: ## Dump workflow (ie. make workflow name="registration")
+ifndef name
+	@echo "To use the 'workflow' target, you MUST add the 'name' argument"
+	exit 1
+endif
+	@mkdir -p build
+	@$(RUN) bin/console workflow:dump $(name) | dot -Tpng -o build/workflow-$(name).png
 
 .PHONY: ps
 ps: ## List containers status
@@ -176,7 +185,7 @@ recreate: destroy up ## Recreate containers
 
 .PHONY: clear
 clear: ## Clear cache & logs
-	rm -rf app/cache/* app/logs/*
+	rm -rf var/cache/* var/logs/*
 
 .PHONY: cache-warmup
 cache-warmup: clear ## Clear cache & warmup

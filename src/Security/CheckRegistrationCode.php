@@ -5,12 +5,16 @@ namespace App\Security;
 use App\Entity\User;
 use App\Logger\Log;
 use App\Repository\UserRepository;
+use App\Workflow\RegistrationWorkflow;
 use Psr\Log\LoggerInterface;
 
 class CheckRegistrationCode
 {
     /** @var UserRepository */
     private $repository;
+
+    /** @var RegistrationWorkflow */
+    private $workflow;
 
     /** @var LoggerInterface */
     private $logger;
@@ -22,13 +26,15 @@ class CheckRegistrationCode
     private $user;
 
     /**
-     * @param UserRepository  $repository
-     * @param LoggerInterface $logger
-     * @param string          $secret
+     * @param UserRepository       $repository
+     * @param RegistrationWorkflow $workflow
+     * @param LoggerInterface      $logger
+     * @param string               $secret
      */
-    public function __construct(UserRepository $repository, LoggerInterface $logger, string $secret)
+    public function __construct(UserRepository $repository, RegistrationWorkflow $workflow, LoggerInterface $logger, string $secret)
     {
         $this->repository = $repository;
+        $this->workflow = $workflow;
         $this->logger = $logger;
         $this->secret = $secret;
     }
@@ -75,7 +81,7 @@ class CheckRegistrationCode
             return false;
         }
 
-        if (!$user->isRegistrationInProgress()) {
+        if (!$this->workflow->canApplyActive($user)) {
             $this->logger->error(sprintf('[%s] Registration is not in progress (%s)', Log::SUBJECT_ACTIVE, $code));
 
             return false;

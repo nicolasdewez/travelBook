@@ -1,0 +1,21 @@
+framework:
+    workflows:
+        registration:
+            type: 'state_machine'
+            marking_store:
+                type: 'single_state'
+                arguments:
+                    - 'registrationState'
+            supports:
+                - App\Entity\User
+            places:
+                - created
+                - registered
+                - activated
+            transitions:
+                registration:
+                    from: [created, registered]
+                    to: registered
+                active:
+                    from: registered
+                    to: activated

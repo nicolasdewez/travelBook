@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Security\Roles;
 use App\Validator\Constraints as AppAssert;
 use App\Validator\Group;
+use App\Workflow\RegistrationDefinitionWorkflow;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -122,11 +123,11 @@ class User implements AdvancedUserInterface
     private $enabled;
 
     /**
-     * @var bool
+     * @var string
      *
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(length=15)
      */
-    private $registrationInProgress;
+    private $registrationState;
 
     /**
      * @var string
@@ -168,7 +169,7 @@ class User implements AdvancedUserInterface
         $this->roles = [Roles::ROLE_USER];
         $this->firstConnection = true;
         $this->enabled = false;
-        $this->registrationInProgress = true;
+        $this->registrationState = RegistrationDefinitionWorkflow::PLACE_CREATED;
         $this->travels = new ArrayCollection();
         $this->pictures = [];
     }
@@ -362,21 +363,21 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isRegistrationInProgress(): bool
+    public function getRegistrationState(): string
     {
-        return $this->registrationInProgress;
+        return $this->registrationState;
     }
 
     /**
-     * @param bool $registrationInProgress
+     * @param string $registrationState
      *
      * @return User
      */
-    public function setRegistrationInProgress(bool $registrationInProgress): User
+    public function setRegistrationState(string $registrationState): User
     {
-        $this->registrationInProgress = $registrationInProgress;
+        $this->registrationState = $registrationState;
 
         return $this;
     }

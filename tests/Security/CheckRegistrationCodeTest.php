@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Security\CheckRegistrationCode;
 use App\Security\RegistrationCode;
+use App\Workflow\RegistrationWorkflow;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 
@@ -23,13 +24,15 @@ class CheckRegistrationCodeTest extends TestCase
             ->willReturn(null)
         ;
 
-        $checkRegistrationCode = new CheckRegistrationCode(
-            $repository,
-            new NullLogger(),
-            'secret'
-        );
+        $workflow = $this->createMock(RegistrationWorkflow::class);
+        $workflow
+            ->expects($this->never())
+            ->method('canApplyActive')
+        ;
 
+        $checkRegistrationCode = new CheckRegistrationCode($repository, $workflow, new NullLogger(), 'secret');
         $this->assertFalse($checkRegistrationCode->execute($code));
+        $this->assertNull($checkRegistrationCode->getUser());
     }
 
     public function testExecuteUsernameInvalid()
@@ -45,13 +48,15 @@ class CheckRegistrationCodeTest extends TestCase
             ->willReturn((new User())->setUsername('username'))
         ;
 
-        $checkRegistrationCode = new CheckRegistrationCode(
-            $repository,
-            new NullLogger(),
-            'secret'
-        );
+        $workflow = $this->createMock(RegistrationWorkflow::class);
+        $workflow
+            ->expects($this->never())
+            ->method('canApplyActive')
+        ;
 
+        $checkRegistrationCode = new CheckRegistrationCode($repository, $workflow, new NullLogger(), 'secret');
         $this->assertFalse($checkRegistrationCode->execute($code));
+        $this->assertNull($checkRegistrationCode->getUser());
     }
 
     public function testExecuteMd5Invalid()
@@ -67,13 +72,15 @@ class CheckRegistrationCodeTest extends TestCase
             ->willReturn((new User())->setUsername('ndewez'))
         ;
 
-        $checkRegistrationCode = new CheckRegistrationCode(
-            $repository,
-            new NullLogger(),
-            'secret'
-        );
+        $workflow = $this->createMock(RegistrationWorkflow::class);
+        $workflow
+            ->expects($this->never())
+            ->method('canApplyActive')
+        ;
 
+        $checkRegistrationCode = new CheckRegistrationCode($repository, $workflow, new NullLogger(), 'secret');
         $this->assertFalse($checkRegistrationCode->execute($code));
+        $this->assertNull($checkRegistrationCode->getUser());
     }
 
     public function testExecuteTimestampInvalid()
@@ -89,17 +96,21 @@ class CheckRegistrationCodeTest extends TestCase
             ->willReturn((new User())->setUsername('ndewez'))
         ;
 
-        $checkRegistrationCode = new CheckRegistrationCode(
-            $repository,
-            new NullLogger(),
-            'secret'
-        );
+        $workflow = $this->createMock(RegistrationWorkflow::class);
+        $workflow
+            ->expects($this->never())
+            ->method('canApplyActive')
+        ;
 
+        $checkRegistrationCode = new CheckRegistrationCode($repository, $workflow, new NullLogger(), 'secret');
         $this->assertFalse($checkRegistrationCode->execute($code));
+        $this->assertNull($checkRegistrationCode->getUser());
     }
 
     public function testExecuteRegistrationNotInProgress()
     {
+        $user = (new User())->setUsername('ndewez');
+
         $validity = (new \DateTime())->add(new \DateInterval(sprintf('PT%dH', RegistrationCode::VALIDITY)));
         $code = base64_encode(sprintf('ndewez-%d-%s', $validity->getTimestamp(), md5('ndewez.secret')));
 
@@ -108,24 +119,26 @@ class CheckRegistrationCodeTest extends TestCase
             ->expects($this->once())
             ->method('findOneBy')
             ->with(['registrationCode' => $code])
-            ->willReturn(
-                (new User())
-                    ->setUsername('ndewez')
-                    ->setRegistrationInProgress(false)
-            )
+            ->willReturn($user)
         ;
 
-        $checkRegistrationCode = new CheckRegistrationCode(
-            $repository,
-            new NullLogger(),
-            'secret'
-        );
+        $workflow = $this->createMock(RegistrationWorkflow::class);
+        $workflow
+            ->expects($this->once())
+            ->method('canApplyActive')
+            ->with($user)
+            ->willReturn(false)
+        ;
 
+        $checkRegistrationCode = new CheckRegistrationCode($repository, $workflow, new NullLogger(), 'secret');
         $this->assertFalse($checkRegistrationCode->execute($code));
+        $this->assertNull($checkRegistrationCode->getUser());
     }
 
     public function testExecuteOk()
     {
+        $user = (new User())->setUsername('ndewez');
+
         $validity = (new \DateTime())->add(new \DateInterval(sprintf('PT%dH', RegistrationCode::VALIDITY)));
         $code = base64_encode(sprintf('ndewez-%d-%s', $validity->getTimestamp(), md5('ndewez.secret')));
 
@@ -134,19 +147,19 @@ class CheckRegistrationCodeTest extends TestCase
             ->expects($this->once())
             ->method('findOneBy')
             ->with(['registrationCode' => $code])
-            ->willReturn(
-                (new User())
-                    ->setUsername('ndewez')
-                    ->setRegistrationInProgress(true)
-            )
+            ->willReturn($user)
         ;
 
-        $checkRegistrationCode = new CheckRegistrationCode(
-            $repository,
-            new NullLogger(),
-            'secret'
-        );
+        $workflow = $this->createMock(RegistrationWorkflow::class);
+        $workflow
+            ->expects($this->once())
+            ->method('canApplyActive')
+            ->with($user)
+            ->willReturn(true)
+        ;
 
+        $checkRegistrationCode = new CheckRegistrationCode($repository, $workflow, new NullLogger(), 'secret');
         $this->assertTrue($checkRegistrationCode->execute($code));
+        $this->assertSame($user, $checkRegistrationCode->getUser());
     }
 }
