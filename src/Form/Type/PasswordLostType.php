@@ -3,6 +3,7 @@
 namespace App\Form\Type;
 
 use App\Entity\User;
+use App\Validator\Group;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -28,7 +29,7 @@ class PasswordLostType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'validation_groups' => ['password_lost'],
+            'validation_groups' => [Group::USER_PASSWORD_LOST],
             'data_class' => User::class,
         ]);
     }

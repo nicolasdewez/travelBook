@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\User;
 use App\Translation\Locale;
+use App\Validator\Group;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -26,8 +27,8 @@ class RegistrationType extends AbstractType
             ->add('locale', ChoiceType::class, [
                 'label' => 'form.registration.locale',
                 'choices' => [
-                    'locale.fr' => Locale::FR,
-                    'locale.en' => Locale::EN,
+                    Locale::TITLE_FR => Locale::FR,
+                    Locale::TITLE_EN => Locale::EN,
                 ],
             ])
         ;
@@ -39,7 +40,7 @@ class RegistrationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'validation_groups' => ['registration'],
+            'validation_groups' => [Group::USER_REGISTRATION],
             'data_class' => User::class,
         ]);
     }

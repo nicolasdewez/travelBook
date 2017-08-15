@@ -4,7 +4,7 @@ namespace App\Tests\Builder;
 
 use App\Builder\MenuBuilder;
 use App\Model\MenuItem;
-use App\Security\Roles;
+use App\Security\Role;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -71,14 +71,48 @@ class MenuBuilderTest extends TestCase
             new MenuItem('title3', '', false),  // Menu not ended
             new MenuItem('title4', '', false),  // Menu not ended
             new MenuItem('title6', '', false, [ // Menu not ended
-                new MenuItem('title5', '', false) // Menu not ended
+                new MenuItem('title5', 'route2', false) // Menu not ended
             ]),
         ];
 
-        $this->assertEquals($expected, $builder->execute([Roles::ROLE_ADMIN]));
+        $this->assertEquals($expected, $builder->execute([Role::ADMIN]));
     }
 
     public function testExecuteValidator()
+    {
+        $currentRequest = $this->createMock(Request::class);
+        $currentRequest->method('getPathInfo')->willReturn('');
+
+        $request = $this->createMock(RequestStack::class);
+        $request->method('getCurrentRequest')->willReturn($currentRequest);
+
+        $router = $this->createMock(RouterInterface::class);
+        $router->method('generate')->willReturnOnConsecutiveCalls('route1', 'route2', 'route3', 'route4', 'route5', 'route6');
+        $router->method('match')->willReturn(['_route' => 'currentRoute']);
+
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator->method('trans')->willReturnOnConsecutiveCalls('title1', 'title2','title3', 'title4', 'title5', 'title6');
+
+        $builder = new MenuBuilder(
+            $request,
+            $router,
+            $translator
+        );
+
+        $expected = [
+            new MenuItem('title1', 'route1', false),
+            new MenuItem('title2', '', false),  // Menu not ended
+            new MenuItem('title3', '', false),  // Menu not ended
+            new MenuItem('title4', '', false),  // Menu not ended
+            new MenuItem('title6', '', false, [ // Menu not ended
+                new MenuItem('title5', '', false),  // Menu not ended
+            ]),
+        ];
+
+        $this->assertEquals($expected, $builder->execute([Role::VALIDATOR]));
+    }
+
+    public function testExecuteAdminAndValidator()
     {
         $currentRequest = $this->createMock(Request::class);
         $currentRequest->method('getPathInfo')->willReturn('');
@@ -105,12 +139,12 @@ class MenuBuilderTest extends TestCase
             new MenuItem('title3', '', false),  // Menu not ended
             new MenuItem('title4', '', false),  // Menu not ended
             new MenuItem('title7', '', false, [ // Menu not ended
-                new MenuItem('title5', '', false),  // Menu not ended
+                new MenuItem('title5', 'route2', false),  // Menu not ended
                 new MenuItem('title6', '', false),  // Menu not ended
             ]),
         ];
 
-        $this->assertEquals($expected, $builder->execute([Roles::ROLE_VALIDATOR]));
+        $this->assertEquals($expected, $builder->execute([Role::ADMIN, Role::VALIDATOR]));
     }
 
     public function testBuildItem()
@@ -186,10 +220,10 @@ class MenuBuilderTest extends TestCase
         $method = $class->getMethod('isAdminUser');
         $method->setAccessible(true);
 
-        $this->assertTrue($method->invokeArgs($builder, [[Roles::ROLE_ADMIN]]));
-        $this->assertTrue($method->invokeArgs($builder, [[Roles::ROLE_VALIDATOR]]));
-        $this->assertTrue($method->invokeArgs($builder, [[Roles::ROLE_ADMIN, Roles::ROLE_VALIDATOR]]));
-        $this->assertFalse($method->invokeArgs($builder, [[Roles::ROLE_USER]]));
+        $this->assertTrue($method->invokeArgs($builder, [[Role::ADMIN]]));
+        $this->assertFalse($method->invokeArgs($builder, [[Role::VALIDATOR]]));
+        $this->assertTrue($method->invokeArgs($builder, [[Role::ADMIN, Role::VALIDATOR]]));
+        $this->assertFalse($method->invokeArgs($builder, [[Role::USER]]));
     }
 
     public function testIsValidatorUser()
@@ -204,8 +238,8 @@ class MenuBuilderTest extends TestCase
         $method = $class->getMethod('isValidatorUser');
         $method->setAccessible(true);
 
-        $this->assertTrue($method->invokeArgs($builder, [[Roles::ROLE_VALIDATOR]]));
-        $this->assertTrue($method->invokeArgs($builder, [[Roles::ROLE_ADMIN, Roles::ROLE_VALIDATOR]]));
-        $this->assertFalse($method->invokeArgs($builder, [[Roles::ROLE_USER]]));
+        $this->assertTrue($method->invokeArgs($builder, [[Role::VALIDATOR]]));
+        $this->assertTrue($method->invokeArgs($builder, [[Role::ADMIN, Role::VALIDATOR]]));
+        $this->assertFalse($method->invokeArgs($builder, [[Role::USER]]));
     }
 }

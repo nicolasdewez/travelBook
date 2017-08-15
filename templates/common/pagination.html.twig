@@ -1,0 +1,31 @@
+{% if nbPages > 1 %}
+<nav aria-label="{{ 'pagination.title'|trans }}" class="text-center">
+    <ul class="pagination">
+        {% if page > 1 %}
+            <li>
+                <a href="{{ path('app_admin_users_list', {'page': 1}) }}" aria-label="{{ 'pagination.first'|trans }}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        {% endif %}
+
+        {% for index in range(page-4, page-1) if index > 0 %}
+            <li><a href="{{ path('app_admin_users_list', {'page': index}) }}" aria-label="{{ 'pagination.page'|trans({'page': index}) }}">{{ index }}</a></li>
+        {% endfor %}
+
+        <li class="active"><a href="#">{{ page }}</a></li>
+
+        {% for index in range(page+1, page+4) if index <= nbPages %}
+            <li><a href="{{ path('app_admin_users_list', {'page': index}) }}" aria-label="{{ 'pagination.page'|trans({'page': index}) }}">{{ index }}</a></li>
+        {% endfor %}
+
+        {% if page < nbPages %}
+            <li>
+                <a href="{{ path('app_admin_users_list', {'page': nbPages}) }}" aria-label="{{ 'pagination.last'|trans }}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

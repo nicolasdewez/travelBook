@@ -28,6 +28,14 @@ services:
         arguments:
             $producer: '@old_sound_rabbit_mq.mail_update_account_producer'
 
+    App\Producer\MailEnableAccountProducer:
+        arguments:
+            $producer: '@old_sound_rabbit_mq.mail_enable_account_producer'
+
+    App\Producer\MailDisableAccountProducer:
+        arguments:
+            $producer: '@old_sound_rabbit_mq.mail_disable_account_producer'
+
     App\Producer\PasswordLostProducer:
         arguments:
             $producer: '@old_sound_rabbit_mq.password_lost_producer'
@@ -35,11 +43,6 @@ services:
     App\Producer\RegistrationProducer:
         arguments:
             $producer: '@old_sound_rabbit_mq.registration_producer'
-
-    App\Repository\UserRepository:
-        factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
-        arguments:
-            - 'App\Entity\User'
 
     App\Security\CheckRegistrationCode:
         arguments:

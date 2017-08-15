@@ -4,8 +4,8 @@ namespace App\Tests\Producer;
 
 use App\Entity\User;
 use App\Producer\RegistrationProducer;
-use App\Serializer\Formats;
-use App\Serializer\Groups;
+use App\Serializer\Format;
+use App\Serializer\Group;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
@@ -21,7 +21,7 @@ class RegistrationProducerTest extends TestCase
         $serializer
             ->expects($this->once())
             ->method('serialize')
-            ->with($user, Formats::JSON, ['groups' => [Groups::EVENT_REGISTRATION]])
+            ->with($user, Format::JSON, ['groups' => [Group::EVENT_REGISTRATION]])
             ->willReturn('content')
         ;
 

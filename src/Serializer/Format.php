@@ -2,7 +2,7 @@
 
 namespace App\Serializer;
 
-final class Formats
+final class Format
 {
     const JSON = 'json';
 }

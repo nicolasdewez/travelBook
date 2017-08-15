@@ -19,5 +19,9 @@ app_change_password:
 app_my_account:
     title: 'breadcrumb.app_my_account'
 
+app_admin_users_list:
+    title: 'breadcrumb.app_admin_users_list'
+
 app_travels:
     title: 'breadcrumb.app_travels'
+

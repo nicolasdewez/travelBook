@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use App\Security\CheckRegistrationCode;
 use App\Security\RegistrationCode;
 use App\Workflow\RegistrationWorkflow;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 
@@ -24,13 +25,21 @@ class CheckRegistrationCodeTest extends TestCase
             ->willReturn(null)
         ;
 
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager
+            ->expects($this->once())
+            ->method('getRepository')
+            ->with(User::class)
+            ->willReturn($repository)
+        ;
+
         $workflow = $this->createMock(RegistrationWorkflow::class);
         $workflow
             ->expects($this->never())
             ->method('canApplyActive')
         ;
 
-        $checkRegistrationCode = new CheckRegistrationCode($repository, $workflow, new NullLogger(), 'secret');
+        $checkRegistrationCode = new CheckRegistrationCode($manager, $workflow, new NullLogger(), 'secret');
         $this->assertFalse($checkRegistrationCode->execute($code));
         $this->assertNull($checkRegistrationCode->getUser());
     }
@@ -48,13 +57,21 @@ class CheckRegistrationCodeTest extends TestCase
             ->willReturn((new User())->setUsername('username'))
         ;
 
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager
+            ->expects($this->once())
+            ->method('getRepository')
+            ->with(User::class)
+            ->willReturn($repository)
+        ;
+
         $workflow = $this->createMock(RegistrationWorkflow::class);
         $workflow
             ->expects($this->never())
             ->method('canApplyActive')
         ;
 
-        $checkRegistrationCode = new CheckRegistrationCode($repository, $workflow, new NullLogger(), 'secret');
+        $checkRegistrationCode = new CheckRegistrationCode($manager, $workflow, new NullLogger(), 'secret');
         $this->assertFalse($checkRegistrationCode->execute($code));
         $this->assertNull($checkRegistrationCode->getUser());
     }
@@ -72,13 +89,21 @@ class CheckRegistrationCodeTest extends TestCase
             ->willReturn((new User())->setUsername('ndewez'))
         ;
 
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager
+            ->expects($this->once())
+            ->method('getRepository')
+            ->with(User::class)
+            ->willReturn($repository)
+        ;
+
         $workflow = $this->createMock(RegistrationWorkflow::class);
         $workflow
             ->expects($this->never())
             ->method('canApplyActive')
         ;
 
-        $checkRegistrationCode = new CheckRegistrationCode($repository, $workflow, new NullLogger(), 'secret');
+        $checkRegistrationCode = new CheckRegistrationCode($manager, $workflow, new NullLogger(), 'secret');
         $this->assertFalse($checkRegistrationCode->execute($code));
         $this->assertNull($checkRegistrationCode->getUser());
     }
@@ -96,13 +121,21 @@ class CheckRegistrationCodeTest extends TestCase
             ->willReturn((new User())->setUsername('ndewez'))
         ;
 
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager
+            ->expects($this->once())
+            ->method('getRepository')
+            ->with(User::class)
+            ->willReturn($repository)
+        ;
+
         $workflow = $this->createMock(RegistrationWorkflow::class);
         $workflow
             ->expects($this->never())
             ->method('canApplyActive')
         ;
 
-        $checkRegistrationCode = new CheckRegistrationCode($repository, $workflow, new NullLogger(), 'secret');
+        $checkRegistrationCode = new CheckRegistrationCode($manager, $workflow, new NullLogger(), 'secret');
         $this->assertFalse($checkRegistrationCode->execute($code));
         $this->assertNull($checkRegistrationCode->getUser());
     }
@@ -122,6 +155,14 @@ class CheckRegistrationCodeTest extends TestCase
             ->willReturn($user)
         ;
 
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager
+            ->expects($this->once())
+            ->method('getRepository')
+            ->with(User::class)
+            ->willReturn($repository)
+        ;
+
         $workflow = $this->createMock(RegistrationWorkflow::class);
         $workflow
             ->expects($this->once())
@@ -130,7 +171,7 @@ class CheckRegistrationCodeTest extends TestCase
             ->willReturn(false)
         ;
 
-        $checkRegistrationCode = new CheckRegistrationCode($repository, $workflow, new NullLogger(), 'secret');
+        $checkRegistrationCode = new CheckRegistrationCode($manager, $workflow, new NullLogger(), 'secret');
         $this->assertFalse($checkRegistrationCode->execute($code));
         $this->assertNull($checkRegistrationCode->getUser());
     }
@@ -150,6 +191,14 @@ class CheckRegistrationCodeTest extends TestCase
             ->willReturn($user)
         ;
 
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager
+            ->expects($this->once())
+            ->method('getRepository')
+            ->with(User::class)
+            ->willReturn($repository)
+        ;
+
         $workflow = $this->createMock(RegistrationWorkflow::class);
         $workflow
             ->expects($this->once())
@@ -158,7 +207,7 @@ class CheckRegistrationCodeTest extends TestCase
             ->willReturn(true)
         ;
 
-        $checkRegistrationCode = new CheckRegistrationCode($repository, $workflow, new NullLogger(), 'secret');
+        $checkRegistrationCode = new CheckRegistrationCode($manager, $workflow, new NullLogger(), 'secret');
         $this->assertTrue($checkRegistrationCode->execute($code));
         $this->assertSame($user, $checkRegistrationCode->getUser());
     }

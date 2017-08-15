@@ -6,8 +6,8 @@ use App\Consumer\MailChangePasswordConsumer;
 use App\Consumer\Ping;
 use App\Entity\User;
 use App\Mailer\ChangePasswordMailer;
-use App\Serializer\Formats;
-use App\Serializer\Groups;
+use App\Serializer\Format;
+use App\Serializer\Group;
 use PhpAmqpLib\Message\AMQPMessage;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
@@ -41,7 +41,7 @@ class MailChangePasswordConsumerTest extends TestCase
         $serializer
             ->expects($this->once())
             ->method('deserialize')
-            ->with('body', User::class, Formats::JSON, ['groups' => [Groups::EVENT_CHANGE_PASSWORD]])
+            ->with('body', User::class, Format::JSON, ['groups' => [Group::EVENT_CHANGE_PASSWORD]])
             ->willReturn($user)
         ;
 

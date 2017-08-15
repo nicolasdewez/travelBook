@@ -39,8 +39,7 @@ RUN mkdir /var/www/.config && \
     chmod 777 /var/www/.yarnrc
 
 # Graphviz
-RUN apt-get update && \
-    apt-get install -y graphviz
+RUN apt-get install -y graphviz
 
 # CLEAN
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

@@ -3,6 +3,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\User;
+use App\Security\Role;
 use App\Validator\Group;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -107,5 +108,11 @@ class UserTest extends TestCase
         $user = (new User())->setCurrentPassword('password');
 
         $this->assertNull($user->currentAndNewPasswordAreEmptyOrNot($context, null));
+    }
+
+    public function testGetTitleRoles()
+    {
+        $user = (new User())->setRoles([Role::USER, Role::ADMIN, Role::VALIDATOR]);
+        $this->assertSame([Role::TITLE_USER, Role::TITLE_ADMIN, Role::TITLE_VALIDATOR], $user->getTitleRoles());
     }
 }

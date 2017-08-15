@@ -9,3 +9,9 @@ change_password:
 
 update_account:
     subject: "[Travelbook] Mise à jour de votre compte"
+
+enable_account:
+    subject: "[Travelbook] Réactivation de votre compte"
+
+disable_account:
+    subject: "[Travelbook] Désactivation de votre compte"

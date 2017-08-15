@@ -2,6 +2,10 @@ locale:
     fr: Français
     en: English
 
+answer:
+    yes: Yes
+    no: No
+
 menu:
     my_account: My account
     logout: Logout
@@ -21,7 +25,18 @@ breadcrumb:
     app_login: Connection
     app_change_password: Edit password
     app_my_account: My account
+    app_admin_users_list: User management
     app_travels: My travels
+
+workflow:
+    registration:
+        created: Created
+        registered: In progress
+        activated: Done
+role:
+    user: User
+    admin: Administrator
+    validator: Validator
 
 form:
     save: Save
@@ -50,6 +65,26 @@ form:
         current_password: Current password
         new_password_1: New password
         new_password_2: Repeat password
+    admin:
+        users:
+            list:
+                id: Identifiant
+                username: Username
+                lastname: Lastname
+                locale: Language
+                role: Role
+                enabled: Enabled
+                sort: Sort
+                submit: Search
+
+table:
+    nb_elements: "{0} No results|{1} 1 result|]1,Inf[ %count% results"
+
+pagination:
+    title: Pagination
+    page: "Page %page%"
+    first: First page
+    last: Last page
 
 errors:
     404:
@@ -62,8 +97,8 @@ errors:
         description: Sorry, you have no necessary authorizations to access this page!
     others:
         title: Error
-        description: An error occured :-(
-        status_text: The error is:
+        description: "An error occured :-("
+        status_text: "The error is:"
 
 
 registration:
@@ -92,3 +127,26 @@ change_password:
 my_account:
     title: Edit my personal information
     ok: Your information are updated
+
+admin:
+    users:
+        list:
+            title: List of users
+            table:
+                id: Id
+                username: Username
+                firstname: Firstname
+                lastname: Lastname
+                locale: Language
+                roles: Roles
+                registration_state: Registration state
+                enabled: Active
+                first_connection: First connection
+                actions: Actions
+            link_send_registration: Resend activation mail
+            link_disable: Disable
+            link_enable: Enable
+            link_add_user: Add an user
+            send_registration_ok: Registration mail resend
+            enable_account_ok: Account enabled
+            disable_account_ok: Account disabled

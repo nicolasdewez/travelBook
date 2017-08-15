@@ -4,8 +4,8 @@ namespace App\Producer;
 
 use App\Entity\User;
 use App\Logger\Log;
-use App\Serializer\Formats;
-use App\Serializer\Groups;
+use App\Serializer\Format;
+use App\Serializer\Group;
 
 class RegistrationProducer extends AbstractProducer
 {
@@ -16,7 +16,7 @@ class RegistrationProducer extends AbstractProducer
     {
         $this->logger->info(sprintf('[%s] Publish message', Log::SUBJECT_REGISTRATION));
 
-        $content = $this->serializer->serialize($user, Formats::JSON, ['groups' => [Groups::EVENT_REGISTRATION]]);
+        $content = $this->serializer->serialize($user, Format::JSON, ['groups' => [Group::EVENT_REGISTRATION]]);
 
         $this->producer->publish($content);
 

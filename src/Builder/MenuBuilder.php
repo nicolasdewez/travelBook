@@ -3,7 +3,7 @@
 namespace App\Builder;
 
 use App\Model\MenuItem;
-use App\Security\Roles;
+use App\Security\Role;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -45,12 +45,15 @@ class MenuBuilder
         $items[] = $this->buildItem('menu.my_pictures', ''); //'app_pictures');
         $items[] = $this->buildItem('menu.search', ''); //'app_search');
 
-        if (!$this->isAdminUser($roles)) {
+        if (!$this->isAdminUser($roles) && !$this->isValidatorUser($roles)) {
             return $items;
         }
 
         $adminItems = [];
-        $adminItems[] = $this->buildItem('menu.admin.users', ''); //'app_admin_users');
+
+        if ($this->isAdminUser($roles)) {
+            $adminItems[] = $this->buildItem('menu.admin.users', 'app_admin_users_list');
+        }
 
         if ($this->isValidatorUser($roles)) {
             $adminItems[] = $this->buildItem('menu.admin.pictures_validator', ''); //'app_admin_validator_pictures');
@@ -94,7 +97,7 @@ class MenuBuilder
      */
     private function isAdminUser(array $roles): bool
     {
-        return in_array(Roles::ROLE_ADMIN, $roles) || in_array(Roles::ROLE_VALIDATOR, $roles);
+        return in_array(Role::ADMIN, $roles);
     }
 
     /**
@@ -104,6 +107,6 @@ class MenuBuilder
      */
     private function isValidatorUser(array $roles): bool
     {
-        return in_array(Roles::ROLE_VALIDATOR, $roles);
+        return in_array(Role::VALIDATOR, $roles);
     }
 }

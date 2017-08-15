@@ -2,6 +2,10 @@ locale:
     fr: Français
     en: English
 
+answer:
+    yes: Oui
+    no: Non
+
 menu:
     my_account: Mon compte
     logout: Se déconnecter
@@ -21,7 +25,18 @@ breadcrumb:
     app_login: Identification
     app_change_password: Mise à jour du mot de passe
     app_my_account: Mon compte
+    app_admin_users_list: Gestion des utilisateurs
     app_travels: Mes voyages
+
+workflow:
+    registration:
+        created: Créée
+        registered: En-cours
+        activated: Terminée
+role:
+    user: Utilisateur
+    admin: Administrateur
+    validator: Validateur
 
 form:
     save: Enregistrer
@@ -50,6 +65,26 @@ form:
         current_password: Mot de passe actuel
         new_password_1: Nouveau mot de passe
         new_password_2: Répêter le mot de passe
+    admin:
+        users:
+            list:
+                id: Identifiant
+                username: Nom d'utilisateur
+                lastname: Nom
+                locale: Langue
+                role: Role
+                enabled: Actif
+                sort: Tri
+                submit: Rechercher
+
+table:
+    nb_elements: "{0} Pas de résultat|{1} 1 résultat|]1,Inf[ %count% résultats"
+
+pagination:
+    title: Pagination
+    page: "Page %page%"
+    first: Première page
+    last: Dernière page
 
 errors:
     404:
@@ -62,8 +97,8 @@ errors:
         description: Désolé, vous n'avez pas les autorisations nécessaires pour accéder à cette page !
     others:
         title: Erreur
-        description: Désolé, une erreur est survenue :-(
-        status_text: L'erreur est la suivante :
+        description: "Désolé, une erreur est survenue :-("
+        status_text: "L'erreur est la suivante :"
 
 registration:
     title: Inscription
@@ -91,3 +126,26 @@ change_password:
 my_account:
     title: Mise à jour de mes informations personnelles
     ok: Vos informations personnelles ont été mises à jour
+
+admin:
+    users:
+        list:
+            title: Liste des utilisateurs
+            table:
+                id: Id
+                username: Nom d'utilisateur
+                firstname: Prénom
+                lastname: Nom
+                locale: Langue
+                roles: Roles
+                registration_state: Etat de l'inscription
+                enabled: Actif
+                first_connection: Première connexion
+                actions: Actions
+            link_send_registration: Relancer le mail d'activation
+            link_disable: Désactiver
+            link_enable: Activer
+            link_add_user: Ajouter un utilisateur
+            send_registration_ok: Mail d'inscription relancé
+            enable_account_ok: Compte activé
+            disable_account_ok: Compte désactivé

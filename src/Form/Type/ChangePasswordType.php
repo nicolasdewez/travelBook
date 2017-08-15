@@ -3,6 +3,7 @@
 namespace App\Form\Type;
 
 use App\Entity\User;
+use App\Validator\Group;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -32,7 +33,7 @@ class ChangePasswordType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'validation_groups' => ['change_password'],
+            'validation_groups' => [Group::USER_CHANGE_PASSWORD],
             'data_class' => User::class,
         ]);
     }

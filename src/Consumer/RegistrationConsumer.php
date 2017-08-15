@@ -5,8 +5,8 @@ namespace App\Consumer;
 use App\Entity\User;
 use App\Logger\Log;
 use App\Security\UserRegistration;
-use App\Serializer\Formats;
-use App\Serializer\Groups;
+use App\Serializer\Format;
+use App\Serializer\Group;
 use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -42,8 +42,8 @@ class RegistrationConsumer extends AbstractConsumer
         $user = $this->serializer->deserialize(
             $message->getBody(),
             User::class,
-            Formats::JSON,
-            ['groups' => [Groups::EVENT_REGISTRATION]]
+            Format::JSON,
+            ['groups' => [Group::EVENT_REGISTRATION]]
         );
 
         $this->userRegistration->execute($user);

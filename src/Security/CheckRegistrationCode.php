@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Logger\Log;
 use App\Repository\UserRepository;
 use App\Workflow\RegistrationWorkflow;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
 class CheckRegistrationCode
@@ -26,14 +27,14 @@ class CheckRegistrationCode
     private $user;
 
     /**
-     * @param UserRepository       $repository
-     * @param RegistrationWorkflow $workflow
-     * @param LoggerInterface      $logger
-     * @param string               $secret
+     * @param EntityManagerInterface $manager
+     * @param RegistrationWorkflow   $workflow
+     * @param LoggerInterface        $logger
+     * @param string                 $secret
      */
-    public function __construct(UserRepository $repository, RegistrationWorkflow $workflow, LoggerInterface $logger, string $secret)
+    public function __construct(EntityManagerInterface $manager, RegistrationWorkflow $workflow, LoggerInterface $logger, string $secret)
     {
-        $this->repository = $repository;
+        $this->repository = $manager->getRepository(User::class);
         $this->workflow = $workflow;
         $this->logger = $logger;
         $this->secret = $secret;

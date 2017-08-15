@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Security\Roles;
+use App\Security\Role;
 use App\Validator\Constraints as AppAssert;
 use App\Validator\Group;
 use App\Workflow\RegistrationDefinitionWorkflow;
@@ -38,7 +38,14 @@ class User implements AdvancedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @Serializer\Groups({"event_registration", "event_change_password", "event_update_account", "event_password_lost"})
+     * @Serializer\Groups({
+     *     "event_registration",
+     *     "event_change_password",
+     *     "event_update_account",
+     *     "event_enable_account",
+     *     "event_disable_account",
+     *     "event_password_lost"
+     * })
      */
     private $id;
 
@@ -166,7 +173,7 @@ class User implements AdvancedUserInterface
 
     public function __construct()
     {
-        $this->roles = [Roles::ROLE_USER];
+        $this->roles = [Role::USER];
         $this->firstConnection = true;
         $this->enabled = false;
         $this->registrationState = RegistrationDefinitionWorkflow::PLACE_CREATED;
@@ -323,6 +330,16 @@ class User implements AdvancedUserInterface
     }
 
     /**
+     * @return array
+     */
+    public function getTitleRoles(): array
+    {
+        return array_map(function (string $role) {
+            return Role::getTitleByRole($role);
+        }, $this->roles);
+    }
+
+    /**
      * @return bool
      */
     public function isFirstConnection(): bool
@@ -380,6 +397,14 @@ class User implements AdvancedUserInterface
         $this->registrationState = $registrationState;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitleRegistrationState(): string
+    {
+        return RegistrationDefinitionWorkflow::getTitleByPlace($this->registrationState);
     }
 
     /**

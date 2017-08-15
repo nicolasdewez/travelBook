@@ -6,8 +6,8 @@ use App\Consumer\PasswordLostConsumer;
 use App\Consumer\Ping;
 use App\Entity\User;
 use App\Security\UserPasswordLost;
-use App\Serializer\Formats;
-use App\Serializer\Groups;
+use App\Serializer\Format;
+use App\Serializer\Group;
 use PhpAmqpLib\Message\AMQPMessage;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
@@ -41,7 +41,7 @@ class PasswordLostConsumerTest extends TestCase
         $serializer
             ->expects($this->once())
             ->method('deserialize')
-            ->with('body', User::class, Formats::JSON, ['groups' => [Groups::EVENT_PASSWORD_LOST]])
+            ->with('body', User::class, Format::JSON, ['groups' => [Group::EVENT_PASSWORD_LOST]])
             ->willReturn($user)
         ;
 
