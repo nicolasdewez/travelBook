@@ -70,10 +70,10 @@ class BreadcrumbBuilderTest extends TestCase
 
         $router = $this->createMock(RouterInterface::class);
         $router
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('generate')
-            ->withConsecutive(['app_registration', []], ['app_home', []])
-            ->willReturnOnConsecutiveCalls('route1', 'route2')
+            ->with('app_home')
+            ->willReturn('route2')
         ;
         $router
             ->expects($this->once())
@@ -92,7 +92,7 @@ class BreadcrumbBuilderTest extends TestCase
 
         $expected = [
             new BreadcrumbItem('title2', 'route2', false),
-            new BreadcrumbItem('title1', 'route1', true),
+            new BreadcrumbItem('title1', '#', true),
         ];
 
         $builder = new BreadcrumbBuilder(
@@ -110,7 +110,7 @@ class BreadcrumbBuilderTest extends TestCase
     {
         $router = $this->createMock(RouterInterface::class);
         $router
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('generate')
             ->with('current', [])
             ->willReturn('route')
@@ -136,7 +136,7 @@ class BreadcrumbBuilderTest extends TestCase
         $method = $class->getMethod('buildItem');
         $method->setAccessible(true);
 
-        $expected = new BreadcrumbItem('title', 'route', true);
+        $expected = new BreadcrumbItem('title', '#', true);
 
         $this->assertEquals($expected, $method->invokeArgs($builder, [
             ['title' => '', 'title_params' => [], 'route_params' => []],

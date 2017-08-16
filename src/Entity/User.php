@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Security\Role;
-use App\Validator\Constraints as AppAssert;
 use App\Validator\Group;
 use App\Workflow\RegistrationDefinitionWorkflow;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -21,11 +21,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *     @ORM\Index(name="users_registration_code", columns={"registration_code"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- *
- * @AppAssert\CurrentPasswordIsValid(
- *     groups={"change_password", "my_account"},
- *     groupsRequired={"change_password"}
- * )
  *
  * @UniqueEntity(fields={"username"}, groups={"registration"})
  */
@@ -72,7 +67,7 @@ class User implements AdvancedUserInterface
      *
      * @ORM\Column(length=50)
      *
-     * @Assert\NotBlank(groups={"my_account", "registration"})
+     * @Assert\NotBlank(groups={"my_account", "registration", "edit"})
      * @Assert\Length(min=2, max=50, groups={"my_account", "registration"})
      */
     private $firstname;
@@ -82,7 +77,7 @@ class User implements AdvancedUserInterface
      *
      * @ORM\Column(length=50)
      *
-     * @Assert\NotBlank(groups={"my_account", "registration"})
+     * @Assert\NotBlank(groups={"my_account", "registration", "edit"})
      * @Assert\Length(min=2, max=50, groups={"my_account", "registration"})
      */
     private $lastname;
@@ -92,7 +87,7 @@ class User implements AdvancedUserInterface
      *
      * @ORM\Column
      *
-     * @Assert\NotBlank(groups={"my_account", "registration"})
+     * @Assert\NotBlank(groups={"my_account", "registration", "edit"})
      * @Assert\Length(min=6, max=255, groups={"my_account", "registration"})
      * @Assert\Email(groups={"my_account", "registration"})
      */
@@ -112,6 +107,8 @@ class User implements AdvancedUserInterface
      * @var array
      *
      * @ORM\Column(type="array")
+     *
+     * @Assert\NotBlank(groups={"edit"})
      */
     private $roles;
 
@@ -157,6 +154,8 @@ class User implements AdvancedUserInterface
      * Used in form.
      *
      * @var string
+     *
+     * @SecurityAssert\UserPassword(groups={"change_password", "my_account"})
      */
     private $currentPassword;
 

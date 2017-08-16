@@ -1,4 +1,3 @@
 password:
-    current_not_valid: Current password is not valid
     current_new_not_different: Current and new password should be different
     current_new_not_empty: Current and new password should be empty or not

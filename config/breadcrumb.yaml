@@ -22,6 +22,10 @@ app_my_account:
 app_admin_users_list:
     title: 'breadcrumb.app_admin_users_list'
 
+app_admin_users_edit:
+    title: 'breadcrumb.app_admin_users_edit'
+    parent: 'app_admin_users_list'
+
 app_travels:
     title: 'breadcrumb.app_travels'
 

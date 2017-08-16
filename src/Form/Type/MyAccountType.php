@@ -34,7 +34,6 @@ class MyAccountType extends AbstractType
             ])
             ->add('currentPassword', PasswordType::class, [
                 'label' => 'form.my_account.current_password',
-                'required' => false,
             ])
             ->add('newPassword', RepeatedType::class, [
                 'type' => PasswordType::class,

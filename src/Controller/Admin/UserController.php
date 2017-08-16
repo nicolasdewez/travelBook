@@ -3,9 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Form\Type\EditUserType;
 use App\Form\Type\FilterUserType;
+use App\Form\Type\RegistrationType;
 use App\Manager\UserManager;
 use App\Pagination\InformationPagination;
+use App\Security\AskRegistration;
 use App\Security\AskResendRegistration;
 use App\Security\DisableAccount;
 use App\Security\EnableAccount;
@@ -157,6 +160,59 @@ class UserController
         $this->session->getFlashBag()->add(Flash::TYPE_NOTICE, 'admin.users.list.disable_account_ok');
 
         return new RedirectResponse($this->router->generate('app_admin_users_list'));
+    }
+
+    /**
+     * @param User        $user
+     * @param Request     $request
+     * @param UserManager $userManager
+     *
+     * @return Response
+     *
+     * @Route("/{id}/edit", name="app_admin_users_edit", methods={"GET", "POST"})
+     */
+    public function editAction(User $user, Request $request, UserManager $userManager): Response
+    {
+        $form = $this->formFactory->create(EditUserType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userManager->save($user);
+            $this->session->getFlashBag()->add(Flash::TYPE_NOTICE, 'admin.users.edit.ok');
+
+            return new RedirectResponse($this->router->generate('app_admin_users_list'));
+        }
+
+        return new Response(
+            $this->twig->render('admin/user/edit.html.twig', [
+                'form' => $form->createView(),
+            ])
+        );
+    }
+
+    /**
+     * @param Request         $request
+     * @param AskRegistration $askRegistration
+     *
+     * @return Response
+     *
+     * @Route("/create", name="app_admin_users_create", methods={"GET", "POST"})
+     */
+    public function createAction(Request $request, AskRegistration $askRegistration): Response
+    {
+        $form = $this->formFactory->create(RegistrationType::class, new User(), ['with_roles' => true]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $askRegistration->execute($form->getData());
+            $this->session->getFlashBag()->add(Flash::TYPE_NOTICE, 'admin.users.create.ok');
+
+            return new RedirectResponse($this->router->generate('app_admin_users_list'));
+        }
+
+        return new Response(
+            $this->twig->render('admin/user/create.html.twig', [
+                'form' => $form->createView(),
+            ])
+        );
     }
 
     /**

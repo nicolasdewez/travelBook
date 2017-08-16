@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>{{ 'admin.users.edit.title'|trans }}</h2>
+
+    <div class="mini-body">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" value="{{ 'form.save'|trans }}" class="btn btn-primary pull-right" />
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

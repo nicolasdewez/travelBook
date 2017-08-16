@@ -12,4 +12,5 @@ final class Log
     const SUBJECT_UPDATE_ACCOUNT = 'Update Account';
     const SUBJECT_ENABLE_ACCOUNT = 'Enable Account';
     const SUBJECT_DISABLE_ACCOUNT = 'Disable Account';
+    const SUBJECT_SAVE_USER = 'User saved';
 }

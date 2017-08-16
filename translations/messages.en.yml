@@ -25,7 +25,8 @@ breadcrumb:
     app_login: Connection
     app_change_password: Edit password
     app_my_account: My account
-    app_admin_users_list: User management
+    app_admin_users_list: Users management
+    app_admin_users_edit: Edit user
     app_travels: My travels
 
 workflow:
@@ -76,6 +77,13 @@ form:
                 enabled: Enabled
                 sort: Sort
                 submit: Search
+            edit:
+                username: Username
+                firstname: Firstname
+                lastname: Lastname
+                email: Email
+                roles: Roles
+                enabled: Enabled
 
 table:
     nb_elements: "{0} No results|{1} 1 result|]1,Inf[ %count% results"
@@ -150,3 +158,9 @@ admin:
             send_registration_ok: Registration mail resend
             enable_account_ok: Account enabled
             disable_account_ok: Account disabled
+        edit:
+            title: Edit an user
+            ok: User edited
+        create:
+            title: Create an user
+            ok: Registration process started

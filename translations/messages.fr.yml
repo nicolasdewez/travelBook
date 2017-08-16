@@ -25,7 +25,8 @@ breadcrumb:
     app_login: Identification
     app_change_password: Mise à jour du mot de passe
     app_my_account: Mon compte
-    app_admin_users_list: Gestion des utilisateurs
+    app_admin_users_list: Gestion utilisateurs
+    app_admin_users_edit: Modifier utilisateur
     app_travels: Mes voyages
 
 workflow:
@@ -76,6 +77,13 @@ form:
                 enabled: Actif
                 sort: Tri
                 submit: Rechercher
+            edit:
+                username: Nom d'utilisateur
+                firstname: Prénom
+                lastname: Nom
+                email: Email
+                roles: Roles
+                enabled: Actif
 
 table:
     nb_elements: "{0} Pas de résultat|{1} 1 résultat|]1,Inf[ %count% résultats"
@@ -149,3 +157,9 @@ admin:
             send_registration_ok: Mail d'inscription relancé
             enable_account_ok: Compte activé
             disable_account_ok: Compte désactivé
+        edit:
+            title: Modifier un utilisateur
+            ok: Utilisateur modifié
+        create:
+            title: Créer un utilisateur
+            ok: Procédure d'inscription lancée

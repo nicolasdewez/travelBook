@@ -31,21 +31,21 @@
                 <th>{{ 'admin.users.list.table.registration_state'|trans }}</th>
                 <th>{{ 'admin.users.list.table.enabled'|trans }}</th>
                 <th>{{ 'admin.users.list.table.first_connection'|trans }}</th>
-                <th>{{ 'admin.users.list.table.actions'|trans }} <a href="#" class="glyphicon glyphicon-plus-sign" title="{{ 'admin.users.list.link_add_user'|trans }}"></a></th>
+                <th>
+                    {{ 'admin.users.list.table.actions'|trans }}
+                    <a href="{{ path('app_admin_users_create') }}" class="glyphicon glyphicon-plus-sign" title="{{ 'admin.users.list.link_add_user'|trans }}"></a>
+                </th>
             </tr>
             {% for element in elements %}
                 <tr>
-                    <td><a href="#">{{ element.id }}</a></td>
+                    <td><a href="{{ path('app_admin_users_edit', { 'id': element.id }) }}">{{ element.id }}</a></td>
                     <td>{{ element.username }}</td>
                     <td>{{ element.firstname }}</td>
                     <td>{{ element.lastname }}</td>
                     <td>{{ element.locale|upper }}</td>
                     <td>
                         {% for role in element.getTitleRoles %}
-                            {{ role|trans }}
-                            {% if not loop.last %}
-                                ,
-                            {% endif %}
+                            {{ role|trans }}{% if not loop.last %}, {% endif %}
                         {% endfor %}
                     </td>
                     <td>{{ element.getTitleRegistrationState|trans }}</td>

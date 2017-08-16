@@ -82,9 +82,14 @@ class BreadcrumbBuilder
      */
     private function buildItem(array $config, string $currentRoute, bool $firstElement): BreadcrumbItem
     {
+        $url = '#';
+        if (!$firstElement) {
+            $url = $this->router->generate($currentRoute, isset($config['route_params']) ? $config['route_params'] : []);
+        }
+
         return new BreadcrumbItem(
             $this->translator->trans($config['title'], isset($config['title_params']) ? $config['title_params'] : []),
-            $this->router->generate($currentRoute, isset($config['route_params']) ? $config['route_params'] : []),
+            $url,
             true === $firstElement
         );
     }

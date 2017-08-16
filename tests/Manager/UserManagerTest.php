@@ -9,9 +9,43 @@ use App\Pagination\InformationPagination;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\NullLogger;
 
 class UserManagerTest extends TestCase
 {
+    public function testSave()
+    {
+        $user = new User();
+
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager
+            ->expects($this->once())
+            ->method('persist')
+            ->with($user)
+        ;
+
+        $manager
+            ->expects($this->exactly(2))
+            ->method('flush')
+            ->withAnyParameters()
+        ;
+
+        $userManager = new UserManager(
+            $manager,
+            $this->createMock(InformationPagination::class),
+            new NullLogger()
+        );
+
+        $userManager->save($user);
+
+        $class = new \ReflectionClass($user);
+        $property = $class->getProperty('id');
+        $property->setAccessible(true);
+        $property->setValue($user, 1);
+
+        $userManager->save($user);
+    }
+
     public function testCountElements()
     {
         $filterUser = new FilterUser();
@@ -34,7 +68,8 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager(
             $manager,
-            $this->createMock(InformationPagination::class)
+            $this->createMock(InformationPagination::class),
+            new NullLogger()
         );
 
         $this->assertSame(12, $userManager->countElements($filterUser));
@@ -70,7 +105,8 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager(
             $manager,
-            $pagination
+            $pagination,
+            new NullLogger()
         );
 
         $this->assertSame(['element1', 'element2'], $userManager->listElements($filterUser, 1));
