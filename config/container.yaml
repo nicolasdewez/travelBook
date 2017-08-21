@@ -6,6 +6,8 @@ parameters:
     router.request_context.host: '%env(APP_HOST)%'
     router.request_context.scheme: '%env(APP_SCHEME)%'
     router.request_context.base_url: '%env(APP_BASE_URL)%'
+    app_path_data:  '%kernel.project_dir%/web/data'
+    app_path_data_pictures: '%app_path_data%/pictures'
 
 services:
     # default configuration for services in *this* file
@@ -13,12 +15,25 @@ services:
         autowire: true
         public: false
 
+    # To fix deprecated in Doctrine Migrations Bundle
+    Doctrine\DBAL\Migrations\Configuration\Configuration:
+        arguments:
+            $connection: 'Doctrine\DBAL\Driver\Connection'
+
     Doctrine\ORM\EntityManagerInterface:
         alias: 'doctrine.orm.default_entity_manager'
 
     App\Builder\BreadcrumbBuilder:
         arguments:
             $configPath: '%kernel.root_dir%/../config/breadcrumb.yaml'
+
+    App\Checker\PictureChecker:
+        arguments:
+            $pathPictures: '%app_path_data_pictures%'
+
+    App\Producer\AnalyzePictureProducer:
+        arguments:
+            $producer: '@old_sound_rabbit_mq.analyze_picture_producer'
 
     App\Producer\MailChangePasswordProducer:
         arguments:
@@ -35,6 +50,10 @@ services:
     App\Producer\MailDisableAccountProducer:
         arguments:
             $producer: '@old_sound_rabbit_mq.mail_disable_account_producer'
+
+    App\Producer\MailInvalidPictureProducer:
+        arguments:
+            $producer: '@old_sound_rabbit_mq.mail_invalid_picture_producer'
 
     App\Producer\PasswordLostProducer:
         arguments:
@@ -55,3 +74,7 @@ services:
     App\Workflow\RegistrationWorkflow:
         arguments:
             $stateMachine: '@state_machine.registration'
+
+    App\Workflow\CheckPictureWorkflow:
+        arguments:
+            $stateMachine: '@state_machine.check_picture'

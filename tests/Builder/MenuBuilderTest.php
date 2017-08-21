@@ -13,7 +13,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class MenuBuilderTest extends TestCase
 {
-    public function testExecuteNoAdmin()
+    public function testExecuteNoAdminAndNoValidator()
     {
         $currentRequest = $this->createMock(Request::class);
         $currentRequest->method('getPathInfo')->willReturn('');
@@ -53,11 +53,11 @@ class MenuBuilderTest extends TestCase
         $request->method('getCurrentRequest')->willReturn($currentRequest);
 
         $router = $this->createMock(RouterInterface::class);
-        $router->method('generate')->willReturnOnConsecutiveCalls('route1', 'route2', 'route3', 'route4', 'route5', 'route6');
+        $router->method('generate')->willReturnOnConsecutiveCalls('route1', 'route2', 'route3', 'route4', 'route5', 'route6', 'route7');
         $router->method('match')->willReturn(['_route' => 'currentRoute']);
 
         $translator = $this->createMock(TranslatorInterface::class);
-        $translator->method('trans')->willReturnOnConsecutiveCalls('title1', 'title2','title3', 'title4', 'title5', 'title6');
+        $translator->method('trans')->willReturnOnConsecutiveCalls('title1', 'title2','title3', 'title4', 'title5', 'title6', 'title7');
 
         $builder = new MenuBuilder(
             $request,
@@ -70,8 +70,9 @@ class MenuBuilderTest extends TestCase
             new MenuItem('title2', '', false),  // Menu not ended
             new MenuItem('title3', '', false),  // Menu not ended
             new MenuItem('title4', '', false),  // Menu not ended
-            new MenuItem('title6', '', false, [ // Menu not ended
-                new MenuItem('title5', 'route2', false) // Menu not ended
+            new MenuItem('title7', '', false, [ // Menu not ended
+                new MenuItem('title5', 'route2', false),
+                new MenuItem('title6', '', false) // Menu not ended
             ]),
         ];
 
@@ -105,7 +106,7 @@ class MenuBuilderTest extends TestCase
             new MenuItem('title3', '', false),  // Menu not ended
             new MenuItem('title4', '', false),  // Menu not ended
             new MenuItem('title6', '', false, [ // Menu not ended
-                new MenuItem('title5', '', false),  // Menu not ended
+                new MenuItem('title5', 'route2', false),  // Menu not ended
             ]),
         ];
 
@@ -121,11 +122,11 @@ class MenuBuilderTest extends TestCase
         $request->method('getCurrentRequest')->willReturn($currentRequest);
 
         $router = $this->createMock(RouterInterface::class);
-        $router->method('generate')->willReturnOnConsecutiveCalls('route1', 'route2', 'route3', 'route4', 'route5', 'route6', 'route7');
+        $router->method('generate')->willReturnOnConsecutiveCalls('route1', 'route2', 'route3', 'route4', 'route5', 'route6', 'route7', 'route8', 'route9');
         $router->method('match')->willReturn(['_route' => 'currentRoute']);
 
         $translator = $this->createMock(TranslatorInterface::class);
-        $translator->method('trans')->willReturnOnConsecutiveCalls('title1', 'title2','title3', 'title4', 'title5', 'title6', 'title7');
+        $translator->method('trans')->willReturnOnConsecutiveCalls('title1', 'title2','title3', 'title4', 'title5', 'title6', 'title7', 'title8', 'title9');
 
         $builder = new MenuBuilder(
             $request,
@@ -139,8 +140,11 @@ class MenuBuilderTest extends TestCase
             new MenuItem('title3', '', false),  // Menu not ended
             new MenuItem('title4', '', false),  // Menu not ended
             new MenuItem('title7', '', false, [ // Menu not ended
-                new MenuItem('title5', 'route2', false),  // Menu not ended
+                new MenuItem('title5', 'route2', false),
                 new MenuItem('title6', '', false),  // Menu not ended
+            ]),
+            new MenuItem('title9', '', false, [ // Menu not ended
+                new MenuItem('title8', 'route3', false),
             ]),
         ];
 

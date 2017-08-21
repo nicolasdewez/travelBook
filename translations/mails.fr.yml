@@ -1,5 +1,5 @@
 registration:
-    subject: Inscription à Travelbook
+    subject: "[Travelbook] Inscription"
 
 password_lost:
     subject: "[Travelbook] Création d'un nouveau mot de passe"
@@ -15,3 +15,9 @@ enable_account:
 
 disable_account:
     subject: "[Travelbook] Désactivation de votre compte"
+
+picture_virus:
+    subject: "[Travelbook] Attention ! L'image envoyée est un virus"
+
+picture_invalid:
+    subject: "[Travelbook] Image invalidée"

@@ -28,6 +28,12 @@ old_sound_rabbit_mq:
         mail_disable_account:
             connection: default
             exchange_options: {name: 'mail_disable_account', type: direct}
+        analyze_picture:
+            connection: default
+            exchange_options: {name: 'analyze_picture', type: direct}
+        mail_invalid_picture:
+            connection: default
+            exchange_options: {name: 'mail_invalid_picture', type: direct}
     consumers:
         registration:
             connection: default
@@ -59,3 +65,13 @@ old_sound_rabbit_mq:
             exchange_options: {name: 'mail_disable_account', type: direct}
             queue_options: {name: 'mail_disable_account'}
             callback: App\Consumer\MailDisableAccountConsumer
+        analyze_picture:
+            connection: default
+            exchange_options: {name: 'analyze_picture', type: direct}
+            queue_options: {name: 'analyze_picture'}
+            callback: App\Consumer\AnalyzePictureConsumer
+        mail_invalid_picture:
+            connection: default
+            exchange_options: {name: 'mail_invalid_picture', type: direct}
+            queue_options: {name: 'mail_invalid_picture'}
+            callback: App\Consumer\MailInvalidPictureConsumer

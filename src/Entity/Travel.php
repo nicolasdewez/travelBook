@@ -22,6 +22,13 @@ class Travel
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column
+     */
+    private $title;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(type="date")
@@ -59,6 +66,26 @@ class Travel
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
+    }
+
+    /**
+     * @param string $title
+     *
+     * @return Travel
+     */
+    public function setTitle(string $title): Travel
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
     }
 
     /**

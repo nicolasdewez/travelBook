@@ -15,6 +15,7 @@ use App\Security\CheckRegistrationCode;
 use App\Security\UpdateAccount;
 use App\Security\ValidFirstConnection;
 use App\Session\Flash;
+use App\Session\FlashMessage;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -22,7 +23,6 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -37,24 +37,23 @@ class SecurityController
     /** @var Twig */
     private $twig;
 
-    /** @var SessionInterface */
-    private $session;
-
     /** @var RouterInterface */
     private $router;
+
+    /** @var FlashMessage */
+    private $flashMessage;
 
     /**
      * @param FormFactoryInterface $formFactory
      * @param Twig                 $twig
-     * @param SessionInterface     $session
      * @param RouterInterface      $router
      */
-    public function __construct(FormFactoryInterface $formFactory, Twig $twig, SessionInterface $session, RouterInterface $router)
+    public function __construct(FormFactoryInterface $formFactory, Twig $twig, RouterInterface $router, FlashMessage $flashMessage)
     {
         $this->formFactory = $formFactory;
         $this->twig = $twig;
-        $this->session = $session;
         $this->router = $router;
+        $this->flashMessage = $flashMessage;
     }
 
     /**
@@ -73,7 +72,7 @@ class SecurityController
         if ($form->isSubmitted() && $form->isValid()) {
             $askRegistration->execute($form->getData());
 
-            $this->session->getFlashBag()->add(Flash::TYPE_NOTICE, 'registration.ok');
+            $this->flashMessage->add(Flash::TYPE_NOTICE, 'registration.ok');
 
             return new RedirectResponse($this->router->generate('app_login'));
         }
@@ -102,7 +101,7 @@ class SecurityController
 
         $activeUser->execute($checker->getUser());
 
-        $this->session->getFlashBag()->add(Flash::TYPE_NOTICE, 'active.ok');
+        $this->flashMessage->add(Flash::TYPE_NOTICE, 'active.ok');
 
         return new RedirectResponse($this->router->generate('app_login'));
     }
@@ -123,7 +122,7 @@ class SecurityController
         if ($form->isSubmitted() && $form->isValid()) {
             $askPasswordLost->execute($form->getData());
 
-            $this->session->getFlashBag()->add(Flash::TYPE_NOTICE, 'password_lost.ok');
+            $this->flashMessage->add(Flash::TYPE_NOTICE, 'password_lost.ok');
 
             return new RedirectResponse($this->router->generate('app_login'));
         }
@@ -171,7 +170,7 @@ class SecurityController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $validFirstConnection->execute($user);
-            $this->session->getFlashBag()->add(Flash::TYPE_NOTICE, 'change_password.ok');
+            $this->flashMessage->add(Flash::TYPE_NOTICE, 'change_password.ok');
 
             return new RedirectResponse($this->router->generate('app_travels'));
         }
@@ -200,7 +199,7 @@ class SecurityController
         if ($form->isSubmitted() && $form->isValid()) {
             $updateAccount->execute($user);
 
-            $this->session->getFlashBag()->add(Flash::TYPE_NOTICE, 'my_account.ok');
+            $this->flashMessage->add(Flash::TYPE_NOTICE, 'my_account.ok');
 
             return new RedirectResponse($this->router->generate('app_my_account'));
         }

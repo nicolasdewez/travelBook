@@ -49,26 +49,40 @@ class MenuBuilder
             return $items;
         }
 
-        $adminItems = [];
-
         if ($this->isAdminUser($roles)) {
-            $adminItems[] = $this->buildItem('menu.admin.users', 'app_admin_users_list');
+            $adminItems = [
+                $this->buildItem('menu.admin.users', 'app_admin_users_list'),
+                $this->buildItem('menu.admin.places', ''),
+            ];
+
+            $adminItem = new MenuItem(
+                $this->translator->trans('menu.admin.title'),
+                '',
+                false,
+                $adminItems
+            );
+
+            $adminItem->setActiveFromItems();
+
+            $items[] = $adminItem;
         }
 
         if ($this->isValidatorUser($roles)) {
-            $adminItems[] = $this->buildItem('menu.admin.pictures_validator', ''); //'app_admin_validator_pictures');
+            $validatorItems = [
+                $this->buildItem('menu.validator.pictures', 'app_validation_pictures_list'),
+            ];
+
+            $validatorItem = new MenuItem(
+                $this->translator->trans('menu.validator.title'),
+                '',
+                false,
+                $validatorItems
+            );
+
+            $validatorItem->setActiveFromItems();
+
+            $items[] = $validatorItem;
         }
-
-        $adminItem = new MenuItem(
-            $this->translator->trans('menu.admin.title'),
-            '',
-            false,
-            $adminItems
-        );
-
-        $adminItem->setActiveFromItems();
-
-        $items[] = $adminItem;
 
         return $items;
     }

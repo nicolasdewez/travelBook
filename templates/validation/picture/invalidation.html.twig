@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>{{ 'validation.pictures.invalidation.title'|trans }}</h2>
+
+    <div class="mini-body">
+
+        <img src="{{ asset('data/pictures/' ~ picture.id) }}" />
+
+        <br><br>
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <a href="{{ path('app_validation_pictures_validation', { 'id': picture.id }) }}" class="btn btn-primary pull-left">{{ 'form.validation.pictures.invalidation.validate'|trans }}</a>
+        <input type="submit" value="{{ 'form.validation.pictures.invalidation.invalidate'|trans }}" class="btn btn-primary pull-right" />
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -6,6 +6,12 @@ answer:
     yes: Yes
     no: No
 
+invalidation_picture_reason:
+    invalid: Invalid
+    porn: Porn
+    pedophilia: Pedophilia
+    others: Others
+
 menu:
     my_account: My account
     logout: Logout
@@ -16,7 +22,10 @@ menu:
     admin:
         title: Admin
         users: Users
-        pictures_validator: Pictures Validator
+        places: Places
+    validator:
+        title: Validation
+        pictures: Pictures
 
 breadcrumb:
     app_home: Welcome
@@ -34,6 +43,13 @@ workflow:
         created: Created
         registered: In progress
         activated: Done
+    check_picture:
+        uploaded: Uploaded
+        healthy: Healthy
+        virus: Virus
+        validated: Validated
+        invalid: Invalid
+
 role:
     user: User
     admin: Administrator
@@ -84,6 +100,22 @@ form:
                 email: Email
                 roles: Roles
                 enabled: Enabled
+    validation:
+        pictures:
+            list:
+                id: Identifiant
+                date: Date
+                title: Title
+                sort: Sort
+                submit: Search
+            invalidation:
+                user: User
+                travel: Travel
+                place: Place
+                reason: Reason
+                comment: Comment
+                invalidate: Invalidate
+                validate: Validate
 
 table:
     nb_elements: "{0} No results|{1} 1 result|]1,Inf[ %count% results"
@@ -164,3 +196,24 @@ admin:
         create:
             title: Create an user
             ok: Registration process started
+
+validation:
+    pictures:
+        list:
+            title: List of pictures
+            table:
+                id: Id
+                user: User
+                travel: Travel
+                picture: Picture
+                date: Date
+                place: Place
+                title: Title
+                check_state: Check state
+                actions: Actions
+            link_validation: Validate
+            link_invalidation: Invalidate
+            validation_ok: Picture has been validated
+        invalidation:
+            title: Invalidate picture
+            invalidation_ok: Picture has been invalidated

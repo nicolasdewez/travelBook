@@ -49,14 +49,6 @@ class Place
     }
 
     /**
-     * @return float
-     */
-    public function getLatitude(): ?float
-    {
-        return $this->latitude;
-    }
-
-    /**
      * @param string $title
      *
      * @return Place
@@ -74,6 +66,14 @@ class Place
     public function getTitle(): ?string
     {
         return $this->title;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
     }
 
     /**

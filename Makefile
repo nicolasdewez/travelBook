@@ -104,8 +104,12 @@ lint-yaml: ## Run lint-yaml
 	@$(RUN) bin/console lint:yaml config/
 	@$(RUN) bin/console lint:yaml translations/
 
+.PHONY: schema-validate
+schema-validate: ## Run schema-validate
+	@$(RUN) bin/console doctrine:schema:validate
+
 .PHONY: checker
-checker: security-check lint-twig lint-yaml php-cs-fixer ## Run checker: security-check, lint-twig, lint-yaml, php-cs-fixer
+checker: security-check lint-twig lint-yaml schema-validate php-cs-fixer ## Run checker: security-check, lint-twig, lint-yaml, schema-validate, php-cs-fixer
 
 .PHONY: run
 run: ## Execute a command in a new application container (ie. make run cmd="ls -l")

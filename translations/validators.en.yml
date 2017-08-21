@@ -1,3 +1,6 @@
 password:
     current_new_not_different: Current and new password should be different
     current_new_not_empty: Current and new password should be empty or not
+
+invalidation_picture:
+    comment_required: Field is required with reason "Others"

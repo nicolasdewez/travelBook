@@ -2,12 +2,14 @@
 
 namespace App\Session;
 
+use App\Model\FilterPicture;
 use App\Model\FilterUser;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class FilterStorage
 {
     const FILTER_USER = 'app.filter.user';
+    const FILTER_PICTURE = 'app.filter.picture';
 
     /** @var SessionInterface */
     private $session;
@@ -34,5 +36,21 @@ class FilterStorage
     public function getFilterUser(): FilterUser
     {
         return $this->session->get(self::FILTER_USER, new FilterUser());
+    }
+
+    /**
+     * @param FilterPicture $filterPicture
+     */
+    public function saveFilterPicture(FilterPicture $filterPicture)
+    {
+        $this->session->set(self::FILTER_PICTURE, $filterPicture);
+    }
+
+    /**
+     * @return FilterPicture|null
+     */
+    public function getFilterPicture(): FilterPicture
+    {
+        return $this->session->get(self::FILTER_PICTURE, new FilterPicture());
     }
 }

@@ -6,6 +6,12 @@ answer:
     yes: Oui
     no: Non
 
+invalidation_picture_reason:
+    invalid: Invalide
+    porn: Pornographie
+    pedophilia: Pédophilie
+    others: Autre
+
 menu:
     my_account: Mon compte
     logout: Se déconnecter
@@ -16,7 +22,10 @@ menu:
     admin:
         title: Administration
         users: Utilisateurs
-        pictures_validator: Validations des Photos
+        places: Lieux
+    validator:
+        title: Validation
+        pictures: Photos
 
 breadcrumb:
     app_home: Bienvenue
@@ -34,6 +43,13 @@ workflow:
         created: Créée
         registered: En-cours
         activated: Terminée
+    check_picture:
+        uploaded: Envoyée
+        healthy: Saine
+        virus: Virus
+        validated: Validée
+        invalid: Invalidée
+
 role:
     user: Utilisateur
     admin: Administrateur
@@ -84,6 +100,22 @@ form:
                 email: Email
                 roles: Roles
                 enabled: Actif
+    validation:
+        pictures:
+            list:
+                id: Identifiant
+                date: Date
+                title: Titre
+                sort: Tri
+                submit: Rechercher
+            invalidation:
+                user: Utilisateur
+                travel: Voyage
+                place: Lieu
+                reason: Raison
+                comment: Commentaire
+                invalidate: Invalider
+                validate: Valider
 
 table:
     nb_elements: "{0} Pas de résultat|{1} 1 résultat|]1,Inf[ %count% résultats"
@@ -163,3 +195,24 @@ admin:
         create:
             title: Créer un utilisateur
             ok: Procédure d'inscription lancée
+
+validation:
+    pictures:
+        list:
+            title: Liste des photos
+            table:
+                id: Id
+                user: Utilisateur
+                travel: Voyage
+                picture: Photo
+                date: Date
+                place: Lieu
+                title: Titre
+                check_state: Etat de la vérification
+                actions: Actions
+            link_validation: Valider
+            link_invalidation: Invalider
+            validation_ok: La photo a été validée
+        invalidation:
+            title: Invalidation d'une photo
+            invalidation_ok: La photo a été invalidée

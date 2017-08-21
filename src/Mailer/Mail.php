@@ -17,4 +17,6 @@ final class Mail
     const SUBJECT_UPDATE_ACCOUNT = 'update_account.subject';
     const SUBJECT_ENABLE_ACCOUNT = 'enable_account.subject';
     const SUBJECT_DISABLE_ACCOUNT = 'disable_account.subject';
+    const SUBJECT_PICTURE_VIRUS = 'picture_virus.subject';
+    const SUBJECT_PICTURE_INVALID = 'picture_invalid.subject';
 }

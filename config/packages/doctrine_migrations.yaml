@@ -1,5 +1,5 @@
 doctrine_migrations:
-    dir_name: '%kernel.project_dir%/src/Migrations'
-    namespace: App\Migrations
+    dir_name: '%kernel.project_dir%/src/Migration'
+    namespace: App\Migration
     table_name: migration
     name: TravelBook Migrations

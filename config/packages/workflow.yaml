@@ -19,3 +19,30 @@ framework:
                 active:
                     from: registered
                     to: activated
+        check_picture:
+            type: 'state_machine'
+            marking_store:
+                type: 'single_state'
+                arguments:
+                    - 'checkState'
+            supports:
+                - App\Entity\Picture
+            places:
+                - uploaded
+                - healthy
+                - virus
+                - validated
+                - invalid
+            transitions:
+                analyze_ok:
+                    from: uploaded
+                    to: healthy
+                analyze_ko:
+                    from: uploaded
+                    to: virus
+                validation:
+                    from: healthy
+                    to: validated
+                invalidation:
+                    from: healthy
+                    to: invalid

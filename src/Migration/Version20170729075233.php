@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Migrations;
+namespace App\Migration;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
@@ -48,7 +48,6 @@ class Version20170729075233 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE travels DROP CONSTRAINT FK_67FF2BD7DA6A219');
         $this->addSql('ALTER TABLE pictures DROP CONSTRAINT FK_8F7C2FC0ECAB15B3');
         $this->addSql('ALTER TABLE travels DROP CONSTRAINT FK_67FF2BD7A76ED395');

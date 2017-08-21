@@ -1,5 +1,5 @@
 registration:
-    subject: Registration to Travelbook
+    subject: "[Travelbook] Registration"
 
 password_lost:
     subject: "[Travelbook] Create new password"
@@ -15,3 +15,9 @@ enable_account:
 
 disable_account:
     subject: "[Travelbook] Disable your account"
+
+picture_virus:
+    subject: "[Travelbook] Warning! Picture uploaded is virus"
+
+picture_invalid:
+    subject: "[Travelbook] Picture invalidated"

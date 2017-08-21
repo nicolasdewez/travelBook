@@ -29,4 +29,5 @@ security:
                 target: app_login
 
     access_control:
-        - { path: ^/admin/users, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/validations, roles: ROLE_VALIDATOR }

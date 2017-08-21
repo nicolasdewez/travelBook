@@ -14,6 +14,7 @@ use App\Security\DisableAccount;
 use App\Security\EnableAccount;
 use App\Session\FilterStorage;
 use App\Session\Flash;
+use App\Session\FlashMessage;
 use App\Workflow\RegistrationWorkflow;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -22,7 +23,6 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Twig\Environment as Twig;
@@ -39,24 +39,24 @@ class UserController
     /** @var Twig */
     private $twig;
 
-    /** @var SessionInterface */
-    private $session;
-
     /** @var RouterInterface */
     private $router;
+
+    /** @var FlashMessage */
+    private $flashMessage;
 
     /**
      * @param FormFactoryInterface $formFactory
      * @param Twig                 $twig
-     * @param SessionInterface     $session
      * @param RouterInterface      $router
+     * @param FlashMessage         $flashMessage
      */
-    public function __construct(FormFactoryInterface $formFactory, Twig $twig, SessionInterface $session, RouterInterface $router)
+    public function __construct(FormFactoryInterface $formFactory, Twig $twig, RouterInterface $router, FlashMessage $flashMessage)
     {
         $this->formFactory = $formFactory;
-        $this->session = $session;
         $this->twig = $twig;
         $this->router = $router;
+        $this->flashMessage = $flashMessage;
     }
 
     /**
@@ -115,7 +115,7 @@ class UserController
 
         $askResendRegistration->execute($user);
 
-        $this->session->getFlashBag()->add(Flash::TYPE_NOTICE, 'admin.users.list.send_registration_ok');
+        $this->flashMessage->add(Flash::TYPE_NOTICE, 'admin.users.list.send_registration_ok');
 
         return new RedirectResponse($this->router->generate('app_admin_users_list'));
     }
@@ -136,7 +136,7 @@ class UserController
 
         $enableAccount->execute($user);
 
-        $this->session->getFlashBag()->add(Flash::TYPE_NOTICE, 'admin.users.list.enable_account_ok');
+        $this->flashMessage->add(Flash::TYPE_NOTICE, 'admin.users.list.enable_account_ok');
 
         return new RedirectResponse($this->router->generate('app_admin_users_list'));
     }
@@ -157,7 +157,7 @@ class UserController
 
         $disableAccount->execute($user);
 
-        $this->session->getFlashBag()->add(Flash::TYPE_NOTICE, 'admin.users.list.disable_account_ok');
+        $this->flashMessage->add(Flash::TYPE_NOTICE, 'admin.users.list.disable_account_ok');
 
         return new RedirectResponse($this->router->generate('app_admin_users_list'));
     }
@@ -177,7 +177,7 @@ class UserController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $userManager->save($user);
-            $this->session->getFlashBag()->add(Flash::TYPE_NOTICE, 'admin.users.edit.ok');
+            $this->flashMessage->add(Flash::TYPE_NOTICE, 'admin.users.edit.ok');
 
             return new RedirectResponse($this->router->generate('app_admin_users_list'));
         }
@@ -203,7 +203,7 @@ class UserController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $askRegistration->execute($form->getData());
-            $this->session->getFlashBag()->add(Flash::TYPE_NOTICE, 'admin.users.create.ok');
+            $this->flashMessage->add(Flash::TYPE_NOTICE, 'admin.users.create.ok');
 
             return new RedirectResponse($this->router->generate('app_admin_users_list'));
         }
