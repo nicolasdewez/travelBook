@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @UniqueEntity(fields={"username"}, groups={"registration"})
  */
-class User implements AdvancedUserInterface
+class User extends Timestampable implements AdvancedUserInterface
 {
     /**
      * @var int
@@ -556,27 +556,5 @@ class User implements AdvancedUserInterface
                 ->addViolation()
             ;
         }
-    }
-
-    /**
-     * @param ExecutionContextInterface $context
-     * @param User                      $payload
-     *
-     * @Assert\Callback(groups={"my_account"})
-     */
-    public function currentAndNewPasswordAreEmptyOrNot(ExecutionContextInterface $context, $payload)
-    {
-        if (null === $this->currentPassword && null === $this->newPassword) {
-            return;
-        }
-
-        if (null !== $this->currentPassword && null !== $this->newPassword) {
-            return;
-        }
-
-        $context
-            ->buildViolation('password.current_new_not_empty')
-            ->addViolation()
-        ;
     }
 }

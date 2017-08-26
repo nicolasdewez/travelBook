@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="places", indexes={@ORM\Index(name="places_title", columns={"title"})})
  * @ORM\Entity
  */
-class Place
+class Place extends Timestampable
 {
     /**
      * @var int

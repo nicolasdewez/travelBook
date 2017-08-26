@@ -9,11 +9,13 @@
         <table class="table table-striped table-bordered table-hover">
         <caption>{{ 'validation.pictures.re_validation.table.title'|trans }}</caption>
             <tr>
+                <th>{{ 'validation.pictures.re_validation.table.date'|trans }}</th>
                 <th>{{ 'validation.pictures.re_validation.table.reason'|trans }}</th>
                 <th>{{ 'validation.pictures.re_validation.table.comment'|trans }}</th>
             </tr>
             {% for element in picture.invalidation %}
                 <tr>
+                    <td>{{ element.createdAt|date('d/m/Y H:i:s')}}</td>
                     <td>{{ element.getTitleReason|trans }}</td>
                     <td>{{ element.comment }}</td>
                 </tr>

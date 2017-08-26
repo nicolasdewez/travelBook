@@ -31,6 +31,10 @@ services:
         arguments:
             $pathPictures: '%app_path_data_pictures%'
 
+    App\EventSubscriber\Entity\TimestampableSubscriber:
+        tags:
+            - 'doctrine.event_subscriber'
+
     App\Producer\AnalyzePictureProducer:
         arguments:
             $producer: '@old_sound_rabbit_mq.analyze_picture_producer'

@@ -241,6 +241,7 @@ validation:
             title: Picture re validation
             table:
                 title: List of invalidation
+                date: Date
                 reason: Reason
                 comment: Comment
             link_validation: Validate

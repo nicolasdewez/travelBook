@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="invalidation_pictures")
  * @ORM\Entity
  */
-class InvalidationPicture
+class InvalidationPicture extends Timestampable
 {
     /**
      * @var int

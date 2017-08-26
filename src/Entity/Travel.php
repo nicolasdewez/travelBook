@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="travels")
  * @ORM\Entity
  */
-class Travel
+class Travel extends Timestampable
 {
     /**
      * @var int

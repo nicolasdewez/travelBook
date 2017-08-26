@@ -68,48 +68,6 @@ class UserTest extends TestCase
         $this->assertNull($user->currentAndNewPasswordAreDifferent($context, null));
     }
 
-    public function testCurrentAndNewPasswordAreEmptyOrNotNoViolation()
-    {
-        $context = $this->createMock(ExecutionContextInterface::class);
-        $context
-            ->expects($this->never())
-            ->method('buildViolation')
-        ;
-
-        $user = new User();
-        $this->assertNull($user->currentAndNewPasswordAreEmptyOrNot($context, null));
-
-        $user = (new User())
-            ->setCurrentPassword('current')
-            ->setNewPassword('new')
-        ;
-
-        $this->assertNull($user->currentAndNewPasswordAreEmptyOrNot($context, null));
-    }
-
-    public function testCurrentAndNewPasswordAreEmptyOrNotBuildViolation()
-    {
-        $constraint = $this->createMock(ConstraintViolationBuilderInterface::class);
-        $constraint
-            ->expects($this->once())
-            ->method('addViolation')
-            ->withAnyParameters()
-            ->willReturn(true)
-        ;
-
-        $context = $this->createMock(ExecutionContextInterface::class);
-        $context
-            ->expects($this->once())
-            ->method('buildViolation')
-            ->with('password.current_new_not_empty')
-            ->willReturn($constraint)
-        ;
-
-        $user = (new User())->setCurrentPassword('password');
-
-        $this->assertNull($user->currentAndNewPasswordAreEmptyOrNot($context, null));
-    }
-
     public function testGetTitleRoles()
     {
         $user = (new User())->setRoles([Role::USER, Role::ADMIN, Role::VALIDATOR]);

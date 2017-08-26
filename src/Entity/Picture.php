@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation as Serializer;
  * @ORM\Table(name="pictures")
  * @ORM\Entity(repositoryClass="App\Repository\PictureRepository")
  */
-class Picture
+class Picture extends Timestampable
 {
     /**
      * @var int

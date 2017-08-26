@@ -241,6 +241,7 @@ validation:
             title: Validation d'une photo
             table:
                 title: Liste des invalidations
+                date: Date
                 reason: Raison
                 comment: Commentaire
             link_validation: Valider

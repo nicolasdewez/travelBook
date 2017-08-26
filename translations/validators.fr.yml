@@ -1,6 +1,5 @@
 password:
     current_new_not_different: L'actuel et le nouveau mot de passe doivent être différents
-    current_new_not_empty: L'actuel et le nouveau mot de passe doivent être tous les deux saisis ou vides
 
 invalidation_picture:
     comment_required: Champ obligatoire avec la raison "Autre"
