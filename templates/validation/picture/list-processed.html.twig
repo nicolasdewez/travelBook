@@ -47,7 +47,7 @@
                             <a href="{{ path('app_validation_pictures_re_validation', { 'id': element.id } ) }}" class="glyphicon glyphicon-ok-sign" title="{{ 'validation.pictures.list_processed.link_validation'|trans }}"></a>
                         {% endif %}
                         {% if workflow_can(element, 'invalidation') %}
-                            <a href="{{ path('app_validation_pictures_invalidation', { 'id': element.id }) }}" class="glyphicon glyphicon-remove-sign" title="{{ 'validation.pictures.list_processed.link_invalidation'|trans }}"></a>
+                            <a href="{{ path('app_validation_pictures_invalidation', { 'id': element.id, 'redirect': constant('App\\Controller\\Validation\\PictureController::REDIRECT_PROCESSED') }) }}" class="glyphicon glyphicon-remove-sign" title="{{ 'validation.pictures.list_processed.link_invalidation'|trans }}"></a>
                         {% endif %}
                     </td>
                 </tr>

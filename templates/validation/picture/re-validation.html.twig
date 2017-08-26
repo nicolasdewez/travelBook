@@ -33,6 +33,9 @@
 
         <br><br>
 
-        <a href="{{ path('app_validation_pictures_validation', { 'id': picture.id }) }}" class="btn btn-primary pull-left">{{ 'validation.pictures.re_validation.link_validation'|trans }}</a>
+        <a href="{{ path('app_validation_pictures_validation', {
+                'id': picture.id,
+                'redirect': constant('App\\Controller\\Validation\\PictureController::REDIRECT_PROCESSED')
+            }) }}" class="btn btn-primary pull-left">{{ 'validation.pictures.re_validation.link_validation'|trans }}</a>
     </div>
 {% endblock %}

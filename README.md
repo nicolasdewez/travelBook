@@ -38,5 +38,4 @@ Il faut penser à :
 - Traduction des mails et faire une vraie page d'accueil
 - Ajouter une préférence sur l'utilisateur pour décider s'il veut les notifs ou non
 - Style à améliorer, filtres sur 2 colonnes ?
-- Amélioration : validation d'images, rediriger vers suivant dans le formulaire + redirection selon  d'ou on vient
 - Notification en live

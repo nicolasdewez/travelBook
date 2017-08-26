@@ -47,9 +47,14 @@ class SecurityController
      * @param FormFactoryInterface $formFactory
      * @param Twig                 $twig
      * @param RouterInterface      $router
+     * @param FlashMessage         $flashMessage
      */
-    public function __construct(FormFactoryInterface $formFactory, Twig $twig, RouterInterface $router, FlashMessage $flashMessage)
-    {
+    public function __construct(
+        FormFactoryInterface $formFactory,
+        Twig $twig,
+        RouterInterface $router,
+        FlashMessage $flashMessage
+    ) {
         $this->formFactory = $formFactory;
         $this->twig = $twig;
         $this->router = $router;

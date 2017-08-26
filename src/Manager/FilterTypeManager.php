@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Form\Type\FilterPictureType;
+use App\Form\Type\FilterUserType;
 use App\Session\FilterStorage;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -31,7 +32,25 @@ class FilterTypeManager
      *
      * @return FormInterface
      */
-    public function executeToValidate(Request $request): FormInterface
+    public function executeToListUsers(Request $request): FormInterface
+    {
+        $filterUser = $this->filterStorage->getFilterUser();
+
+        $form = $this->formFactory->create(FilterUserType::class, $filterUser);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $this->filterStorage->saveFilterUser($filterUser);
+        }
+
+        return $form;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return FormInterface
+     */
+    public function executeToValidatePictures(Request $request): FormInterface
     {
         $filterPicture = $this->filterStorage->getFilterPicture();
 
@@ -49,7 +68,7 @@ class FilterTypeManager
      *
      * @return FormInterface
      */
-    public function executeToRevalidate(Request $request): FormInterface
+    public function executeToReValidatePictures(Request $request): FormInterface
     {
         $filterPicture = $this->filterStorage->getFilterPictureProcessed();
 

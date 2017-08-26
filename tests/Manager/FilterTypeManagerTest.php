@@ -3,8 +3,10 @@
 namespace App\Tests\Manager;
 
 use App\Form\Type\FilterPictureType;
+use App\Form\Type\FilterUserType;
 use App\Manager\FilterTypeManager;
 use App\Model\FilterPicture;
+use App\Model\FilterUser;
 use App\Session\FilterStorage;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -13,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class FilterTypeManagerTest extends TestCase
 {
-    public function testExecuteToValidateWithFormNotSubmitted()
+    public function testExecuteToValidatePicturesWithFormNotSubmitted()
     {
         $request = new Request();
         $filterPicture = new FilterPicture();
@@ -52,10 +54,10 @@ class FilterTypeManagerTest extends TestCase
         ;
 
         $manager = new FilterTypeManager($factory, $storage);
-        $this->assertSame($form, $manager->executeToValidate($request));
+        $this->assertSame($form, $manager->executeToValidatePictures($request));
     }
 
-    public function testExecuteToValidateWithFormSubmitted()
+    public function testExecuteToValidatePicturesWithFormSubmitted()
     {
         $request = new Request();
         $filterPicture = new FilterPicture();
@@ -96,10 +98,10 @@ class FilterTypeManagerTest extends TestCase
         ;
 
         $manager = new FilterTypeManager($factory, $storage);
-        $this->assertSame($form, $manager->executeToValidate($request));
+        $this->assertSame($form, $manager->executeToValidatePictures($request));
     }
 
-    public function testExecuteToReValidateWithFormNotSubmitted()
+    public function testExecuteToReValidatePicturesWithFormNotSubmitted()
     {
         $request = new Request();
         $filterPicture = new FilterPicture();
@@ -138,10 +140,10 @@ class FilterTypeManagerTest extends TestCase
         ;
 
         $manager = new FilterTypeManager($factory, $storage);
-        $this->assertSame($form, $manager->executeToRevalidate($request));
+        $this->assertSame($form, $manager->executeToReValidatePictures($request));
     }
 
-    public function testExecuteToReValidateWithFormSubmitted()
+    public function testExecuteToReValidatePicturesWithFormSubmitted()
     {
         $request = new Request();
         $filterPicture = new FilterPicture();
@@ -181,6 +183,91 @@ class FilterTypeManagerTest extends TestCase
         ;
 
         $manager = new FilterTypeManager($factory, $storage);
-        $this->assertSame($form, $manager->executeToRevalidate($request));
+        $this->assertSame($form, $manager->executeToReValidatePictures($request));
+    }
+
+    public function testExecuteToListUsersWithFormNotSubmitted()
+    {
+        $request = new Request();
+        $filterUser = new FilterUser();
+
+        $storage = $this->createMock(FilterStorage::class);
+        $storage
+            ->expects($this->once())
+            ->method('getFilterUser')
+            ->withAnyParameters()
+            ->willReturn($filterUser)
+        ;
+        $storage
+            ->expects($this->never())
+            ->method('saveFilterUser')
+        ;
+
+        $form = $this->createMock(FormInterface::class);
+        $form
+            ->expects($this->once())
+            ->method('handleRequest')
+            ->with($request)
+        ;
+        $form
+            ->expects($this->once())
+            ->method('isSubmitted')
+            ->withAnyParameters()
+            ->willReturn(false)
+        ;
+
+        $factory = $this->createMock(FormFactoryInterface::class);
+        $factory
+            ->expects($this->once())
+            ->method('create')
+            ->with(FilterUserType::class, $filterUser)
+            ->willReturn($form)
+        ;
+
+        $manager = new FilterTypeManager($factory, $storage);
+        $this->assertSame($form, $manager->executeToListUsers($request));
+    }
+
+    public function testExecuteToListUsersWithFormSubmitted()
+    {
+        $request = new Request();
+        $filterUser = new FilterUser();
+
+        $storage = $this->createMock(FilterStorage::class);
+        $storage
+            ->expects($this->once())
+            ->method('getFilterUser')
+            ->withAnyParameters()
+            ->willReturn($filterUser)
+        ;
+        $storage
+            ->expects($this->once())
+            ->method('saveFilterUser')
+            ->with($filterUser)
+        ;
+
+        $form = $this->createMock(FormInterface::class);
+        $form
+            ->expects($this->once())
+            ->method('handleRequest')
+            ->with($request)
+        ;
+        $form
+            ->expects($this->once())
+            ->method('isSubmitted')
+            ->withAnyParameters()
+            ->willReturn(true)
+        ;
+
+        $factory = $this->createMock(FormFactoryInterface::class);
+        $factory
+            ->expects($this->once())
+            ->method('create')
+            ->with(FilterUserType::class, $filterUser)
+            ->willReturn($form)
+        ;
+
+        $manager = new FilterTypeManager($factory, $storage);
+        $this->assertSame($form, $manager->executeToListUsers($request));
     }
 }

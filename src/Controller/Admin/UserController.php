@@ -4,15 +4,14 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\Type\EditUserType;
-use App\Form\Type\FilterUserType;
 use App\Form\Type\RegistrationType;
+use App\Manager\FilterTypeManager;
 use App\Manager\UserManager;
 use App\Pagination\InformationPagination;
 use App\Security\AskRegistration;
 use App\Security\AskResendRegistration;
 use App\Security\DisableAccount;
 use App\Security\EnableAccount;
-use App\Session\FilterStorage;
 use App\Session\Flash;
 use App\Session\FlashMessage;
 use App\Workflow\RegistrationWorkflow;
@@ -51,8 +50,12 @@ class UserController
      * @param RouterInterface      $router
      * @param FlashMessage         $flashMessage
      */
-    public function __construct(FormFactoryInterface $formFactory, Twig $twig, RouterInterface $router, FlashMessage $flashMessage)
-    {
+    public function __construct(
+        FormFactoryInterface $formFactory,
+        Twig $twig,
+        RouterInterface $router,
+        FlashMessage $flashMessage
+    ) {
         $this->formFactory = $formFactory;
         $this->twig = $twig;
         $this->router = $router;
@@ -63,27 +66,27 @@ class UserController
      * @param int                   $page
      * @param Request               $request
      * @param UserManager           $manager
-     * @param FilterStorage         $filterStorage
+     * @param FilterTypeManager     $filterManager
      * @param InformationPagination $pagination
      *
      * @return Response
      *
-     * @Route("/list/{page}", name="app_admin_users_list", defaults={"page": 1}, methods={"GET", "POST"})
+     * @Route(
+     *     "/list/{page}",
+     *     name="app_admin_users_list",
+     *     requirements={"page": "^\d+$"},
+     *     defaults={"page": 1},
+     *     methods={"GET", "POST"}
+     * )
      */
-    public function listAction(int $page, Request $request, UserManager $manager, FilterStorage $filterStorage, InformationPagination $pagination): Response
+    public function listAction(int $page, Request $request, UserManager $manager, FilterTypeManager $filterManager, InformationPagination $pagination): Response
     {
-        $filterUser = $filterStorage->getFilterUser();
-
-        $form = $this->formFactory->create(FilterUserType::class, $filterUser);
-        $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            $filterStorage->saveFilterUser($filterUser);
-            if (!$form->isValid()) {
-                return $this->getListResponse($form->createView(), 0, 0, 0, []);
-            }
+        $form = $filterManager->executeToListUsers($request);
+        if ($form->isSubmitted() && !$form->isValid()) {
+            return $this->getListResponse($form->createView(), 0, 0, 0, []);
         }
 
-        $nbElements = $manager->countElements($filterUser);
+        $nbElements = $manager->countElements($form->getData());
         $nbPages = $pagination->getNbPages($nbElements) ?: 1;
         if ($nbPages < $page) {
             return new RedirectResponse($this->router->generate('app_admin_users_list'));
@@ -94,7 +97,7 @@ class UserController
             $page,
             $nbPages,
             $nbElements,
-            $manager->listElements($filterUser, $page)
+            $manager->listElements($form->getData(), $page)
         );
     }
 
@@ -105,7 +108,12 @@ class UserController
      *
      * @return Response
      *
-     * @Route("/{id}/send-registration", name="app_admin_users_send_registration", methods={"GET"})
+     * @Route(
+     *     "/{id}/send-registration",
+     *     name="app_admin_users_send_registration",
+     *     requirements={"id": "^\d+$"},
+     *     methods={"GET"}
+     * )
      */
     public function sendRegistrationAction(User $user, RegistrationWorkflow $registrationWorkflow, AskResendRegistration $askResendRegistration): Response
     {
@@ -126,7 +134,12 @@ class UserController
      *
      * @return Response
      *
-     * @Route("/{id}/enable", name="app_admin_users_enable", methods={"GET"})
+     * @Route(
+     *     "/{id}/enable",
+     *     name="app_admin_users_enable",
+     *     requirements={"id": "^\d+$"},
+     *     methods={"GET"}
+     * )
      */
     public function enableAction(User $user, EnableAccount $enableAccount): Response
     {
@@ -147,7 +160,12 @@ class UserController
      *
      * @return Response
      *
-     * @Route("/{id}/disable", name="app_admin_users_disable", methods={"GET"})
+     * @Route(
+     *     "/{id}/disable",
+     *     name="app_admin_users_disable",
+     *     requirements={"id": "^\d+$"},
+     *     methods={"GET"}
+     * )
      */
     public function disableAction(User $user, DisableAccount $disableAccount): Response
     {
@@ -169,7 +187,12 @@ class UserController
      *
      * @return Response
      *
-     * @Route("/{id}/edit", name="app_admin_users_edit", methods={"GET", "POST"})
+     * @Route(
+     *     "/{id}/edit",
+     *     name="app_admin_users_edit",
+     *     requirements={"id": "^\d+$"},
+     *     methods={"GET", "POST"}
+     * )
      */
     public function editAction(User $user, Request $request, UserManager $userManager): Response
     {

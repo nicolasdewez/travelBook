@@ -12,7 +12,10 @@
         {{ form_start(form) }}
         {{ form_widget(form) }}
 
-        <a href="{{ path('app_validation_pictures_validation', { 'id': picture.id }) }}" class="btn btn-primary pull-left">{{ 'form.validation.pictures.invalidation.validate'|trans }}</a>
+        {% if workflow_can(picture, 'validation') %}
+            <a href="{{ path('app_validation_pictures_validation', { 'id': picture.id, 'redirect': redirect }) }}" class="btn btn-primary pull-left">{{ 'form.validation.pictures.invalidation.validate'|trans }}</a>
+        {% endif %}
+
         <input type="submit" value="{{ 'form.validation.pictures.invalidation.invalidate'|trans }}" class="btn btn-primary pull-right" />
         {{ form_end(form) }}
     </div>

@@ -30,6 +30,9 @@ use Twig\Environment as Twig;
  */
 class PictureController
 {
+    const REDIRECT_LIST = 'list';
+    const REDIRECT_PROCESSED = 'processed';
+
     /** @var FormFactoryInterface */
     private $formFactory;
 
@@ -48,8 +51,12 @@ class PictureController
      * @param RouterInterface      $router
      * @param FlashMessage         $flashMessage
      */
-    public function __construct(FormFactoryInterface $formFactory, Twig $twig, RouterInterface $router, FlashMessage $flashMessage)
-    {
+    public function __construct(
+        FormFactoryInterface $formFactory,
+        Twig $twig,
+        RouterInterface $router,
+        FlashMessage $flashMessage
+    ) {
         $this->formFactory = $formFactory;
         $this->twig = $twig;
         $this->router = $router;
@@ -65,11 +72,17 @@ class PictureController
      *
      * @return Response
      *
-     * @Route("/list/{page}", name="app_validation_pictures_list", defaults={"page": 1}, methods={"GET", "POST"})
+     * @Route(
+     *     "/list/{page}",
+     *     name="app_validation_pictures_list",
+     *     requirements={"page": "^\d+$"},
+     *     defaults={"page": 1},
+     *     methods={"GET", "POST"}
+     * )
      */
     public function listAction(int $page, Request $request, PictureManager $manager, FilterTypeManager $filterManager, InformationPagination $pagination): Response
     {
-        $form = $filterManager->executeToValidate($request);
+        $form = $filterManager->executeToValidatePictures($request);
         if ($form->isSubmitted() && !$form->isValid()) {
             return $this->getListResponse($form->createView(), 'validation/picture/list.html.twig', 0, 0, 0, []);
         }
@@ -92,14 +105,21 @@ class PictureController
 
     /**
      * @param Picture              $picture
+     * @param string               $redirect
      * @param CheckPictureWorkflow $checkPictureWorkflow
      * @param ValidatePicture      $validatePicture
      *
      * @return Response
      *
-     * @Route("/{id}/validation", name="app_validation_pictures_validation", methods={"GET"})
+     * @Route(
+     *     "/{id}/validation/{redirect}",
+     *     name="app_validation_pictures_validation",
+     *     requirements={"id": "^\d+$"},
+     *     defaults={"redirect": "list"},
+     *     methods={"GET"}
+     * )
      */
-    public function validationAction(Picture $picture, CheckPictureWorkflow $checkPictureWorkflow, ValidatePicture $validatePicture): Response
+    public function validationAction(Picture $picture, string $redirect, CheckPictureWorkflow $checkPictureWorkflow, ValidatePicture $validatePicture): Response
     {
         if (!$checkPictureWorkflow->canApplyValidation($picture)) {
             throw new AccessDeniedException(sprintf('Check picture\'s workflow is not valid for execute this action to picture %s.', $picture->getId()));
@@ -109,20 +129,27 @@ class PictureController
 
         $this->flashMessage->add(Flash::TYPE_NOTICE, 'validation.pictures.list.validation_ok');
 
-        return new RedirectResponse($this->router->generate('app_validation_pictures_list'));
+        return new RedirectResponse($this->router->generate($this->getRouteToRedirect($redirect)));
     }
 
     /**
      * @param Picture              $picture
+     * @param string               $redirect
+     * @param Request              $request
      * @param CheckPictureWorkflow $checkPictureWorkflow
      * @param InvalidatePicture    $invalidatePicture
-     * @param Request              $request
      *
      * @return Response
      *
-     * @Route("/{id}/invalidation", name="app_validation_pictures_invalidation", methods={"GET", "POST"})
+     * @Route(
+     *     "/{id}/invalidation/{redirect}",
+     *     name="app_validation_pictures_invalidation",
+     *     requirements={"id": "^\d+$", "redirect": "^[a-z]+$"},
+     *     defaults={"redirect": "list"},
+     *     methods={"GET", "POST"}
+     * )
      */
-    public function invalidationAction(Picture $picture, CheckPictureWorkflow $checkPictureWorkflow, InvalidatePicture $invalidatePicture, Request $request): Response
+    public function invalidationAction(Picture $picture, string $redirect, Request $request, CheckPictureWorkflow $checkPictureWorkflow, InvalidatePicture $invalidatePicture): Response
     {
         if (!$checkPictureWorkflow->canApplyInvalidation($picture)) {
             throw new AccessDeniedException(sprintf('Check picture\'s workflow is not valid for execute this action to picture %s.', $picture->getId()));
@@ -134,13 +161,14 @@ class PictureController
             $invalidatePicture->execute($form->getData());
             $this->flashMessage->add(Flash::TYPE_NOTICE, 'validation.pictures.invalidation.invalidation_ok');
 
-            return new RedirectResponse($this->router->generate('app_validation_pictures_list'));
+            return new RedirectResponse($this->router->generate($this->getRouteToRedirect($redirect)));
         }
 
         return new Response(
             $this->twig->render('validation/picture/invalidation.html.twig', [
                 'form' => $form->createView(),
                 'picture' => $picture,
+                'redirect' => $redirect,
             ])
         );
     }
@@ -151,7 +179,12 @@ class PictureController
      *
      * @return Response
      *
-     * @Route("/{id}/re-validation", name="app_validation_pictures_re_validation", methods={"GET"})
+     * @Route(
+     *     "/{id}/re-validation",
+     *     name="app_validation_pictures_re_validation",
+     *     requirements={"id": "^\d+$"},
+     *     methods={"GET"}
+     * )
      */
     public function reValidationAction(Picture $picture, CheckPictureWorkflow $checkPictureWorkflow): Response
     {
@@ -175,11 +208,17 @@ class PictureController
      *
      * @return Response
      *
-     * @Route("/list-processed/{page}", name="app_validation_pictures_list_processed", defaults={"page": 1}, methods={"GET", "POST"})
+     * @Route(
+     *     "/list-processed/{page}",
+     *     name="app_validation_pictures_list_processed",
+     *     requirements={"page": "^\d+$"},
+     *     defaults={"page": 1},
+     *     methods={"GET", "POST"}
+     * )
      */
     public function listProcessedAction(int $page, Request $request, PictureManager $manager, FilterTypeManager $filterManager, InformationPagination $pagination): Response
     {
-        $form = $filterManager->executeToRevalidate($request);
+        $form = $filterManager->executeToReValidatePictures($request);
         if ($form->isSubmitted() && !$form->isValid()) {
             return $this->getListResponse($form->createView(), 'validation/picture/list-processed.html.twig', 0, 0, 0, []);
         }
@@ -221,5 +260,20 @@ class PictureController
                 'elements' => $elements,
             ])
         );
+    }
+
+    /**
+     * @param string $code
+     *
+     * @return string
+     */
+    private function getRouteToRedirect(string $code): string
+    {
+        switch ($code) {
+            case self::REDIRECT_LIST: return 'app_validation_pictures_list';
+            case self::REDIRECT_PROCESSED: return 'app_validation_pictures_list_processed';
+        }
+
+        return 'app_validation_pictures_list';
     }
 }
