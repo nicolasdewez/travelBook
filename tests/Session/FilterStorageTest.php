@@ -71,4 +71,35 @@ class FilterStorageTest extends TestCase
         $storage = new FilterStorage($session);
         $this->assertSame($filterPicture, $storage->getFilterPicture());
     }
+
+    public function testSaveFilterPictureProcessed()
+    {
+        $filterPicture = new FilterPicture();
+
+        $session = $this->createMock(SessionInterface::class);
+        $session
+            ->expects($this->once())
+            ->method('set')
+            ->with(FilterStorage::FILTER_PICTURE_PROCESSED, $filterPicture)
+        ;
+
+        $storage = new FilterStorage($session);
+        $storage->saveFilterPictureProcessed($filterPicture);
+    }
+
+    public function testGetFilterPictureProcessed()
+    {
+        $filterPicture = new FilterPicture();
+
+        $session = $this->createMock(SessionInterface::class);
+        $session
+            ->expects($this->once())
+            ->method('get')
+            ->with(FilterStorage::FILTER_PICTURE_PROCESSED, new FilterPicture())
+            ->willReturn($filterPicture)
+        ;
+
+        $storage = new FilterStorage($session);
+        $this->assertSame($filterPicture, $storage->getFilterPictureProcessed());
+    }
 }

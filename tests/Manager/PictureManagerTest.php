@@ -75,6 +75,35 @@ class PictureManagerTest extends TestCase
         $this->assertSame(12, $pictureManager->countToValidationElements($filterPicture));
     }
 
+    public function testCountToReValidationElements()
+    {
+        $filterPicture = new FilterPicture();
+
+        $repository = $this->createMock(PictureRepository::class);
+        $repository
+            ->expects($this->once())
+            ->method('countToReValidationByCriteria')
+            ->with($filterPicture)
+            ->willReturn(12)
+        ;
+
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager
+            ->expects($this->once())
+            ->method('getRepository')
+            ->with(Picture::class)
+            ->willReturn($repository)
+        ;
+
+        $pictureManager = new PictureManager(
+            $manager,
+            $this->createMock(InformationPagination::class),
+            new NullLogger()
+        );
+
+        $this->assertSame(12, $pictureManager->countToReValidationElements($filterPicture));
+    }
+
     public function testListToValidationElements()
     {
         $filterPicture = new FilterPicture();
@@ -110,5 +139,42 @@ class PictureManagerTest extends TestCase
         );
 
         $this->assertSame(['element1', 'element2'], $pictureManager->listToValidationElements($filterPicture, 1));
+    }
+
+    public function testListToReValidationElements()
+    {
+        $filterPicture = new FilterPicture();
+
+        $repository = $this->createMock(PictureRepository::class);
+        $repository
+            ->expects($this->once())
+            ->method('getToReValidationByCriteria')
+            ->with($filterPicture, ['limit' => 25, 'offset' => 0])
+            ->willReturn(['element1', 'element2'])
+        ;
+
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager
+            ->expects($this->once())
+            ->method('getRepository')
+            ->with(Picture::class)
+            ->willReturn($repository)
+        ;
+
+        $pagination = $this->createMock(InformationPagination::class);
+        $pagination
+            ->expects($this->once())
+            ->method('getLimitAndOffset')
+            ->with(1)
+            ->willReturn(['limit' => 25, 'offset' => 0])
+        ;
+
+        $pictureManager = new PictureManager(
+            $manager,
+            $pagination,
+            new NullLogger()
+        );
+
+        $this->assertSame(['element1', 'element2'], $pictureManager->listToReValidationElements($filterPicture, 1));
     }
 }

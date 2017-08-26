@@ -5,10 +5,10 @@
 {% block body %}
     {% import 'common/icons.html.twig' as icons %}
 
-    <h2>{{ 'validation.pictures.list.title'|trans }}</h2>
+    <h2>{{ 'validation.pictures.list_processed.title'|trans }}</h2>
 
     <div class="mini-body">
-        {{ form_start(form, {'action': path('app_validation_pictures_list')}) }}
+        {{ form_start(form, {'action': path('app_validation_pictures_list_processed')}) }}
         {{ form_widget(form) }}
 
         <input type="submit" value="{{ 'form.validation.pictures.filter.submit'|trans }}" class="btn btn-primary pull-right" />
@@ -22,25 +22,19 @@
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover">
             <tr>
-                <th>{{ 'validation.pictures.list.table.id'|trans }}</th>
-                <th>{{ 'validation.pictures.list.table.user'|trans }}</th>
-                <th>{{ 'validation.pictures.list.table.travel'|trans }}</th>
-                <th>{{ 'validation.pictures.list.table.picture'|trans }}</th>
-                <th>{{ 'validation.pictures.list.table.date'|trans }}</th>
-                <th>{{ 'validation.pictures.list.table.place'|trans }}</th>
-                <th>{{ 'validation.pictures.list.table.title'|trans }}</th>
-                <th>{{ 'validation.pictures.list.table.check_state'|trans }}</th>
-                <th>{{ 'validation.pictures.list.table.actions'|trans }}</th>
+                <th>{{ 'validation.pictures.list_processed.table.id'|trans }}</th>
+                <th>{{ 'validation.pictures.list_processed.table.user'|trans }}</th>
+                <th>{{ 'validation.pictures.list_processed.table.travel'|trans }}</th>
+                <th>{{ 'validation.pictures.list_processed.table.picture'|trans }}</th>
+                <th>{{ 'validation.pictures.list_processed.table.date'|trans }}</th>
+                <th>{{ 'validation.pictures.list_processed.table.place'|trans }}</th>
+                <th>{{ 'validation.pictures.list_processed.table.title'|trans }}</th>
+                <th>{{ 'validation.pictures.list_processed.table.check_state'|trans }}</th>
+                <th>{{ 'validation.pictures.list_processed.table.actions'|trans }}</th>
             </tr>
             {% for element in elements %}
                 <tr>
-                    <td>
-                        {% if workflow_can(element, 'invalidation') %}
-                            <a href="{{ path('app_validation_pictures_invalidation', { 'id': element.id }) }}">{{ element.id }}</a>
-                        {% else %}
-                            {{ element.id }}
-                        {% endif %}
-                    </td>
+                    <td>{{ element.id }}</td>
                     <td>{{ element.travel.user.username }} ({{ element.travel.user.firstname }} {{ element.travel.user.lastname }})</td>
                     <td>{{ element.travel.title }} ({{ element.travel.place.title }} {{ element.travel.start|date('d/m/Y')}}-{{ element.travel.end|date('d/m/Y') }})</td>
                     <td><img src="{{ asset('data/pictures/' ~ element.id) }}" width="600px" /> </td>
@@ -50,10 +44,10 @@
                     <td>{{ element.getTitleCheckState|trans }}</td>
                     <td>
                         {% if workflow_can(element, 'validation') %}
-                            <a href="{{ path('app_validation_pictures_validation', { 'id': element.id }) }}" class="glyphicon glyphicon-ok-sign" title="{{ 'validation.pictures.list.link_validation'|trans }}"></a>
+                            <a href="{{ path('app_validation_pictures_re_validation', { 'id': element.id } ) }}" class="glyphicon glyphicon-ok-sign" title="{{ 'validation.pictures.list_processed.link_validation'|trans }}"></a>
                         {% endif %}
                         {% if workflow_can(element, 'invalidation') %}
-                            <a href="{{ path('app_validation_pictures_invalidation', { 'id': element.id }) }}" class="glyphicon glyphicon-remove-sign" title="{{ 'validation.pictures.list.link_invalidation'|trans }}"></a>
+                            <a href="{{ path('app_validation_pictures_invalidation', { 'id': element.id }) }}" class="glyphicon glyphicon-remove-sign" title="{{ 'validation.pictures.list_processed.link_invalidation'|trans }}"></a>
                         {% endif %}
                     </td>
                 </tr>

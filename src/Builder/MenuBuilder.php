@@ -70,6 +70,7 @@ class MenuBuilder
         if ($this->isValidatorUser($roles)) {
             $validatorItems = [
                 $this->buildItem('menu.validator.pictures', 'app_validation_pictures_list'),
+                $this->buildItem('menu.validator.pictures_processed', 'app_validation_pictures_list_processed'),
             ];
 
             $validatorItem = new MenuItem(

@@ -26,6 +26,20 @@ app_admin_users_edit:
     title: 'breadcrumb.app_admin_users_edit'
     parent: 'app_admin_users_list'
 
+app_validation_pictures_list:
+    title: 'breadcrumb.app_validation_pictures_list'
+
+app_validation_pictures_invalidation:
+    title: 'breadcrumb.app_validation_pictures_invalidation'
+    parent: 'app_validation_pictures_list'
+
+app_validation_pictures_list_processed:
+    title: 'breadcrumb.app_validation_pictures_list_processed'
+
+app_validation_pictures_revalidation:
+    title: 'breadcrumb.app_validation_pictures_revalidation'
+    parent: 'app_validation_pictures_list_processed'
+
 app_travels:
     title: 'breadcrumb.app_travels'
 

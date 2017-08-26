@@ -6,11 +6,10 @@ use App\Checker\InvalidatePicture;
 use App\Checker\ValidatePicture;
 use App\Entity\InvalidationPicture;
 use App\Entity\Picture;
-use App\Form\Type\FilterPictureType;
 use App\Form\Type\InvalidationPictureType;
+use App\Manager\FilterTypeManager;
 use App\Manager\PictureManager;
 use App\Pagination\InformationPagination;
-use App\Session\FilterStorage;
 use App\Session\Flash;
 use App\Session\FlashMessage;
 use App\Workflow\CheckPictureWorkflow;
@@ -61,27 +60,21 @@ class PictureController
      * @param int                   $page
      * @param Request               $request
      * @param PictureManager        $manager
-     * @param FilterStorage         $filterStorage
+     * @param FilterTypeManager     $filterManager
      * @param InformationPagination $pagination
      *
      * @return Response
      *
      * @Route("/list/{page}", name="app_validation_pictures_list", defaults={"page": 1}, methods={"GET", "POST"})
      */
-    public function listAction(int $page, Request $request, PictureManager $manager, FilterStorage $filterStorage, InformationPagination $pagination): Response
+    public function listAction(int $page, Request $request, PictureManager $manager, FilterTypeManager $filterManager, InformationPagination $pagination): Response
     {
-        $filterPicture = $filterStorage->getFilterPicture();
-
-        $form = $this->formFactory->create(FilterPictureType::class, $filterPicture);
-        $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            $filterStorage->saveFilterPicture($filterPicture);
-            if (!$form->isValid()) {
-                return $this->getListResponse($form->createView(), 0, 0, 0, []);
-            }
+        $form = $filterManager->executeToValidate($request);
+        if ($form->isSubmitted() && !$form->isValid()) {
+            return $this->getListResponse($form->createView(), 'validation/picture/list.html.twig', 0, 0, 0, []);
         }
 
-        $nbElements = $manager->countToValidationElements($filterPicture);
+        $nbElements = $manager->countToValidationElements($form->getData());
         $nbPages = $pagination->getNbPages($nbElements) ?: 1;
         if ($nbPages < $page) {
             return new RedirectResponse($this->router->generate('app_validation_pictures_list'));
@@ -89,10 +82,11 @@ class PictureController
 
         return $this->getListResponse(
             $form->createView(),
+            'validation/picture/list.html.twig',
             $page,
             $nbPages,
             $nbElements,
-            $manager->listToValidationElements($filterPicture, $page)
+            $manager->listToValidationElements($form->getData(), $page)
         );
     }
 
@@ -152,7 +146,63 @@ class PictureController
     }
 
     /**
+     * @param Picture              $picture
+     * @param CheckPictureWorkflow $checkPictureWorkflow
+     *
+     * @return Response
+     *
+     * @Route("/{id}/re-validation", name="app_validation_pictures_re_validation", methods={"GET"})
+     */
+    public function reValidationAction(Picture $picture, CheckPictureWorkflow $checkPictureWorkflow): Response
+    {
+        if (!$checkPictureWorkflow->canApplyValidation($picture)) {
+            throw new AccessDeniedException(sprintf('Check picture\'s workflow is not valid for execute this action to picture %s.', $picture->getId()));
+        }
+
+        return new Response(
+            $this->twig->render('validation/picture/re-validation.html.twig', [
+                'picture' => $picture,
+            ])
+        );
+    }
+
+    /**
+     * @param int                   $page
+     * @param Request               $request
+     * @param PictureManager        $manager
+     * @param FilterTypeManager     $filterManager
+     * @param InformationPagination $pagination
+     *
+     * @return Response
+     *
+     * @Route("/list-processed/{page}", name="app_validation_pictures_list_processed", defaults={"page": 1}, methods={"GET", "POST"})
+     */
+    public function listProcessedAction(int $page, Request $request, PictureManager $manager, FilterTypeManager $filterManager, InformationPagination $pagination): Response
+    {
+        $form = $filterManager->executeToRevalidate($request);
+        if ($form->isSubmitted() && !$form->isValid()) {
+            return $this->getListResponse($form->createView(), 'validation/picture/list-processed.html.twig', 0, 0, 0, []);
+        }
+
+        $nbElements = $manager->countToReValidationElements($form->getData());
+        $nbPages = $pagination->getNbPages($nbElements) ?: 1;
+        if ($nbPages < $page) {
+            return new RedirectResponse($this->router->generate('app_validation_pictures_list_processed'));
+        }
+
+        return $this->getListResponse(
+            $form->createView(),
+            'validation/picture/list-processed.html.twig',
+            $page,
+            $nbPages,
+            $nbElements,
+            $manager->listToReValidationElements($form->getData(), $page)
+        );
+    }
+
+    /**
      * @param FormView $form
+     * @param string   $view
      * @param int      $page
      * @param int      $nbPages
      * @param int      $nbElements
@@ -160,10 +210,10 @@ class PictureController
      *
      * @return Response
      */
-    private function getListResponse(FormView $form, int $page, int $nbPages, int $nbElements, array $elements): Response
+    private function getListResponse(FormView $form, string $view, int $page, int $nbPages, int $nbElements, array $elements): Response
     {
         return new Response(
-            $this->twig->render('validation/picture/list.html.twig', [
+            $this->twig->render($view, [
                 'form' => $form,
                 'page' => $page,
                 'nbPages' => $nbPages,

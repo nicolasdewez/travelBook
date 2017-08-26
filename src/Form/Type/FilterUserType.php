@@ -19,9 +19,9 @@ class FilterUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class, ['label' => 'form.admin.users.list.username', 'required' => false])
+            ->add('username', TextType::class, ['label' => 'form.admin.users.filter.username', 'required' => false])
             ->add('locale', ChoiceType::class, [
-                'label' => 'form.admin.users.list.locale',
+                'label' => 'form.admin.users.filter.locale',
                 'choices' => [
                     Locale::TITLE_FR => Locale::FR,
                     Locale::TITLE_EN => Locale::EN,
@@ -29,7 +29,7 @@ class FilterUserType extends AbstractType
                 'required' => false,
             ])
             ->add('role', ChoiceType::class, [
-                'label' => 'form.admin.users.list.role',
+                'label' => 'form.admin.users.filter.role',
                 'choices' => [
                     Role::TITLE_USER => Role::USER,
                     Role::TITLE_ADMIN => Role::ADMIN,
@@ -38,7 +38,7 @@ class FilterUserType extends AbstractType
                 'required' => false,
             ])
             ->add('enabled', ChoiceType::class, [
-                'label' => 'form.admin.users.list.enabled',
+                'label' => 'form.admin.users.filter.enabled',
                 'choices' => [
                     'answer.yes' => true,
                     'answer.no' => false,
@@ -46,11 +46,11 @@ class FilterUserType extends AbstractType
                 'required' => false,
             ])
             ->add('sort', ChoiceType::class, [
-                'label' => 'form.admin.users.list.sort',
+                'label' => 'form.admin.users.filter.sort',
                 'choices' => [
-                    'form.admin.users.list.id' => 'id',
-                    'form.admin.users.list.username' => 'username',
-                    'form.admin.users.list.lastname' => 'lastname',
+                    'form.admin.users.filter.id' => 'id',
+                    'form.admin.users.filter.username' => 'username',
+                    'form.admin.users.filter.lastname' => 'lastname',
                 ],
                 'required' => false,
             ])

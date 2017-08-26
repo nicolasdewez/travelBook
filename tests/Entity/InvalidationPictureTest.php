@@ -111,4 +111,10 @@ class InvalidationPictureTest extends TestCase
 
         $invalidationPicture->commentIsRequiredWithReasonOthers($context, null);
     }
+
+    public function testGetTitleReason()
+    {
+        $invalidationPicture = (new InvalidationPicture())->setReason(InvalidatePictureReason::INVALID);
+        $this->assertSame(InvalidatePictureReason::TITLE_INVALID, $invalidationPicture->getTitleReason());
+    }
 }

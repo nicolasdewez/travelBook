@@ -63,6 +63,16 @@ class PictureManager
 
     /**
      * @param FilterPicture $filterPicture
+     *
+     * @return int
+     */
+    public function countToReValidationElements(FilterPicture $filterPicture): int
+    {
+        return $this->repository->countToReValidationByCriteria($filterPicture);
+    }
+
+    /**
+     * @param FilterPicture $filterPicture
      * @param int           $page
      *
      * @return array
@@ -72,5 +82,18 @@ class PictureManager
         $pagination = $this->pagination->getLimitAndOffset($page);
 
         return $this->repository->getToValidationByCriteria($filterPicture, $pagination);
+    }
+
+    /**
+     * @param FilterPicture $filterPicture
+     * @param int           $page
+     *
+     * @return array
+     */
+    public function listToReValidationElements(FilterPicture $filterPicture, int $page): array
+    {
+        $pagination = $this->pagination->getLimitAndOffset($page);
+
+        return $this->repository->getToReValidationByCriteria($filterPicture, $pagination);
     }
 }

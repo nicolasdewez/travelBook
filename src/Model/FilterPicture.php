@@ -8,6 +8,12 @@ class FilterPicture
     private $title;
 
     /** @var string */
+    private $username;
+
+    /** @var string */
+    private $state;
+
+    /** @var string */
     private $sort;
 
     /**
@@ -26,6 +32,46 @@ class FilterPicture
     public function setTitle(?string $title): FilterPicture
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     *
+     * @return FilterPicture
+     */
+    public function setUsername(?string $username): FilterPicture
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string $state
+     *
+     * @return FilterPicture
+     */
+    public function setState(?string $state): FilterPicture
+    {
+        $this->state = $state;
 
         return $this;
     }

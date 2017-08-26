@@ -20,4 +20,18 @@ final class InvalidatePictureReason
         self::PEDOPHILIA => self::TITLE_PEDOPHILIA,
         self::OTHERS => self::TITLE_OTHERS,
     ];
+
+    /**
+     * @param string $reason
+     *
+     * @return string
+     */
+    public static function getTitle(string $reason): string
+    {
+        if (!isset(self::TITLES[$reason])) {
+            return '';
+        }
+
+        return self::TITLES[$reason];
+    }
 }

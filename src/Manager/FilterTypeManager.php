@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Manager;
+
+use App\Form\Type\FilterPictureType;
+use App\Session\FilterStorage;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
+
+class FilterTypeManager
+{
+    /** @var FormFactoryInterface */
+    private $formFactory;
+
+    /** @var FilterStorage */
+    private $filterStorage;
+
+    /**
+     * @param FormFactoryInterface $formFactory
+     * @param FilterStorage        $filterStorage
+     */
+    public function __construct(FormFactoryInterface $formFactory, FilterStorage $filterStorage)
+    {
+        $this->formFactory = $formFactory;
+        $this->filterStorage = $filterStorage;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return FormInterface
+     */
+    public function executeToValidate(Request $request): FormInterface
+    {
+        $filterPicture = $this->filterStorage->getFilterPicture();
+
+        $form = $this->formFactory->create(FilterPictureType::class, $filterPicture);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $this->filterStorage->saveFilterPicture($filterPicture);
+        }
+
+        return $form;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return FormInterface
+     */
+    public function executeToRevalidate(Request $request): FormInterface
+    {
+        $filterPicture = $this->filterStorage->getFilterPictureProcessed();
+
+        $form = $this->formFactory->create(
+            FilterPictureType::class,
+            $filterPicture,
+            ['state_processed' => true, 'username' => true]
+        );
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $this->filterStorage->saveFilterPictureProcessed($filterPicture);
+        }
+
+        return $form;
+    }
+}

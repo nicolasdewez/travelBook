@@ -26,6 +26,7 @@ menu:
     validator:
         title: Validation
         pictures: Pictures
+        pictures_processed: Processed pictures
 
 breadcrumb:
     app_home: Welcome
@@ -37,6 +38,10 @@ breadcrumb:
     app_admin_users_list: Users management
     app_admin_users_edit: Edit user
     app_travels: My travels
+    app_validation_pictures_list: Pictures validation
+    app_validation_pictures_invalidation: Invalidation
+    app_validation_pictures_list_processed: Pictures proccessed
+    app_validation_pictures_revalidation: Validation
 
 workflow:
     registration:
@@ -84,7 +89,7 @@ form:
         new_password_2: Repeat password
     admin:
         users:
-            list:
+            filter:
                 id: Identifiant
                 username: Username
                 lastname: Lastname
@@ -102,10 +107,12 @@ form:
                 enabled: Enabled
     validation:
         pictures:
-            list:
+            filter:
                 id: Identifiant
                 date: Date
                 title: Title
+                username: Username
+                check_state: State
                 sort: Sort
                 submit: Search
             invalidation:
@@ -214,6 +221,26 @@ validation:
             link_validation: Validate
             link_invalidation: Invalidate
             validation_ok: Picture has been validated
+        list_processed:
+            title: List of processed pictures
+            table:
+                id: Id
+                user: User
+                travel: Travel
+                picture: Picture
+                date: Date
+                place: Place
+                title: Title
+                check_state: Check state
+                actions: Actions
+            link_validation: Validate
         invalidation:
             title: Invalidate picture
             invalidation_ok: Picture has been invalidated
+        re_validation:
+            title: Picture re validation
+            table:
+                title: List of invalidation
+                reason: Reason
+                comment: Comment
+            link_validation: Validate

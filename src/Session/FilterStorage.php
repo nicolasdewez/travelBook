@@ -10,6 +10,7 @@ class FilterStorage
 {
     const FILTER_USER = 'app.filter.user';
     const FILTER_PICTURE = 'app.filter.picture';
+    const FILTER_PICTURE_PROCESSED = 'app.filter.picture_processed';
 
     /** @var SessionInterface */
     private $session;
@@ -52,5 +53,21 @@ class FilterStorage
     public function getFilterPicture(): FilterPicture
     {
         return $this->session->get(self::FILTER_PICTURE, new FilterPicture());
+    }
+
+    /**
+     * @param FilterPicture $filterPicture
+     */
+    public function saveFilterPictureProcessed(FilterPicture $filterPicture)
+    {
+        $this->session->set(self::FILTER_PICTURE_PROCESSED, $filterPicture);
+    }
+
+    /**
+     * @return FilterPicture|null
+     */
+    public function getFilterPictureProcessed(): FilterPicture
+    {
+        return $this->session->get(self::FILTER_PICTURE_PROCESSED, new FilterPicture());
     }
 }

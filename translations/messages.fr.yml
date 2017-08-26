@@ -26,6 +26,7 @@ menu:
     validator:
         title: Validation
         pictures: Photos
+        pictures_processed: Photos traitées
 
 breadcrumb:
     app_home: Bienvenue
@@ -36,6 +37,10 @@ breadcrumb:
     app_my_account: Mon compte
     app_admin_users_list: Gestion utilisateurs
     app_admin_users_edit: Modifier utilisateur
+    app_validation_pictures_list: Validation des photos
+    app_validation_pictures_invalidation: Invalidation
+    app_validation_pictures_list_processed: Photos traitées
+    app_validation_pictures_revalidation: Validation
     app_travels: Mes voyages
 
 workflow:
@@ -84,7 +89,7 @@ form:
         new_password_2: Répêter le mot de passe
     admin:
         users:
-            list:
+            filter:
                 id: Identifiant
                 username: Nom d'utilisateur
                 lastname: Nom
@@ -102,10 +107,12 @@ form:
                 enabled: Actif
     validation:
         pictures:
-            list:
+            filter:
                 id: Identifiant
                 date: Date
                 title: Titre
+                username: Nom d'utilisateur
+                check_state: Etat
                 sort: Tri
                 submit: Rechercher
             invalidation:
@@ -213,6 +220,27 @@ validation:
             link_validation: Valider
             link_invalidation: Invalider
             validation_ok: La photo a été validée
+        list_processed:
+            title: Liste des photos traitées
+            table:
+                id: Id
+                user: Utilisateur
+                travel: Voyage
+                picture: Photo
+                date: Date
+                place: Lieu
+                title: Titre
+                check_state: Etat de la vérification
+                actions: Actions
+            link_validation: Valider
+            link_invalidation: Invalider
         invalidation:
             title: Invalidation d'une photo
             invalidation_ok: La photo a été invalidée
+        re_validation:
+            title: Validation d'une photo
+            table:
+                title: Liste des invalidations
+                reason: Raison
+                comment: Commentaire
+            link_validation: Valider

@@ -41,8 +41,8 @@ framework:
                     from: uploaded
                     to: virus
                 validation:
-                    from: healthy
+                    from: [healthy, invalid]
                     to: validated
                 invalidation:
-                    from: healthy
+                    from: [healthy, validated]
                     to: invalid

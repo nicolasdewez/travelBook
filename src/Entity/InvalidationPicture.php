@@ -149,6 +149,14 @@ class InvalidationPicture
     }
 
     /**
+     * @return string
+     */
+    public function getTitleReason(): string
+    {
+        return InvalidatePictureReason::getTitle($this->reason);
+    }
+
+    /**
      * @param ExecutionContextInterface $context
      * @param User                      $payload
      *

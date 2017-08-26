@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>{{ 'validation.pictures.re_validation.title'|trans }}</h2>
+
+    <div class="table-nbElements">{{ 'table.nb_elements'|transchoice(picture.invalidation|length) }}</div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+        <caption>{{ 'validation.pictures.re_validation.table.title'|trans }}</caption>
+            <tr>
+                <th>{{ 'validation.pictures.re_validation.table.reason'|trans }}</th>
+                <th>{{ 'validation.pictures.re_validation.table.comment'|trans }}</th>
+            </tr>
+            {% for element in picture.invalidation %}
+                <tr>
+                    <td>{{ element.getTitleReason|trans }}</td>
+                    <td>{{ element.comment }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <th colspan="2" class="text-center">{{ 'table.nb_elements'|transchoice(picture.invalidation|length) }}</th>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="mini-body">
+
+        <img src="{{ asset('data/pictures/' ~ picture.id) }}" />
+
+        <br><br>
+
+        <a href="{{ path('app_validation_pictures_validation', { 'id': picture.id }) }}" class="btn btn-primary pull-left">{{ 'validation.pictures.re_validation.link_validation'|trans }}</a>
+    </div>
+{% endblock %}
