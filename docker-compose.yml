@@ -8,6 +8,8 @@ services:
     app:
         build: docker/app
         working_dir: /var/www/app
+        environment:
+            XDEBUG_ENABLED: 0
         env_file:
             - .env
         networks:

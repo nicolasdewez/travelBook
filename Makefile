@@ -18,7 +18,6 @@ DEBUG = $(debug)
 
 # Aliases
 COMPOSE = $(ENV_VARS) docker-compose -p $(PROJECT) -f docker-compose.yml
-RUN = $(COMPOSE) run --rm --user=www-data $(APP)
 EXEC = $(COMPOSE) exec -T --user=www-data
 ENV_VARS = NETWORK=$(NETWORK) DEBUG=$(DEBUG)
 
@@ -52,7 +51,7 @@ up: ## Builds, (re)creates, starts containers
 .PHONY: install
 install: ready ## Install application
 	@$(COMPOSE) exec $(DB) /usr/local/src/init.sh | $(call $(PRINT),INSTALL,$(COLOR_INSTALL))
-	@$(RUN) bin/install | $(call $(PRINT),INSTALL,$(COLOR_INSTALL))
+	@$(EXEC) $(APP) bin/install | $(call $(PRINT),INSTALL,$(COLOR_INSTALL))
 
 .PHONY: ready
 ready: pretty ## Check if environment is ready
@@ -85,39 +84,31 @@ phpunit: ## Run phpunit test suite
 
 .PHONY: security-check
 security-check: ## Run security-checker
-	@$(RUN) bin/console security:check
+	@$(EXEC) $(APP) bin/console security:check
 
 .PHONY: php-cs-fixer
-php-cs-fixer: ## Run php-cs-fixerbin/console lint:twig templates/
-	@$(RUN) vendor/bin/php-cs-fixer fix -v --dry-run --diff --config=.php_cs.dist
+php-cs-fixer: ## Run php-cs-fixer
+	@$(EXEC) $(APP) vendor/bin/php-cs-fixer fix -v --dry-run --diff --config=.php_cs.dist
 
 .PHONY: php-cs-fixer-exec
 php-cs-fixer-exec: ## Run php-cs-fixer
-	@$(RUN) vendor/bin/php-cs-fixer fix -v --diff --config=.php_cs.dist
+	@$(EXEC) $(APP) vendor/bin/php-cs-fixer fix -v --diff --config=.php_cs.dist
 
 .PHONY: lint-twig
 lint-twig: ## Run lint-twig
-	@$(RUN) bin/console lint:twig templates/
+	@$(EXEC) $(APP) bin/console lint:twig templates/
 
 .PHONY: lint-yaml
 lint-yaml: ## Run lint-yaml
-	@$(RUN) bin/console lint:yaml config/
-	@$(RUN) bin/console lint:yaml translations/
+	@$(EXEC) $(APP) bin/console lint:yaml config/
+	@$(EXEC) $(APP) bin/console lint:yaml translations/
 
 .PHONY: schema-validate
 schema-validate: ## Run schema-validate
-	@$(RUN) bin/console doctrine:schema:validate
+	@$(EXEC) $(APP) bin/console doctrine:schema:validate
 
 .PHONY: checker
 checker: security-check lint-twig lint-yaml schema-validate php-cs-fixer ## Run checker: security-check, lint-twig, lint-yaml, schema-validate, php-cs-fixer
-
-.PHONY: run
-run: ## Execute a command in a new application container (ie. make run cmd="ls -l")
-ifndef cmd
-	@echo "To use the 'run' target, you MUST add the 'cmd' argument"
-	exit 1
-endif
-	@$(RUN) $(cmd)
 
 .PHONY: exec
 exec: ## Open a shell in the application container (options: user [www-data], cmd [bash], cont [`app`])
@@ -129,7 +120,7 @@ exec: ## Open a shell in the application container (options: user [www-data], cm
 .PHONY: assets-compile
 assets-compile: ## Compile assets
 	$(eval env ?= dev)
-	@$(RUN) ./node_modules/.bin/encore $(env)
+	@$(EXEC) $(APP) ./node_modules/.bin/encore $(env)
 
 .PHONY: pgsql
 pgsql: ## Run pgsql cli (options: db_name [`travelbook`])
@@ -142,15 +133,19 @@ ifndef name
 	@echo "To use the 'purge-queue' target, you MUST add the 'name' argument"
 	exit 1
 endif
-	@$(RUN) bin/console rabbitmq:purge $(name) --no-interaction
+	@$(EXEC) $(APP) bin/console rabbitmq:purge $(name) --no-interaction
 
 .PHONY: mailer-test
-mailer-test: ## Send an email
-	@$(RUN) bin/console swiftmailer:email:send --from=from@travelbook.com --to=to@travelbook.com --subject=test --body="It's a test !" --no-interaction
+mailer-test: ## Send a test email
+	@$(EXEC) $(APP) bin/console swiftmailer:email:send --from=from@travelbook.com --to=to@travelbook.com --subject=test --body="It's a test !" --no-interaction
+
+.PHONY: mailer-send
+mailer-send: ## Send emails
+	@$(EXEC) $(APP) bin/console swiftmailer:spool:send
 
 .PHONY: migrate
 migrate: ## Run doctrine migrations
-	@$(RUN) bin/console doctrine:migrations:migrate --no-interaction
+	@$(EXEC) $(APP) bin/console doctrine:migrations:migrate --no-interaction
 
 .PHONY: workflow
 workflow: ## Dump workflow (ie. make workflow name="registration")
@@ -159,7 +154,7 @@ ifndef name
 	exit 1
 endif
 	@mkdir -p build
-	@$(RUN) bin/console workflow:dump $(name) | dot -Tpng -o build/workflow-$(name).png
+	@$(EXEC) $(APP) bin/console workflow:dump $(name) | dot -Tpng -o build/workflow-$(name).png
 
 .PHONY: ps
 ps: ## List containers status
