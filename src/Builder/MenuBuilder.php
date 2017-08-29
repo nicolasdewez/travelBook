@@ -52,7 +52,7 @@ class MenuBuilder
         if ($this->isAdminUser($roles)) {
             $adminItems = [
                 $this->buildItem('menu.admin.users', 'app_admin_users_list'),
-                $this->buildItem('menu.admin.places', ''),
+                $this->buildItem('menu.admin.places', 'app_admin_places_list'),
             ];
 
             $adminItem = new MenuItem(

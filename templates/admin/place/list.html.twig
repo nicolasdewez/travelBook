@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block body %}
+    {% import 'common/icons.html.twig' as icons %}
+
+    <h2>{{ 'admin.places.list.title'|trans }}</h2>
+
+    <div class="mini-body">
+        {{ form_start(form, {'action': path('app_admin_places_list')}) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" value="{{ 'form.admin.places.filter.submit'|trans }}" class="btn btn-primary pull-right" />
+        {{ form_end(form) }}
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="table-nbElements">{{ 'table.nb_elements'|transchoice(nbElements) }}</div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <tr>
+                <th>{{ 'admin.places.list.table.id'|trans }}</th>
+                <th>{{ 'admin.places.list.table.title'|trans }}</th>
+                <th>{{ 'admin.places.list.table.locate'|trans }}</th>
+                <th>
+                    {{ 'admin.places.list.table.actions'|trans }}
+                    <a href="#" class="glyphicon glyphicon-plus-sign" title="{{ 'admin.places.list.link_add_place'|trans }}"></a>
+                </th>
+            </tr>
+            {% for element in elements %}
+                <tr>
+                    <td><a href="#">{{ element.id }}</a></td>
+                    <td>{{ element.title}}</td>
+                    <td><a href="https://www.google.fr/maps/place/{{ element.latitude }},{{ element.longitude }}" target="travelbook_place">{{ 'admin.places.list.table.show'|trans }}</a></td>
+                    <td>&nbsp;</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <th colspan="4" class="text-center">{{ 'table.nb_elements'|transchoice(nbElements) }}</th>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    {% include 'common/pagination.html.twig' with {'page': page, 'nbPages': nbPages, 'route': 'app_admin_places_list'} only %}
+{% endblock %}

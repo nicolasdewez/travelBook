@@ -105,6 +105,12 @@ form:
                 email: Email
                 roles: Roles
                 enabled: Enabled
+        places:
+            filter:
+                id: Identifiant
+                title: Title
+                sort: Tri
+                submit: Rechercher
     validation:
         pictures:
             filter:
@@ -203,6 +209,16 @@ admin:
         create:
             title: Create an user
             ok: Registration process started
+    places:
+        list:
+            title: List of places
+            table:
+                id: Id
+                title: Title
+                locate: Locate
+                show: Show
+                actions: Actions
+            link_add_place: Add a place
 
 validation:
     pictures:

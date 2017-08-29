@@ -70,5 +70,5 @@
         </table>
     </div>
 
-    {{ include('common/pagination.html.twig') }}
+    {% include 'common/pagination.html.twig' with {'page': page, 'nbPages': nbPages, 'route': 'app_admin_users_list'} only %}
 {% endblock %}

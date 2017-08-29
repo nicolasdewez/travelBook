@@ -30,12 +30,11 @@ make start
 You can go to: [http://web.travelbook/](http://web.travelbook/)
 
 
------------------------------
-A SUPPRIMER
+## Future
 
-Il faut penser à :
-- Ecran de feedback
-- Traduction des mails et faire une vraie page d'accueil
-- Ajouter une préférence sur l'utilisateur pour décider s'il veut les notifs ou non
-- Style à améliorer, filtres sur 2 colonnes ?
-- Notification en live
+* Feedback
+* Homepage
+* Translations in mails
+* Improvements css: filters -> 2 columns ? with in tables ?
+* Live notifications
+* In user settings, can choice receive notifications

@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Form\Type\FilterPictureType;
+use App\Form\Type\FilterPlaceType;
 use App\Form\Type\FilterUserType;
 use App\Session\FilterStorage;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -40,6 +41,24 @@ class FilterTypeManager
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $this->filterStorage->saveFilterUser($filterUser);
+        }
+
+        return $form;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return FormInterface
+     */
+    public function executeToListPlaces(Request $request): FormInterface
+    {
+        $filterPlace = $this->filterStorage->getFilterPlace();
+
+        $form = $this->formFactory->create(FilterPlaceType::class, $filterPlace);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $this->filterStorage->saveFilterPlace($filterPlace);
         }
 
         return $form;

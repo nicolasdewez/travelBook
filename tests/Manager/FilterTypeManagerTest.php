@@ -3,9 +3,11 @@
 namespace App\Tests\Manager;
 
 use App\Form\Type\FilterPictureType;
+use App\Form\Type\FilterPlaceType;
 use App\Form\Type\FilterUserType;
 use App\Manager\FilterTypeManager;
 use App\Model\FilterPicture;
+use App\Model\FilterPlace;
 use App\Model\FilterUser;
 use App\Session\FilterStorage;
 use PHPUnit\Framework\TestCase;
@@ -269,5 +271,90 @@ class FilterTypeManagerTest extends TestCase
 
         $manager = new FilterTypeManager($factory, $storage);
         $this->assertSame($form, $manager->executeToListUsers($request));
+    }
+
+    public function testExecuteToListPlacesWithFormNotSubmitted()
+    {
+        $request = new Request();
+        $filterPlace = new FilterPlace();
+
+        $storage = $this->createMock(FilterStorage::class);
+        $storage
+            ->expects($this->once())
+            ->method('getFilterPlace')
+            ->withAnyParameters()
+            ->willReturn($filterPlace)
+        ;
+        $storage
+            ->expects($this->never())
+            ->method('saveFilterPlace')
+        ;
+
+        $form = $this->createMock(FormInterface::class);
+        $form
+            ->expects($this->once())
+            ->method('handleRequest')
+            ->with($request)
+        ;
+        $form
+            ->expects($this->once())
+            ->method('isSubmitted')
+            ->withAnyParameters()
+            ->willReturn(false)
+        ;
+
+        $factory = $this->createMock(FormFactoryInterface::class);
+        $factory
+            ->expects($this->once())
+            ->method('create')
+            ->with(FilterPlaceType::class, $filterPlace)
+            ->willReturn($form)
+        ;
+
+        $manager = new FilterTypeManager($factory, $storage);
+        $this->assertSame($form, $manager->executeToListPlaces($request));
+    }
+
+    public function testExecuteToListPlacesWithFormSubmitted()
+    {
+        $request = new Request();
+        $filterPlace = new FilterPlace();
+
+        $storage = $this->createMock(FilterStorage::class);
+        $storage
+            ->expects($this->once())
+            ->method('getFilterPlace')
+            ->withAnyParameters()
+            ->willReturn($filterPlace)
+        ;
+        $storage
+            ->expects($this->once())
+            ->method('saveFilterPlace')
+            ->with($filterPlace)
+        ;
+
+        $form = $this->createMock(FormInterface::class);
+        $form
+            ->expects($this->once())
+            ->method('handleRequest')
+            ->with($request)
+        ;
+        $form
+            ->expects($this->once())
+            ->method('isSubmitted')
+            ->withAnyParameters()
+            ->willReturn(true)
+        ;
+
+        $factory = $this->createMock(FormFactoryInterface::class);
+        $factory
+            ->expects($this->once())
+            ->method('create')
+            ->with(FilterPlaceType::class, $filterPlace)
+            ->willReturn($form)
+        ;
+
+        $manager = new FilterTypeManager($factory, $storage);
+        $this->assertSame($form, $manager->executeToListPlaces($request));
     }
 }

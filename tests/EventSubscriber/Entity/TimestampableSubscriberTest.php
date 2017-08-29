@@ -5,7 +5,7 @@ namespace App\Tests\EventSubscriber\Entity;
 use App\Entity\Timestampable;
 use App\Entity\User;
 use App\EventSubscriber\Entity\TimestampableSubscriber;
-use App\Model\FilterUser;
+use App\Model\FilterPlace;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use PHPUnit\Framework\TestCase;
@@ -71,7 +71,7 @@ class TimestampableSubscriberTest extends TestCase
         $method = $class->getMethod('saveUpdatedAt');
         $method->setAccessible(true);
 
-        $filterUser = new FilterUser();
+        $filterUser = new FilterPlace();
 
         $life = new LifecycleEventArgs(
             $filterUser,
@@ -111,7 +111,7 @@ class TimestampableSubscriberTest extends TestCase
         $method = $class->getMethod('saveCreatedAt');
         $method->setAccessible(true);
 
-        $filterUser = new FilterUser();
+        $filterUser = new FilterPlace();
 
         $life = new LifecycleEventArgs(
             $filterUser,
@@ -134,7 +134,7 @@ class TimestampableSubscriberTest extends TestCase
 
         $this->assertTrue($method->invokeArgs($subscriber, [new User()]));
         $this->assertTrue($method->invokeArgs($subscriber, [$this->createMock(Timestampable::class)]));
-        $this->assertFalse($method->invokeArgs($subscriber, [new FilterUser()]));
+        $this->assertFalse($method->invokeArgs($subscriber, [new FilterPlace()]));
     }
 
     public function testGetSubscribedEvents()

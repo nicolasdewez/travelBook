@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="places", indexes={@ORM\Index(name="places_title", columns={"title"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PlaceRepository")
  */
 class Place extends Timestampable
 {

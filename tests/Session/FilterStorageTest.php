@@ -3,6 +3,7 @@
 namespace App\Tests\Session;
 
 use App\Model\FilterPicture;
+use App\Model\FilterPlace;
 use App\Model\FilterUser;
 use App\Session\FilterStorage;
 use PHPUnit\Framework\TestCase;
@@ -39,6 +40,37 @@ class FilterStorageTest extends TestCase
 
         $storage = new FilterStorage($session);
         $this->assertSame($filterUser, $storage->getFilterUser());
+    }
+
+    public function testSaveFilterPlace()
+    {
+        $filterPlace = new FilterPlace();
+
+        $session = $this->createMock(SessionInterface::class);
+        $session
+            ->expects($this->once())
+            ->method('set')
+            ->with(FilterStorage::FILTER_PLACE, $filterPlace)
+        ;
+
+        $storage = new FilterStorage($session);
+        $storage->saveFilterPlace($filterPlace);
+    }
+
+    public function testGetFilterPlace()
+    {
+        $filterPlace = new FilterPlace();
+
+        $session = $this->createMock(SessionInterface::class);
+        $session
+            ->expects($this->once())
+            ->method('get')
+            ->with(FilterStorage::FILTER_PLACE, new FilterPlace())
+            ->willReturn($filterPlace)
+        ;
+
+        $storage = new FilterStorage($session);
+        $this->assertSame($filterPlace, $storage->getFilterPlace());
     }
 
     public function testSaveFilterPicture()
