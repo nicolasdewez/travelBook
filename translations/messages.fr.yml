@@ -36,7 +36,11 @@ breadcrumb:
     app_change_password: Mise à jour du mot de passe
     app_my_account: Mon compte
     app_admin_users_list: Gestion utilisateurs
+    app_admin_users_create: Créer utilisateur
     app_admin_users_edit: Modifier utilisateur
+    app_admin_places_list: Gestion lieux
+    app_admin_places_create: Créer lieu
+    app_admin_places_edit: Modifier lieu
     app_validation_pictures_list: Validation des photos
     app_validation_pictures_invalidation: Invalidation
     app_validation_pictures_list_processed: Photos traitées
@@ -109,8 +113,14 @@ form:
             filter:
                 id: Identifiant
                 title: Libellé
+                locale: Langue
                 sort: Tri
                 submit: Rechercher
+            create_edit:
+                title: Libellé
+                locale: Langue
+                search: Rechercher
+
     validation:
         pictures:
             filter:
@@ -214,10 +224,14 @@ admin:
             table:
                 id: Id
                 title: Libellé
+                locale: Langue
                 locate: Localiser
                 show: Voir
                 actions: Actions
             link_add_place: Ajouter un lieu
+        create:
+            title: Créer un lieu
+            ok: Lieu créé
 
 validation:
     pictures:

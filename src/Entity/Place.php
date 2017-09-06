@@ -3,10 +3,22 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * @ORM\Table(name="places", indexes={@ORM\Index(name="places_title", columns={"title"})})
+ * @ORM\Table(name="places",
+ *     indexes={
+ *         @ORM\Index(name="places_title_locale", columns={"title", "locale"})
+ *     },
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="places_unique", columns={"title", "locale"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\PlaceRepository")
+ *
+ * @UniqueEntity(fields={"title", "locale"})
  */
 class Place extends Timestampable
 {
@@ -22,9 +34,22 @@ class Place extends Timestampable
     /**
      * @var string
      *
-     * @ORM\Column(length=30, unique=true)
+     * @ORM\Column(length=30)
+     *
+     * @Assert\NotBlank
+     * @Assert\Length(max=30)
      */
     private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(length=3)
+     *
+     * @Assert\NotBlank
+     * @Assert\Choice(callback={"App\Translation\Locale", "getLocales"}, strict=true)
+     */
+    private $locale;
 
     /**
      * @var float
@@ -43,7 +68,7 @@ class Place extends Timestampable
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -66,6 +91,26 @@ class Place extends Timestampable
     public function getTitle(): ?string
     {
         return $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     *
+     * @return Place
+     */
+    public function setLocale(string $locale): Place
+    {
+        $this->locale = $locale;
+
+        return $this;
     }
 
     /**
@@ -106,5 +151,23 @@ class Place extends Timestampable
         $this->longitude = $longitude;
 
         return $this;
+    }
+
+    /**
+     * @param ExecutionContextInterface $context
+     * @param Place                     $payload
+     *
+     * @Assert\Callback
+     */
+    public function locationIsRequired(ExecutionContextInterface $context, $payload)
+    {
+        if (null !== $this->latitude && null !== $this->longitude) {
+            return;
+        }
+
+        $context
+            ->buildViolation('place.location_required')
+            ->addViolation()
+        ;
     }
 }

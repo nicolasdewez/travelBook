@@ -34,7 +34,8 @@ You can go to: [http://web.travelbook/](http://web.travelbook/)
 
 * Feedback
 * Homepage
-* Translations in mails
-* Improvements css: filters -> 2 columns ? with in tables ?
+* Mails
+* Improvements css: filters -> 2 columns ? with in tables ? Using Saas
 * Live notifications
 * In user settings, can choice receive notifications
+* Sort by created at in places admin and sort asc / desc in all filters

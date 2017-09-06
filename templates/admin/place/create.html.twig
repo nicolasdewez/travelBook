@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>{{ 'admin.places.create.title'|trans }}</h2>
+
+    <div class="mini-body">
+        {{ form_start(form) }}
+
+        {{ form_row(form.title) }}
+        {{ form_row(form.locale) }}
+
+        <div id="choice_place"></div>
+
+        {{ form_widget(form) }}
+
+        <input type="button" value="{{ 'form.admin.places.create_edit.search'|trans }}" class="btn btn-default pull-left button-search-place" />
+        <input type="submit" value="{{ 'form.save'|trans }}" class="btn btn-primary pull-right disabled" disabled="disabled" />
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('build/script-admin-places.js') }}"></script>
+{% endblock %}

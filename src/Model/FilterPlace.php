@@ -8,6 +8,9 @@ class FilterPlace
     private $title;
 
     /** @var string */
+    private $locale;
+
+    /** @var string */
     private $sort;
 
     /**
@@ -26,6 +29,26 @@ class FilterPlace
     public function setTitle(?string $title): FilterPlace
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     *
+     * @return FilterPlace
+     */
+    public function setLocale(?string $locale): FilterPlace
+    {
+        $this->locale = $locale;
 
         return $this;
     }

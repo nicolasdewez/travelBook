@@ -3,3 +3,6 @@ password:
 
 invalidation_picture:
     comment_required: Field is required with reason "Others"
+
+place:
+    location_required: Choice result is required

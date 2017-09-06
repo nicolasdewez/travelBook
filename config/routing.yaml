@@ -9,3 +9,6 @@ app_login_check:
 app_logout:
     path: '/logout'
     methods: ['GET']
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

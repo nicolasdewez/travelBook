@@ -1,13 +1,13 @@
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'fr'
-    app_version: '1.0.0-dev'
     router.request_context.host: '%env(APP_HOST)%'
     router.request_context.scheme: '%env(APP_SCHEME)%'
     router.request_context.base_url: '%env(APP_BASE_URL)%'
+    app_version: '1.0.0-dev'
     app_path_data:  '%kernel.project_dir%/web/data'
     app_path_data_pictures: '%app_path_data%/pictures'
+    app_google_api_key: '%env(APP_GOOGLE_API_KEY)%'
+    app_api_mock: false
 
 services:
     # default configuration for services in *this* file
@@ -30,6 +30,14 @@ services:
     App\Checker\PictureChecker:
         arguments:
             $pathPictures: '%app_path_data_pictures%'
+
+    App\Connector\GoogleMapsConnector:
+            arguments:
+                $client: '@csa_guzzle.client.google_maps_api'
+                $apiKey: '%app_google_api_key%'
+
+    App\Connector\PlaceConnectorInterface:
+            alias: 'App\Connector\GoogleMapsConnector'
 
     App\EventSubscriber\Entity\TimestampableSubscriber:
         tags:
@@ -66,6 +74,9 @@ services:
     App\Producer\RegistrationProducer:
         arguments:
             $producer: '@old_sound_rabbit_mq.registration_producer'
+
+    App\Renderer\LinkShowRendererInterface:
+        alias: 'App\Renderer\GoogleMapsLinkShowRenderer'
 
     App\Security\CheckRegistrationCode:
         arguments:

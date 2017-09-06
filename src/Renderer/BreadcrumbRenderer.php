@@ -4,7 +4,7 @@ namespace App\Renderer;
 
 use Twig\Environment as Twig;
 
-class BreadcrumbRenderer implements RendererInterface
+class BreadcrumbRenderer implements HeaderRendererInterface
 {
     /** @var Twig */
     private $twig;

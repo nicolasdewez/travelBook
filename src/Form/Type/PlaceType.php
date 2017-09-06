@@ -2,15 +2,16 @@
 
 namespace App\Form\Type;
 
-use App\Model\FilterPlace;
+use App\Entity\Place;
 use App\Translation\Locale;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FilterPlaceType extends AbstractType
+class PlaceType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -18,23 +19,16 @@ class FilterPlaceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, ['label' => 'form.admin.places.filter.title', 'required' => false])
+            ->add('title', TextType::class, ['label' => 'form.admin.places.create_edit.title'])
             ->add('locale', ChoiceType::class, [
-                'label' => 'form.admin.places.filter.locale',
+                'label' => 'form.admin.places.create_edit.locale',
                 'choices' => [
                     Locale::TITLE_FR => Locale::FR,
                     Locale::TITLE_EN => Locale::EN,
                 ],
-                'required' => false,
             ])
-            ->add('sort', ChoiceType::class, [
-                'label' => 'form.admin.places.filter.sort',
-                'choices' => [
-                    'form.admin.places.filter.id' => 'id',
-                    'form.admin.places.filter.title' => 'title',
-                ],
-                'required' => false,
-            ])
+            ->add('latitude', HiddenType::class)
+            ->add('longitude', HiddenType::class)
         ;
     }
 
@@ -44,7 +38,7 @@ class FilterPlaceType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => FilterPlace::class,
+            'data_class' => Place::class,
         ]);
     }
 }

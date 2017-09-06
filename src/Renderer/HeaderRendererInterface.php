@@ -2,7 +2,7 @@
 
 namespace App\Renderer;
 
-interface RendererInterface
+interface HeaderRendererInterface
 {
     /**
      * @param array $items

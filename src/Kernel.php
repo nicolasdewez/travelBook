@@ -45,6 +45,13 @@ final class Kernel extends BaseKernel
             $loader->load($confDir.'/packages/'.$this->environment.'/**/*'.self::CONFIG_EXTS, 'glob');
         }
         $loader->load($confDir.'/container'.self::CONFIG_EXTS, 'glob');
+
+        // Api Mock
+        if (!$container->getParameter('app_api_mock')) {
+            return;
+        }
+
+        $container->setAlias('App\Connector\PlaceConnectorInterface', 'App\Connector\MockConnector');
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void

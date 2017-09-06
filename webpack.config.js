@@ -13,6 +13,7 @@ Encore
 
     // will output as build/build/app.js
     .addEntry('script-app', './assets/js/app.js')
+    .addEntry('script-admin-places', './assets/js/admin-places.js')
 
     // will output as web/build/global.css
     .addStyleEntry('style-app', './assets/css/app.scss')

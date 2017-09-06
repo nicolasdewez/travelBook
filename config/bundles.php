@@ -13,4 +13,6 @@ return [
     'Symfony\Bundle\DebugBundle\DebugBundle' => ['dev' => true, 'test' => true],
     'OldSound\RabbitMqBundle\OldSoundRabbitMqBundle' => ['all' => true],
     'Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle' => ['all' => true],
+    'Csa\Bundle\GuzzleBundle\CsaGuzzleBundle' => ['all' => true],
+    'FOS\JsRoutingBundle\FOSJsRoutingBundle' => ['all' => true],
 ];

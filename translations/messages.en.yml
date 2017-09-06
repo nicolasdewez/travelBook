@@ -36,7 +36,11 @@ breadcrumb:
     app_change_password: Edit password
     app_my_account: My account
     app_admin_users_list: Users management
+    app_admin_users_create: Create user
     app_admin_users_edit: Edit user
+    app_admin_places_list: Places management
+    app_admin_places_create: Create place
+    app_admin_places_edit: Edit place
     app_travels: My travels
     app_validation_pictures_list: Pictures validation
     app_validation_pictures_invalidation: Invalidation
@@ -109,8 +113,14 @@ form:
             filter:
                 id: Identifiant
                 title: Title
+                locale: Language
                 sort: Tri
                 submit: Rechercher
+            create_edit:
+                title: Title
+                locale: Language
+                search: Search
+
     validation:
         pictures:
             filter:
@@ -215,10 +225,14 @@ admin:
             table:
                 id: Id
                 title: Title
+                locale: Language
                 locate: Locate
                 show: Show
                 actions: Actions
             link_add_place: Add a place
+        create:
+            title: Create a place
+            ok: Place created
 
 validation:
     pictures:

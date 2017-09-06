@@ -13,6 +13,39 @@ use Psr\Log\NullLogger;
 
 class PlaceManagerTest extends TestCase
 {
+    public function testSave()
+    {
+        $place = new Place();
+
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager
+            ->expects($this->once())
+            ->method('persist')
+            ->with($place)
+        ;
+
+        $manager
+            ->expects($this->exactly(2))
+            ->method('flush')
+            ->withAnyParameters()
+        ;
+
+        $placeManager = new PlaceManager(
+            $manager,
+            $this->createMock(InformationPagination::class),
+            new NullLogger()
+        );
+
+        $placeManager->save($place);
+
+        $class = new \ReflectionClass($place);
+        $property = $class->getProperty('id');
+        $property->setAccessible(true);
+        $property->setValue($place, 1);
+
+        $placeManager->save($place);
+    }
+
     public function testCountElements()
     {
         $filterPlace = new FilterPlace();

@@ -1,0 +1,9 @@
+csa_guzzle:
+    profiler: '%kernel.debug%'
+    logger: true
+
+    clients:
+        google_maps_api:
+            config:
+                base_uri: https://maps.googleapis.com/maps/api/
+                timeout: 2.0

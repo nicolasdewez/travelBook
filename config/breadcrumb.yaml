@@ -22,9 +22,24 @@ app_my_account:
 app_admin_users_list:
     title: 'breadcrumb.app_admin_users_list'
 
+app_admin_users_create:
+    title: 'breadcrumb.app_admin_users_create'
+    parent: 'app_admin_users_list'
+
 app_admin_users_edit:
     title: 'breadcrumb.app_admin_users_edit'
     parent: 'app_admin_users_list'
+
+app_admin_places_list:
+    title: 'breadcrumb.app_admin_places_list'
+
+app_admin_places_create:
+    title: 'breadcrumb.app_admin_places_create'
+    parent: 'app_admin_places_list'
+
+app_admin_places_edit:
+    title: 'breadcrumb.app_admin_places_edit'
+    parent: 'app_admin_places_list'
 
 app_validation_pictures_list:
     title: 'breadcrumb.app_validation_pictures_list'

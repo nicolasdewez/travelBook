@@ -27,6 +27,11 @@ class PlaceRepository extends EntityRepository
             $parameters['title'] = sprintf('%%%s%%', strtolower($filterPlace->getTitle()));
         }
 
+        if (null !== $filterPlace->getLocale()) {
+            $query->andWhere('p.locale = :locale');
+            $parameters['locale'] = $filterPlace->getLocale();
+        }
+
         return $query->getQuery()
             ->setParameters($parameters)
             ->getSingleScalarResult()
@@ -51,6 +56,11 @@ class PlaceRepository extends EntityRepository
         if (null !== $filterPlace->getTitle()) {
             $query->andWhere('LOWER(p.title) LIKE :title');
             $parameters['title'] = sprintf('%%%s%%', strtolower($filterPlace->getTitle()));
+        }
+
+        if (null !== $filterPlace->getLocale()) {
+            $query->andWhere('p.locale = :locale');
+            $parameters['locale'] = $filterPlace->getLocale();
         }
 
         if (null !== $filterPlace->getSort()) {

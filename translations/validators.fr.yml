@@ -3,3 +3,6 @@ password:
 
 invalidation_picture:
     comment_required: Champ obligatoire avec la raison "Autre"
+
+place:
+    location_required: Le choix d'un résultat est obligatoire

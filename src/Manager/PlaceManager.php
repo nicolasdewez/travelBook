@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Entity\Place;
+use App\Logger\Log;
 use App\Model\FilterPlace;
 use App\Pagination\InformationPagination;
 use App\Repository\PlaceRepository;
@@ -34,6 +35,20 @@ class PlaceManager
         $this->repository = $manager->getRepository(Place::class);
         $this->pagination = $pagination;
         $this->logger = $logger;
+    }
+
+    /**
+     * @param Place $place
+     */
+    public function save(Place $place)
+    {
+        if (null === $place->getId()) {
+            $this->manager->persist($place);
+        }
+
+        $this->manager->flush();
+
+        $this->logger->info(sprintf('[%s] %s (%d)', Log::SUBJECT_SAVE_PLACE, $place->getTitle(), $place->getId()));
     }
 
     /**

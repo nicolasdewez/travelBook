@@ -24,22 +24,28 @@
             <tr>
                 <th>{{ 'admin.places.list.table.id'|trans }}</th>
                 <th>{{ 'admin.places.list.table.title'|trans }}</th>
+                <th>{{ 'admin.places.list.table.locale'|trans }}</th>
                 <th>{{ 'admin.places.list.table.locate'|trans }}</th>
                 <th>
                     {{ 'admin.places.list.table.actions'|trans }}
-                    <a href="#" class="glyphicon glyphicon-plus-sign" title="{{ 'admin.places.list.link_add_place'|trans }}"></a>
+                    <a href="{{ path('app_admin_places_create') }}" class="glyphicon glyphicon-plus-sign" title="{{ 'admin.places.list.link_add_place'|trans }}"></a>
                 </th>
             </tr>
             {% for element in elements %}
                 <tr>
                     <td><a href="#">{{ element.id }}</a></td>
                     <td>{{ element.title}}</td>
-                    <td><a href="https://www.google.fr/maps/place/{{ element.latitude }},{{ element.longitude }}" target="travelbook_place">{{ 'admin.places.list.table.show'|trans }}</a></td>
+                    <td>{{ element.locale|upper }}</td>
+                    <td>
+                        {% autoescape false %}
+                        {{ place_link_show(element) }}
+                        {% endautoescape %}
+                    </td>
                     <td>&nbsp;</td>
                 </tr>
             {% else %}
                 <tr>
-                    <th colspan="4" class="text-center">{{ 'table.nb_elements'|transchoice(nbElements) }}</th>
+                    <th colspan="5" class="text-center">{{ 'table.nb_elements'|transchoice(nbElements) }}</th>
                 </tr>
             {% endfor %}
         </table>

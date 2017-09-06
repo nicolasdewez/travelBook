@@ -17,6 +17,11 @@ security:
             pattern: ^/(login|registration|password-lost|active/.*)?$
             anonymous: true
 
+        # To change ?
+        api:
+            pattern: ^/api
+            anonymous: true
+
         app:
             provider: users
             pattern: ^/

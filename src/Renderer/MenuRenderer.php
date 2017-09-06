@@ -4,7 +4,7 @@ namespace App\Renderer;
 
 use Twig\Environment as Twig;
 
-class MenuRenderer implements RendererInterface
+class MenuRenderer implements HeaderRendererInterface
 {
     /** @var Twig */
     private $twig;

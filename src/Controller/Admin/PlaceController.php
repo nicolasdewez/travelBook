@@ -2,9 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Place;
+use App\Form\Type\PlaceType;
 use App\Manager\FilterTypeManager;
 use App\Manager\PlaceManager;
 use App\Pagination\InformationPagination;
+use App\Session\Flash;
 use App\Session\FlashMessage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -88,6 +91,32 @@ class PlaceController
             $nbPages,
             $nbElements,
             $manager->listElements($form->getData(), $page)
+        );
+    }
+
+    /**
+     * @param Request      $request
+     * @param PlaceManager $manager
+     *
+     * @return Response
+     *
+     * @Route("/create", name="app_admin_places_create", methods={"GET", "POST"})
+     */
+    public function createAction(Request $request, PlaceManager $manager): Response
+    {
+        $form = $this->formFactory->create(PlaceType::class, new Place());
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->save($form->getData());
+            $this->flashMessage->add(Flash::TYPE_NOTICE, 'admin.places.create.ok');
+
+            return new RedirectResponse($this->router->generate('app_admin_places_list'));
+        }
+
+        return new Response(
+            $this->twig->render('admin/place/create.html.twig', [
+                'form' => $form->createView(),
+            ])
         );
     }
 
