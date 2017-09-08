@@ -94,13 +94,19 @@ form:
     admin:
         users:
             filter:
-                id: Identifiant
                 username: Username
-                lastname: Lastname
                 locale: Language
                 role: Role
                 enabled: Enabled
                 sort: Sort
+                id_asc: Identifiant ascending
+                id_desc: Identifiant descending
+                username_asc: Username ascending
+                username_desc: Username descending
+                lastname_asc: Lastname ascending
+                lastname_desc: Lastname descending
+                created_at_asc: Create date ascending
+                created_at_desc: Create date descending
                 submit: Search
             edit:
                 username: Username
@@ -111,10 +117,15 @@ form:
                 enabled: Enabled
         places:
             filter:
-                id: Identifiant
                 title: Title
                 locale: Language
                 sort: Tri
+                id_asc: Identifiant ascending
+                id_desc: Identifiant descending
+                title_asc: Title ascending
+                title_desc: Title descending
+                created_at_asc: Create date ascending
+                created_at_desc: Create date descending
                 submit: Rechercher
             create_edit:
                 title: Title
@@ -124,12 +135,18 @@ form:
     validation:
         pictures:
             filter:
-                id: Identifiant
-                date: Date
                 title: Title
                 username: Username
                 check_state: State
                 sort: Sort
+                id_asc: Identifiant ascending
+                id_desc: Identifiant descending
+                date_asc: Date ascending
+                date_desc: Date descending
+                title_asc: Title ascending
+                title_desc: Title descending
+                created_at_asc: Create date ascending
+                created_at_desc: Create date descending
                 submit: Search
             invalidation:
                 user: User

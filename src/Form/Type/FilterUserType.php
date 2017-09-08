@@ -48,9 +48,14 @@ class FilterUserType extends AbstractType
             ->add('sort', ChoiceType::class, [
                 'label' => 'form.admin.users.filter.sort',
                 'choices' => [
-                    'form.admin.users.filter.id' => 'id',
-                    'form.admin.users.filter.username' => 'username',
-                    'form.admin.users.filter.lastname' => 'lastname',
+                    'form.admin.users.filter.id_asc' => 'id|ASC',
+                    'form.admin.users.filter.id_desc' => 'id|DESC',
+                    'form.admin.users.filter.username_asc' => 'username|ASC',
+                    'form.admin.users.filter.username_desc' => 'username|DESC',
+                    'form.admin.users.filter.lastname_asc' => 'lastname|ASC',
+                    'form.admin.users.filter.lastname_desc' => 'lastname|DESC',
+                    'form.admin.users.filter.created_at_asc' => 'createdAt|ASC',
+                    'form.admin.users.filter.created_at_desc' => 'createdAt|DESC',
                 ],
                 'required' => false,
             ])

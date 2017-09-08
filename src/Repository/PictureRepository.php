@@ -137,7 +137,8 @@ class PictureRepository extends EntityRepository
         }
 
         if (null !== $filterPicture->getSort()) {
-            $query->orderBy(sprintf('p.%s', $filterPicture->getSort()));
+            $sort = explode('|', $filterPicture->getSort());
+            $query->orderBy(sprintf('p.%s', $sort[0]), $sort[1]);
         }
 
         $query->andWhere('p.checkState IN (:states)');

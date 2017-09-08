@@ -84,7 +84,8 @@ class UserRepository extends EntityRepository
         }
 
         if (null !== $filterUser->getSort()) {
-            $query->orderBy(sprintf('u.%s', $filterUser->getSort()));
+            $sort = explode('|', $filterUser->getSort());
+            $query->orderBy(sprintf('u.%s', $sort[0]), $sort[1]);
         }
 
         return $query->getQuery()

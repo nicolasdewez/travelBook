@@ -62,8 +62,8 @@ ready: pretty ## Check if environment is ready
 	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(RABBITMQ):5672 ddn0/wait 2> /dev/null
 	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(MAILER):1025 ddn0/wait 2> /dev/null
 
-.PHONY: open
-open: ## Open the browser
+.PHONY: open-app
+open-app: ## Open the browser
 	@xdg-open http://$(WEB).$(NETWORK)/ > /dev/null
 
 .PHONY: open-rabbitmq
@@ -74,13 +74,17 @@ open-rabbitmq: ## Open the admin rabbitmq
 open-mailer: ## Open the mailer
 	@xdg-open http://$(MAILER).$(NETWORK):1080/ > /dev/null
 
-.PHONY: phpmetrics
-phpmetrics: ## Run phpmetrics
-	@$(EXEC) $(APP) vendor/bin/phpmetrics src --report-html=build/phpmetrics
-
 .PHONY: phpunit
 phpunit: ## Run phpunit test suite
-	@$(EXEC) $(APP) vendor/bin/phpunit
+    ifeq ("$(coverage)","true")
+		@$(EXEC) $(APP) vendor/bin/phpunit --coverage-html build/html
+    else
+		@$(EXEC) $(APP) vendor/bin/phpunit
+    endif
+
+.PHONY: phpmetrics
+phpmetrics: ## Run phpmetrics
+	@$(EXEC) $(APP) vendor/bin/phpmetrics src --git --report-html=build/phpmetrics
 
 .PHONY: security-check
 security-check: ## Run security-checker
@@ -89,10 +93,6 @@ security-check: ## Run security-checker
 .PHONY: php-cs-fixer
 php-cs-fixer: ## Run php-cs-fixer
 	@$(EXEC) $(APP) vendor/bin/php-cs-fixer fix -v --dry-run --diff --config=.php_cs.dist
-
-.PHONY: php-cs-fixer-exec
-php-cs-fixer-exec: ## Run php-cs-fixer
-	@$(EXEC) $(APP) vendor/bin/php-cs-fixer fix -v --diff --config=.php_cs.dist
 
 .PHONY: lint-twig
 lint-twig: ## Run lint-twig
@@ -110,22 +110,14 @@ schema-validate: ## Run schema-validate
 .PHONY: checker
 checker: security-check lint-twig lint-yaml schema-validate php-cs-fixer ## Run checker: security-check, lint-twig, lint-yaml, schema-validate, php-cs-fixer
 
-.PHONY: exec
-exec: ## Open a shell in the application container (options: user [www-data], cmd [bash], cont [`app`])
-	$(eval cont ?= $(APP))
-	$(eval user ?= www-data)
-	$(eval cmd ?= bash)
-	@$(COMPOSE) exec --user $(user) $(cont) $(cmd)
+.PHONY: php-cs-fixer-exec
+php-cs-fixer-exec: ## Run php-cs-fixer
+	@$(EXEC) $(APP) vendor/bin/php-cs-fixer fix -v --diff --config=.php_cs.dist
 
 .PHONY: assets-compile
 assets-compile: ## Compile assets
 	$(eval env ?= dev)
 	@$(EXEC) $(APP) ./node_modules/.bin/encore $(env)
-
-.PHONY: pgsql
-pgsql: ## Run pgsql cli (options: db_name [`travelbook`])
-	$(eval db_name ?= $(DB_NAME))
-	@$(COMPOSE) exec $(DB) psql -U travelbook
 
 .PHONY: queue-purge
 queue-purge: ## Purge rabbitmq queue (ie. make purge-queue name="registration")
@@ -155,6 +147,18 @@ ifndef name
 endif
 	@mkdir -p build
 	@$(EXEC) $(APP) bin/console workflow:dump $(name) | dot -Tpng -o build/workflow-$(name).png
+
+.PHONY: exec
+exec: ## Open a shell in the application container (options: user [www-data], cmd [bash], cont [`app`])
+	$(eval cont ?= $(APP))
+	$(eval user ?= www-data)
+	$(eval cmd ?= bash)
+	@$(COMPOSE) exec --user $(user) $(cont) $(cmd)
+
+.PHONY: pgsql
+pgsql: ## Run pgsql cli (options: db_name [`travelbook`])
+	$(eval db_name ?= $(DB_NAME))
+	@$(COMPOSE) exec $(DB) psql -U travelbook
 
 .PHONY: ps
 ps: ## List containers status

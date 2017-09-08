@@ -43,9 +43,14 @@ class FilterPictureType extends AbstractType
         $builder->add('sort', ChoiceType::class, [
                 'label' => 'form.validation.pictures.filter.sort',
                 'choices' => [
-                    'form.validation.pictures.filter.id' => 'id',
-                    'form.validation.pictures.filter.date' => 'date',
-                    'form.validation.pictures.filter.title' => 'title',
+                    'form.validation.pictures.filter.id_asc' => 'id|ASC',
+                    'form.validation.pictures.filter.id_desc' => 'id|DESC',
+                    'form.validation.pictures.filter.date_asc' => 'date|ASC',
+                    'form.validation.pictures.filter.date_desc' => 'date|DESC',
+                    'form.validation.pictures.filter.title_asc' => 'title|ASC',
+                    'form.validation.pictures.filter.title_desc' => 'title|DESC',
+                    'form.validation.pictures.filter.created_at_asc' => 'createdAt|ASC',
+                    'form.validation.pictures.filter.created_at_desc' => 'createdAt|DESC',
                 ],
                 'required' => false,
             ])

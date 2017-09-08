@@ -64,7 +64,8 @@ class PlaceRepository extends EntityRepository
         }
 
         if (null !== $filterPlace->getSort()) {
-            $query->orderBy(sprintf('p.%s', $filterPlace->getSort()));
+            $sort = explode('|', $filterPlace->getSort());
+            $query->orderBy(sprintf('p.%s', $sort[0]), $sort[1]);
         }
 
         return $query->getQuery()

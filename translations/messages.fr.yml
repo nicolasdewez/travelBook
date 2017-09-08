@@ -94,13 +94,20 @@ form:
     admin:
         users:
             filter:
-                id: Identifiant
                 username: Nom d'utilisateur
-                lastname: Nom
                 locale: Langue
                 role: Role
+                id: Identifiant
                 enabled: Actif
                 sort: Tri
+                id_asc: Identifiant croissant
+                id_desc: Identifiant décroissant
+                username_asc: Nom d'utilisateur croissant
+                username_desc: Nom d'utilisateur décroissant
+                lastname_asc: Nom croissant
+                lastname_desc: Nom décroissant
+                created_at_asc: Date de création croissant
+                created_at_desc: Date de création décroissant
                 submit: Rechercher
             edit:
                 username: Nom d'utilisateur
@@ -111,10 +118,15 @@ form:
                 enabled: Actif
         places:
             filter:
-                id: Identifiant
-                title: Libellé
+                title: Titre
                 locale: Langue
                 sort: Tri
+                id_asc: Identifiant croissant
+                id_desc: Identifiant décroissant
+                title_asc: Libellé croissant
+                title_desc: Libellé décroissant
+                created_at_asc: Date de création croissant
+                created_at_desc: Date de création décroissant
                 submit: Rechercher
             create_edit:
                 title: Libellé
@@ -124,12 +136,18 @@ form:
     validation:
         pictures:
             filter:
-                id: Identifiant
-                date: Date
                 title: Titre
                 username: Nom d'utilisateur
                 check_state: Etat
                 sort: Tri
+                id_asc: Identifiant croissant
+                id_desc: Identifiant décroissant
+                date_asc: Date croissant
+                date_desc: Date décroissant
+                title_asc: Titre croissant
+                title_desc: Titre décroissant
+                created_at_asc: Date de création croissant
+                created_at_desc: Date de création décroissant
                 submit: Rechercher
             invalidation:
                 user: Utilisateur

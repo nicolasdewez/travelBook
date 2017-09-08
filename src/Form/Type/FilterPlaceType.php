@@ -30,8 +30,12 @@ class FilterPlaceType extends AbstractType
             ->add('sort', ChoiceType::class, [
                 'label' => 'form.admin.places.filter.sort',
                 'choices' => [
-                    'form.admin.places.filter.id' => 'id',
-                    'form.admin.places.filter.title' => 'title',
+                    'form.admin.places.filter.id_asc' => 'id|ASC',
+                    'form.admin.places.filter.id_desc' => 'id|DESC',
+                    'form.admin.places.filter.title_asc' => 'title|ASC',
+                    'form.admin.places.filter.title_desc' => 'title|DESC',
+                    'form.admin.places.filter.created_at_asc' => 'createdAt|ASC',
+                    'form.admin.places.filter.created_at_desc' => 'createdAt|DESC',
                 ],
                 'required' => false,
             ])
