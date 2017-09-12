@@ -33,7 +33,7 @@ class TerminateConsumerCommand extends ContainerAwareCommand
         }
 
         $pids = $this->getConsumerPids($consumer);
-        if (count($pids) === 0) {
+        if (0 === count($pids)) {
             return $output->writeln('<comment>No consumer process found</comment>');
         }
 
@@ -56,7 +56,7 @@ class TerminateConsumerCommand extends ContainerAwareCommand
         // Sleep 1 second and check for processes
         sleep(1);
         $stillAliveConsumers = $this->getConsumerPids($consumer);
-        if (count($stillAliveConsumers) !== 0) {
+        if (0 !== count($stillAliveConsumers)) {
             return $output->writeln(sprintf(
                 '<error>%d consumer processes seems to be found</error>',
                 count($stillAliveConsumers)
@@ -84,7 +84,7 @@ class TerminateConsumerCommand extends ContainerAwareCommand
 
         exec(sprintf('ps ax | grep "rabbitmq:consumer %s"', $consumer), $lines);
         foreach ($lines as $line) {
-            if (strpos($line, 'bin/console') !== false && preg_match('#^([ ]*)([0-9]+)#', $line, $matches)) {
+            if (false !== strpos($line, 'bin/console') && preg_match('#^([ ]*)([0-9]+)#', $line, $matches)) {
                 $pids[] = $matches[2];
             }
         }

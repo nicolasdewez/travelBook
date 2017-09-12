@@ -243,6 +243,7 @@ class SecurityController
                 'username' => $user->getUsername(),
                 'firstname' => $user->getFirstname(),
                 'lastname' => $user->getLastname(),
+                'locale' => $user->getLocale(),
             ])
         );
     }

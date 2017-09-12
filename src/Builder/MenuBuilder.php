@@ -41,7 +41,7 @@ class MenuBuilder
         $items = [];
 
         $items[] = $this->buildItem('menu.my_travels', 'app_travels');
-        $items[] = $this->buildItem('menu.new_travel', ''); //'app_travels_new');
+        $items[] = $this->buildItem('menu.new_travel', 'app_travels_create_step1');
         $items[] = $this->buildItem('menu.my_pictures', ''); //'app_pictures');
         $items[] = $this->buildItem('menu.search', ''); //'app_search');
 

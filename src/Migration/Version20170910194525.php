@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20170902155140 extends AbstractMigration
+class Version20170910194525 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -18,10 +18,10 @@ class Version20170902155140 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('ALTER TABLE places ADD locale VARCHAR(3) NOT NULL');
-        $this->addSql('DROP INDEX places_title');
-        $this->addSql('DROP INDEX UNIQ_FEAF6C552B36786B');
-        $this->addSql('CREATE UNIQUE INDEX places_unique ON places (title, locale)');
+        $this->addSql('ALTER TABLE travels ADD start_date DATE NOT NULL');
+        $this->addSql('ALTER TABLE travels ADD end_date DATE NOT NULL');
+        $this->addSql('ALTER TABLE travels DROP start');
+        $this->addSql('ALTER TABLE travels DROP "end"');
     }
 
     /**
@@ -32,9 +32,9 @@ class Version20170902155140 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('DROP INDEX places_unique');
-        $this->addSql('CREATE INDEX UNIQ_FEAF6C552B36786B ON places (title)');
-        $this->addSql('CREATE INDEX places_title ON places (title)');
-        $this->addSql('ALTER TABLE places DROP locale');
+        $this->addSql('ALTER TABLE travels ADD start DATE NOT NULL');
+        $this->addSql('ALTER TABLE travels ADD "end" DATE NOT NULL');
+        $this->addSql('ALTER TABLE travels DROP start_date');
+        $this->addSql('ALTER TABLE travels DROP end_date');
     }
 }

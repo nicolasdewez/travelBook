@@ -34,8 +34,8 @@ class InvalidationPictureTest extends TestCase
         $travel = (new Travel())
             ->setTitle('title')
             ->setPlace((new Place())->setTitle('place'))
-            ->setStart(new \DateTime('2017-01-02'))
-            ->setEnd(new \DateTime('2017-03-04'))
+            ->setStartDate(new \DateTime('2017-01-02'))
+            ->setEndDate(new \DateTime('2017-03-04'))
         ;
 
         $invalidationPicture = (new InvalidationPicture())

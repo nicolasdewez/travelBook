@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
+use App\Entity\Place;
 use App\Model\FilterPlace;
 use App\Pagination\DefinitionPagination;
 use Doctrine\ORM\EntityRepository;
@@ -42,7 +42,7 @@ class PlaceRepository extends EntityRepository
      * @param FilterPlace $filterPlace
      * @param array       $pagination
      *
-     * @return User[]
+     * @return Place[]
      */
     public function getByCriteria(FilterPlace $filterPlace, array $pagination): array
     {
@@ -69,6 +69,31 @@ class PlaceRepository extends EntityRepository
         }
 
         return $query->getQuery()
+            ->setParameters($parameters)
+            ->execute()
+        ;
+    }
+
+    /**
+     * @param string $query
+     * @param string $locale
+     *
+     * @return Place[]
+     */
+    public function getByQuery(string $query, string $locale): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->setMaxResults(10)
+            ->setFirstResult(0)
+            ->andWhere('LOWER(p.title) LIKE :title')
+            ->andWhere('p.locale = :locale')
+            ->orderBy('p.title', 'ASC')
+        ;
+
+        $parameters['title'] = sprintf('%%%s%%', strtolower($query));
+        $parameters['locale'] = $locale;
+
+        return $queryBuilder->getQuery()
             ->setParameters($parameters)
             ->execute()
         ;

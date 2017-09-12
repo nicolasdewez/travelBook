@@ -135,8 +135,8 @@ class InvalidationPicture extends Timestampable
             '%s (%s %s-%s)',
             $travel->getTitle(),
             $travel->getPlace()->getTitle(),
-            $travel->getStart()->format('d/m/Y'),
-            $travel->getEnd()->format('d/m/Y')
+            $travel->getStartDate()->format('d/m/Y'),
+            $travel->getEndDate()->format('d/m/Y')
         );
     }
 

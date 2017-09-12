@@ -34,7 +34,7 @@ class UserTest extends TestCase
             ->setNewPassword('new')
         ;
 
-        $this->assertNull($user->currentAndNewPasswordAreDifferent($context, null));
+        $user->currentAndNewPasswordAreDifferent($context, null);
     }
 
     public function testCurrentAndNewPasswordAreDifferentBuildViolation()
@@ -65,7 +65,7 @@ class UserTest extends TestCase
             ->setNewPassword('password')
         ;
 
-        $this->assertNull($user->currentAndNewPasswordAreDifferent($context, null));
+        $user->currentAndNewPasswordAreDifferent($context, null);
     }
 
     public function testGetTitleRoles()

@@ -11,12 +11,11 @@ Encore
     // empty the outputPath dir before each build
     .cleanupOutputBeforeBuild()
 
-    // will output as build/build/app.js
-    .addEntry('script-app', './assets/js/app.js')
+    .addEntry('script-app', './assets/js/app.js') // will output as build/build/script-app.js
     .addEntry('script-admin-places', './assets/js/admin-places.js')
+    .addEntry('script-travels', './assets/js/travels.js')
 
-    // will output as web/build/global.css
-    .addStyleEntry('style-app', './assets/css/app.scss')
+    .addStyleEntry('style-app', './assets/css/app.scss') // will output as web/build/style-app.css
     .addStyleEntry('style-errors', './assets/css/errors.scss')
 
     // allow sass/scss files to be processed

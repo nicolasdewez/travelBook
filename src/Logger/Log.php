@@ -15,6 +15,7 @@ final class Log
     const SUBJECT_SAVE_USER = 'User saved';
     const SUBJECT_SAVE_PICTURE = 'Picture saved';
     const SUBJECT_SAVE_PLACE = 'Place saved';
+    const SUBJECT_SAVE_TRAVEL = 'Travel saved';
     const SUBJECT_ANALYZE_PICTURE = 'Analyze picture';
     const SUBJECT_PICTURE_VIRUS = 'Picture is virus';
     const SUBJECT_PICTURE_VALIDATION = 'Picture validation';

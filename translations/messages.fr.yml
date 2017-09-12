@@ -46,6 +46,7 @@ breadcrumb:
     app_validation_pictures_list_processed: Photos traitées
     app_validation_pictures_revalidation: Validation
     app_travels: Mes voyages
+    app_travels_create_step1: Nouveau voyage
 
 workflow:
     registration:
@@ -157,6 +158,14 @@ form:
                 comment: Commentaire
                 invalidate: Invalider
                 validate: Valider
+
+    travels:
+        step1:
+            title: Libellé
+            start: Date de début
+            end: Date de fin
+            place_search: Lieu
+            submit: Enregistrer & continuer
 
 table:
     nb_elements: "{0} Pas de résultat|{1} 1 résultat|]1,Inf[ %count% résultats"
@@ -293,3 +302,8 @@ validation:
                 reason: Raison
                 comment: Commentaire
             link_validation: Valider
+
+travels:
+    step1:
+        title: Ajouter un voyage
+        ok: Le voyage a été créé. Vous allez pouvoir ajouter des photos.

@@ -6,3 +6,6 @@ invalidation_picture:
 
 place:
     location_required: Choice result is required
+
+dates:
+    start_before_end: Start date must be less or equal than end date

@@ -32,6 +32,6 @@ class InvalidationPictureDenormalizer implements DenormalizerInterface
      */
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === InvalidationPicture::class && isset($data['id']);
+        return InvalidationPicture::class === $type && isset($data['id']);
     }
 }

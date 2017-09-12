@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Table(name="travels")
@@ -25,6 +27,10 @@ class Travel extends Timestampable
      * @var string
      *
      * @ORM\Column
+     *
+     * @Assert\NotBlank
+     * @Assert\Length(max=255)
+     * @Assert\Type("string")
      */
     private $title;
 
@@ -32,20 +38,30 @@ class Travel extends Timestampable
      * @var \DateTime
      *
      * @ORM\Column(type="date")
+     *
+     * @Assert\NotBlank
+     * @Assert\Date
+     * @Assert\LessThanOrEqual("today")
      */
-    private $start;
+    private $startDate;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(type="date")
+     *
+     * @Assert\NotBlank
+     * @Assert\Date
+     * @Assert\LessThanOrEqual("today")
      */
-    private $end;
+    private $endDate;
 
     /**
      * @var Place
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Place", cascade={"all"})
+     *
+     * @Assert\NotNull
      */
     private $place;
 
@@ -53,6 +69,8 @@ class Travel extends Timestampable
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="travels")
+     *
+     * @Assert\NotNull
      */
     private $user;
 
@@ -66,6 +84,14 @@ class Travel extends Timestampable
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     /**
@@ -89,29 +115,21 @@ class Travel extends Timestampable
     }
 
     /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
      * @return \DateTime
      */
-    public function getStart(): ?\DateTime
+    public function getStartDate(): ?\DateTime
     {
-        return $this->start;
+        return $this->startDate;
     }
 
     /**
-     * @param \DateTime $start
+     * @param \DateTime $startDate
      *
      * @return Travel
      */
-    public function setStart(\DateTime $start): Travel
+    public function setStartDate(\DateTime $startDate): Travel
     {
-        $this->start = $start;
+        $this->startDate = $startDate;
 
         return $this;
     }
@@ -119,19 +137,19 @@ class Travel extends Timestampable
     /**
      * @return \DateTime
      */
-    public function getEnd(): ?\DateTime
+    public function getEndDate(): ?\DateTime
     {
-        return $this->end;
+        return $this->endDate;
     }
 
     /**
-     * @param \DateTime $end
+     * @param \DateTime $endDate
      *
      * @return Travel
      */
-    public function setEnd(\DateTime $end): Travel
+    public function setEndDate(\DateTime $endDate): Travel
     {
-        $this->end = $end;
+        $this->endDate = $endDate;
 
         return $this;
     }
@@ -194,5 +212,23 @@ class Travel extends Timestampable
         $this->pictures = $pictures;
 
         return $this;
+    }
+
+    /**
+     * @param ExecutionContextInterface $context
+     * @param Travel                    $payload
+     *
+     * @Assert\Callback
+     */
+    public function startDateBeforeEndDate(ExecutionContextInterface $context, $payload)
+    {
+        if ($this->startDate->getTimestamp() <= $this->endDate->getTimestamp()) {
+            return;
+        }
+
+        $context
+            ->buildViolation('dates.start_before_end')
+            ->addViolation()
+        ;
     }
 }

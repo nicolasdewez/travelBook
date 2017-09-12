@@ -38,3 +38,5 @@ You can go to: [http://web.travelbook/](http://web.travelbook/)
 * Improvements css: filters -> 2 columns ? with in tables ? Using Saas
 * Live notifications
 * In user settings, can choice receive notifications
+* Logs: files, channels ?
+* Step 1 travel: if place does not exists then create it

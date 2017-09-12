@@ -32,6 +32,6 @@ class PictureDenormalizer implements DenormalizerInterface
      */
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === Picture::class && isset($data['id']);
+        return Picture::class === $type && isset($data['id']);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -28,6 +29,8 @@ class Place extends Timestampable
      * @ORM\Column(type="integer", options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"entity_place_get"})
      */
     private $id;
 
@@ -35,6 +38,8 @@ class Place extends Timestampable
      * @var string
      *
      * @ORM\Column(length=30)
+     *
+     * @Serializer\Groups({"entity_place_get"})
      *
      * @Assert\NotBlank
      * @Assert\Length(max=30)
@@ -46,6 +51,8 @@ class Place extends Timestampable
      *
      * @ORM\Column(length=3)
      *
+     * @Serializer\Groups({"entity_place_get"})
+     *
      * @Assert\NotBlank
      * @Assert\Choice(callback={"App\Translation\Locale", "getLocales"}, strict=true)
      */
@@ -55,6 +62,8 @@ class Place extends Timestampable
      * @var float
      *
      * @ORM\Column(type="decimal", scale=12, precision=18)
+     *
+     * @Serializer\Groups({"entity_place_get"})
      */
     private $latitude;
 
@@ -62,6 +71,8 @@ class Place extends Timestampable
      * @var float
      *
      * @ORM\Column(type="decimal", scale=12, precision=18)
+     *
+     * @Serializer\Groups({"entity_place_get"})
      */
     private $longitude;
 

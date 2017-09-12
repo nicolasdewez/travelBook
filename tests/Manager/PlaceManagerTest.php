@@ -111,4 +111,31 @@ class PlaceManagerTest extends TestCase
 
         $this->assertSame(['element1', 'element2'], $placeManager->listElements($filterPlace, 1));
     }
+
+    public function testSearchElements()
+    {
+        $repository = $this->createMock(PlaceRepository::class);
+        $repository
+            ->expects($this->once())
+            ->method('getByQuery')
+            ->with('query', 'locale')
+            ->willReturn(['element1', 'element2'])
+        ;
+
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager
+            ->expects($this->once())
+            ->method('getRepository')
+            ->with(Place::class)
+            ->willReturn($repository)
+        ;
+
+        $placeManager = new PlaceManager(
+            $manager,
+            $this->createMock(InformationPagination::class),
+            new NullLogger()
+        );
+
+        $this->assertSame(['element1', 'element2'], $placeManager->searchElements('query', 'locale'));
+    }
 }

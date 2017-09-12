@@ -14,7 +14,7 @@ function PlaceForm(searchField, searchButton, submitButton, choiceBlock, localeF
         this.choiceBlock.html('');
         this.disableSubmitButton();
 
-        let url = Routing.generate('api_places_search', {
+        let url = Routing.generate('api_places_search_in_web', {
             query: this.searchField.val(),
             locale: this.localeField.val()
         }, true);

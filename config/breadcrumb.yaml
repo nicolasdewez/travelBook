@@ -58,3 +58,5 @@ app_validation_pictures_revalidation:
 app_travels:
     title: 'breadcrumb.app_travels'
 
+app_travels_create_step1:
+    title: 'breadcrumb.app_travels_create_step1'

@@ -36,7 +36,7 @@ class MenuBuilderTest extends TestCase
 
         $expected = [
             new MenuItem('title1', 'route1', false),
-            new MenuItem('title2', '', false),  // Menu not ended
+            new MenuItem('title2', 'route2', false),
             new MenuItem('title3', '', false),  // Menu not ended
             new MenuItem('title4', '', false),  // Menu not ended
         ];
@@ -67,12 +67,12 @@ class MenuBuilderTest extends TestCase
 
         $expected = [
             new MenuItem('title1', 'route1', false),
-            new MenuItem('title2', '', false),  // Menu not ended
+            new MenuItem('title2', 'route2', false),
             new MenuItem('title3', '', false),  // Menu not ended
             new MenuItem('title4', '', false),  // Menu not ended
             new MenuItem('title7', '', false, [
-                new MenuItem('title5', 'route2', false),
-                new MenuItem('title6', 'route3', false),
+                new MenuItem('title5', 'route3', false),
+                new MenuItem('title6', 'route4', false),
             ]),
         ];
 
@@ -102,12 +102,12 @@ class MenuBuilderTest extends TestCase
 
         $expected = [
             new MenuItem('title1', 'route1', false),
-            new MenuItem('title2', '', false),  // Menu not ended
+            new MenuItem('title2', 'route2', false),
             new MenuItem('title3', '', false),  // Menu not ended
             new MenuItem('title4', '', false),  // Menu not ended
             new MenuItem('title7', '', false, [
-                new MenuItem('title5', 'route2', false),
-                new MenuItem('title6', 'route3', false),
+                new MenuItem('title5', 'route3', false),
+                new MenuItem('title6', 'route4', false),
             ]),
         ];
 
@@ -137,16 +137,16 @@ class MenuBuilderTest extends TestCase
 
         $expected = [
             new MenuItem('title1', 'route1', false),
-            new MenuItem('title2', '', false),  // Menu not ended
+            new MenuItem('title2', 'route2', false),
             new MenuItem('title3', '', false),  // Menu not ended
             new MenuItem('title4', '', false),  // Menu not ended
             new MenuItem('title7', '', false, [
-                new MenuItem('title5', 'route2', false),
-                new MenuItem('title6', 'route3', false),
+                new MenuItem('title5', 'route3', false),
+                new MenuItem('title6', 'route4', false),
             ]),
             new MenuItem('title10', '', false, [
-                new MenuItem('title8', 'route4', false),
-                new MenuItem('title9', 'route5', false),
+                new MenuItem('title8', 'route5', false),
+                new MenuItem('title9', 'route6', false),
             ]),
         ];
 

@@ -32,6 +32,6 @@ class UserDenormalizer implements DenormalizerInterface
      */
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $type === User::class && isset($data['id']);
+        return User::class === $type && isset($data['id']);
     }
 }
