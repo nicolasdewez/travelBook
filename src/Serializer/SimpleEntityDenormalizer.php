@@ -2,11 +2,11 @@
 
 namespace App\Serializer;
 
-use App\Entity\User;
+use App\Entity\SimpleEntityDenormalizableInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class UserDenormalizer implements DenormalizerInterface
+class SimpleEntityDenormalizer implements DenormalizerInterface
 {
     /** @var EntityManagerInterface */
     private $manager;
@@ -24,7 +24,7 @@ class UserDenormalizer implements DenormalizerInterface
      */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
-        return $this->manager->getRepository(User::class)->find($data['id']);
+        return $this->manager->getRepository($class)->find($data['id']);
     }
 
     /**
@@ -32,6 +32,8 @@ class UserDenormalizer implements DenormalizerInterface
      */
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return User::class === $type && isset($data['id']);
+        $interfaces = class_implements($type);
+
+        return in_array(SimpleEntityDenormalizableInterface::class, $interfaces) && isset($data['id']);
     }
 }

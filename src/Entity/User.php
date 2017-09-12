@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @UniqueEntity(fields={"username"}, groups={"registration"})
  */
-class User extends Timestampable implements AdvancedUserInterface
+class User extends Timestampable implements AdvancedUserInterface, SimpleEntityDenormalizableInterface
 {
     /**
      * @var int

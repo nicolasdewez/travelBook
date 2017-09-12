@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @UniqueEntity(fields={"title", "locale"})
  */
-class Place extends Timestampable
+class Place extends Timestampable implements SimpleEntityDenormalizableInterface
 {
     /**
      * @var int

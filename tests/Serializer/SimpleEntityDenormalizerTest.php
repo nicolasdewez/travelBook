@@ -3,20 +3,20 @@
 namespace App\Tests\Serializer;
 
 use App\Entity\User;
-use App\Serializer\UserDenormalizer;
+use App\Serializer\SimpleEntityDenormalizer;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
-class UserDenormalizerTest extends TestCase
+class SimpleEntityDenormalizerTest extends TestCase
 {
     public function testSupportsDenormalization()
     {
-        $userDenormalizer = new UserDenormalizer($this->createMock(EntityManagerInterface::class));
+        $simpleEntityDenormalizer = new SimpleEntityDenormalizer($this->createMock(EntityManagerInterface::class));
 
-        $this->assertTrue($userDenormalizer->supportsDenormalization(['id' => 1], User::class));
-        $this->assertFalse($userDenormalizer->supportsDenormalization([], User::class));
-        $this->assertFalse($userDenormalizer->supportsDenormalization(['id' => 1], UserDenormalizer::class));
+        $this->assertTrue($simpleEntityDenormalizer->supportsDenormalization(['id' => 1], User::class));
+        $this->assertFalse($simpleEntityDenormalizer->supportsDenormalization([], User::class));
+        $this->assertFalse($simpleEntityDenormalizer->supportsDenormalization(['id' => 1], SimpleEntityDenormalizer::class));
     }
 
     public function testDenormalize()
@@ -39,7 +39,7 @@ class UserDenormalizerTest extends TestCase
             ->willReturn($repository)
         ;
 
-        $userDenormalizer = new UserDenormalizer($manager);
-        $this->assertSame($user, $userDenormalizer->denormalize(['id' => 1], ''));
+        $simpleEntityDenormalizer = new SimpleEntityDenormalizer($manager);
+        $this->assertSame($user, $simpleEntityDenormalizer->denormalize(['id' => 1], User::class));
     }
 }

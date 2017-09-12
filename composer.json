@@ -56,7 +56,7 @@
     },
     "scripts": {
         "auto-scripts": {
-            "make cache-warmup": "script",
+            "make app-cache-wmp": "script",
             "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd",
             "security-checker security:check": "script"
         },

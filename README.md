@@ -40,3 +40,4 @@ You can go to: [http://web.travelbook/](http://web.travelbook/)
 * In user settings, can choice receive notifications
 * Logs: files, channels ?
 * Step 1 travel: if place does not exists then create it
+* Add behat tests (with selenium)
