@@ -1,11 +1,20 @@
 require('easy-autocomplete/dist/jquery.easy-autocomplete');
 
-function SearchPlace(searchField, localeField, placeField, submitButton)
+function SearchPlace()
 {
-    this.searchField = searchField;
-    this.localeField = localeField;
-    this.placeField = placeField;
-    this.submitButton = submitButton;
+    this.searchField = null;
+    this.localeField = null;
+    this.placeField = null;
+    this.submitButton = null;
+
+    this.init = function(searchField, localeField, placeField, submitButton) {
+        this.searchField = searchField;
+        this.localeField = localeField;
+        this.placeField = placeField;
+        this.submitButton = submitButton;
+
+        this.listenEvents();
+    };
 
     this.onSelectPlace = function() {
         if (this.placeField.val() !== '') {
@@ -53,15 +62,7 @@ function SearchPlace(searchField, localeField, placeField, submitButton)
         // Enable submit button if place choice
         this.placeField.change(this.onSelectPlace.bind(this));
     };
-
-    this.listenEvents();
 }
 
-$(function() {
-    new SearchPlace(
-        $('#travel_placeSearch'),
-        $('#user_lang'),
-        $('#travel_place'),
-        $('input[type=submit]')
-    );
-});
+
+module.exports = SearchPlace;

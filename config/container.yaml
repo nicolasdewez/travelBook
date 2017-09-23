@@ -4,7 +4,7 @@ parameters:
     router.request_context.scheme: '%env(APP_SCHEME)%'
     router.request_context.base_url: '%env(APP_BASE_URL)%'
     app_version: '1.0.0-dev'
-    app_path_data:  '%kernel.project_dir%/web/data'
+    app_path_data:  '%kernel.project_dir%/public/data'
     app_path_data_pictures: '%app_path_data%/pictures'
     app_google_api_key: '%env(APP_GOOGLE_API_KEY)%'
     app_api_mock: false
@@ -39,7 +39,8 @@ services:
     App\Connector\PlaceConnectorInterface:
             alias: 'App\Connector\GoogleMapsConnector'
 
-    App\EventSubscriber\Entity\TimestampableSubscriber:
+    App\EventSubscriber\Entity\:
+        resource: '../src/EventSubscriber/Entity'
         tags:
             - 'doctrine.event_subscriber'
 
@@ -85,6 +86,10 @@ services:
     App\Security\GenerateRegistrationCode:
         arguments:
             $secret: '%env(APP_SECRET)%'
+
+    App\Uploader\PictureUploader:
+        arguments:
+            $pathPictures: '%app_path_data_pictures%'
 
     App\Workflow\RegistrationWorkflow:
         arguments:

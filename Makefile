@@ -173,6 +173,24 @@ endif
 	@mkdir -p build
 	@$(EXEC) $(APP) bin/console workflow:dump $(name) | dot -Tpng -o build/workflow-$(name).png
 
+ .PHONY: app-changelog
+app-changelog: ## Generate changelog (ie. make app-changelog from="v1.0.0" to="v1.1.0")
+ifndef from
+	@echo "To use the 'app-changelog' target, you MUST add the 'from' argument"
+	exit 1
+endif
+ifndef to
+	@echo "To use the 'app-changelog' target, you MUST add the 'to' argument"
+	exit 1
+endif
+	@echo -e "## $(to)\n" > CHANGELOG_NEW.md
+	@git log $(from)...$(to) --no-merges --pretty=format:'* %s [commit](https://github.com/nicolasdewez/travelBook/commit/%H)' >> CHANGELOG_NEW.md
+	@echo -e  "\n" >> CHANGELOG_NEW.md
+	@head -n 2 CHANGELOG.md > CHANGELOG_START.md
+	@tail -n +2 CHANGELOG.md > CHANGELOG_END.md
+	@cat CHANGELOG_START.md CHANGELOG_NEW.md CHANGELOG_END.md > CHANGELOG.md
+	@rm CHANGELOG_*.md
+
 .PHONY: app-clear
 app-clear: ## Clear cache & logs
 	rm -rf var/cache/* var/logs/*
@@ -182,7 +200,7 @@ app-cache-wmp: app-clear ## Clear cache & warmup
 	@test -f bin/console && bin/console cache:warmup || echo "cannot warmup the cache (needs symfony/console)"
 
 .PHONY: app-reset
-app-reset: down clear ## Reset application
+app-reset: down app-clear ## Reset application
 	rm -rf vendor/ app/bootstrap.php.cache node_modules/
 
 

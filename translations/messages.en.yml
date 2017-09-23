@@ -46,7 +46,8 @@ breadcrumb:
     app_validation_pictures_invalidation: Invalidation
     app_validation_pictures_list_processed: Pictures proccessed
     app_validation_pictures_revalidation: Validation
-    app_travels_create_step1: New travel
+    app_travels_create: New travel
+    app_travels_add_pictures: Add pictures
 
 workflow:
     registration:
@@ -159,12 +160,18 @@ form:
                 validate: Validate
 
     travels:
-        step1:
+        create:
             title: Title
             start: Start date
             end: End date
             place_search: Place
             submit: Save & continue
+        add_pictures:
+            title: Title
+            date: Date
+            place_search: Place
+            file: File (image)
+            submit: Save
 
 table:
     nb_elements: "{0} No results|{1} 1 result|]1,Inf[ %count% results"
@@ -303,6 +310,10 @@ validation:
             link_validation: Validate
 
 travels:
-    step1:
+    create:
         title: Add travel
         ok: Travel is created. You can add pictures.
+
+    add_pictures:
+        title: Add pictures into travel
+        ok: Picture has been added.

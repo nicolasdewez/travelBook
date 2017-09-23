@@ -51,12 +51,15 @@ app_validation_pictures_invalidation:
 app_validation_pictures_list_processed:
     title: 'breadcrumb.app_validation_pictures_list_processed'
 
-app_validation_pictures_revalidation:
+app_validation_pictures_re_validation:
     title: 'breadcrumb.app_validation_pictures_revalidation'
     parent: 'app_validation_pictures_list_processed'
 
 app_travels:
     title: 'breadcrumb.app_travels'
 
-app_travels_create_step1:
-    title: 'breadcrumb.app_travels_create_step1'
+app_travels_create:
+    title: 'breadcrumb.app_travels_create'
+
+app_travels_add_pictures:
+    title: 'breadcrumb.app_travels_add_pictures'

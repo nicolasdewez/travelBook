@@ -6,7 +6,9 @@ use App\Workflow\CheckPictureDefinitionWorkflow;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="pictures")
@@ -74,9 +76,18 @@ class Picture extends Timestampable implements SimpleEntityDenormalizableInterfa
      */
     private $invalidation;
 
+    /**
+     * @var UploadedFile
+     *
+     * @Assert\NotBlank
+     * @Assert\Image
+     */
+    private $file;
+
     public function __construct()
     {
         $this->invalidation = new ArrayCollection();
+        $this->checkState = CheckPictureDefinitionWorkflow::PLACE_UPLOADED;
     }
 
     /**
@@ -231,6 +242,26 @@ class Picture extends Timestampable implements SimpleEntityDenormalizableInterfa
     public function setInvalidation(Collection $invalidation): Picture
     {
         $this->invalidation = $invalidation;
+
+        return $this;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getFile(): ?UploadedFile
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param UploadedFile $file
+     *
+     * @return Picture
+     */
+    public function setFile(UploadedFile $file): Picture
+    {
+        $this->file = $file;
 
         return $this;
     }

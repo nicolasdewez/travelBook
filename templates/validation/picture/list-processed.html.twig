@@ -36,8 +36,8 @@
                 <tr>
                     <td>{{ element.id }}</td>
                     <td>{{ element.travel.user.username }} ({{ element.travel.user.firstname }} {{ element.travel.user.lastname }})</td>
-                    <td>{{ element.travel.title }} ({{ element.travel.place.title }} {{ element.travel.start|date('d/m/Y')}}-{{ element.travel.end|date('d/m/Y') }})</td>
-                    <td><img src="{{ asset('data/pictures/' ~ element.id) }}" width="600px" /> </td>
+                    <td>{{ element.travel.title }} ({{ element.travel.place.title }} {{ element.travel.startDate|date('d/m/Y')}}-{{ element.travel.endDate|date('d/m/Y') }})</td>
+                    <td><img src="{{ asset('data/pictures/' ~ element.name) }}" width="600px" /> </td>
                     <td>{{ element.date|date('d/m/Y') }}</td>
                     <td>{{ element.place.title }}</td>
                     <td>{{ element.title }}</td>
