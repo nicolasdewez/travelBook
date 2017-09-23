@@ -318,3 +318,13 @@ travels:
     add_pictures:
         title: Ajouter des photos au voyage
         ok: La photo a été ajoutée.
+
+my_travels:
+    list:
+        title: Mes voyages
+        dates: "Dates :"
+        place: "Lieu :"
+        pictures: "Nombre de photos :"
+        added: "Ajouté le :"
+        link_add_pictures: Ajouter des photos
+        link_show: Voir le voyage

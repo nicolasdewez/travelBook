@@ -317,3 +317,13 @@ travels:
     add_pictures:
         title: Add pictures into travel
         ok: Picture has been added.
+
+my_travels:
+    list:
+        title: My travels
+        dates: "Dates:"
+        place: "Place:"
+        pictures: "Total pictures:"
+        added: "Added at:"
+        link_add_pictures: Add pictures
+        link_show: Show the travel

@@ -56,13 +56,16 @@ class TravelController
     }
 
     /**
+     * @param UserInterface $user
+     * @param TravelManager $manager
+     *
      * @return Response
      *
      * @Route("", name="app_travels", methods={"GET"})
      */
-    public function myTravelsAction(): Response
+    public function myTravelsAction(UserInterface $user, TravelManager $manager): Response
     {
-        return new Response($this->twig->render('travel/my-travels.html.twig'));
+        return new Response($this->twig->render('travel/my-travels.html.twig', ['elements' => $manager->listByUser($user)]));
     }
 
     /**

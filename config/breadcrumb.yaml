@@ -63,3 +63,4 @@ app_travels_create:
 
 app_travels_add_pictures:
     title: 'breadcrumb.app_travels_add_pictures'
+    parent: 'app_travels'

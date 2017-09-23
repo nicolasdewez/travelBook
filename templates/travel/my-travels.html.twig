@@ -1,5 +1,31 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Mes voyages</h2>
+    <h2>{{ 'my_travels.list.title'|trans }}</h2>
+
+    {% for element in elements %}
+
+        <div class="col-md-4">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading"><strong>{{ element.title }}</strong></div>
+
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        {{ 'my_travels.list.dates'|trans }} {{ element.startDate|date('d/m/Y') }} - {{ element.endDate|date('d/m/Y') }}
+                        <a href="#" class="glyphicon glyphicon-search" title="{{ 'my_travels.list.link_show'|trans }}"></a>
+                    </li>
+                    <li class="list-group-item">{{ 'my_travels.list.place'|trans }} {{ element.place.title }}</li>
+                    <li class="list-group-item">
+                        {{ 'my_travels.list.pictures'|trans }} {{ element.pictures|length }}
+                        <a href="{{ path('app_travels_add_pictures', {'id': element.id}) }}" class="glyphicon glyphicon-upload" title="{{ 'my_travels.list.link_add_pictures'|trans }}"></a>
+                    </li>
+                    <li class="list-group-item">{{ 'my_travels.list.added'|trans }} {{ element.createdAt|date('d/m/Y')}}</li>
+                </ul>
+            </div>
+
+        </div>
+
+    {% endfor %}
+
 {% endblock %}
