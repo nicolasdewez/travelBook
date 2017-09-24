@@ -37,6 +37,7 @@ You can go to: [http://web.travelbook/](http://web.travelbook/)
 * Mails
 * Date format function locale
 * Improvements css: filters -> 2 columns ? with in tables ? Using Saas
+* Improvements js: datetimepicker bugs
 * Live notifications
 * In user settings, can choice receive notifications
 * Logs: files, channels ? Add connected users and more information

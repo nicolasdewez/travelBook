@@ -187,6 +187,25 @@ class Picture extends Timestampable implements SimpleEntityDenormalizableInterfa
     }
 
     /**
+     * @return bool
+     */
+    public function isValidated(): bool
+    {
+        return CheckPictureDefinitionWorkflow::PLACE_VALIDATED === $this->checkState;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValidationInProgress(): bool
+    {
+        return in_array($this->checkState, [
+            CheckPictureDefinitionWorkflow::PLACE_UPLOADED,
+            CheckPictureDefinitionWorkflow::PLACE_HEALTHY,
+        ]);
+    }
+
+    /**
      * @return Place
      */
     public function getPlace(): ?Place

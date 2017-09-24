@@ -58,6 +58,10 @@ app_validation_pictures_re_validation:
 app_travels:
     title: 'breadcrumb.app_travels'
 
+app_travels_show:
+    title: 'breadcrumb.app_travels_show'
+    parent: 'app_travels'
+
 app_travels_create:
     title: 'breadcrumb.app_travels_create'
 

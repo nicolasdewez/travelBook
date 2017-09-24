@@ -46,6 +46,7 @@ breadcrumb:
     app_validation_pictures_list_processed: Photos traitées
     app_validation_pictures_revalidation: Validation
     app_travels: Mes voyages
+    app_travels_show: Mon voyage
     app_travels_create: Nouveau voyage
     app_travels_add_pictures: Ajout de photos
 
@@ -326,5 +327,17 @@ my_travels:
         place: "Lieu :"
         pictures: "Nombre de photos :"
         added: "Ajouté le :"
+        validation_in_progress: en cours de validation
+        validated: validées
         link_add_pictures: Ajouter des photos
         link_show: Voir le voyage
+    show:
+        title: Mon voyage
+        dates: "Dates :"
+        date: "Date :"
+        place: "Lieu :"
+        pictures: "Nombre de photos :"
+        added: "Ajouté le :"
+        validation_in_progress: en cours de validation
+        validated: validées
+        link_add_pictures: Ajouter des photos

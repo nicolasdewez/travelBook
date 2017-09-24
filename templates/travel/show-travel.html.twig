@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>{{ 'my_travels.show.title'|trans }}</h2>
+
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><strong>{{ travel.title }}</strong></div>
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    {{ 'my_travels.show.dates'|trans }} {{ travel.startDate|date('d/m/Y') }} - {{ travel.endDate|date('d/m/Y') }}
+                </li>
+                <li class="list-group-item">{{ 'my_travels.show.place'|trans }} {{ travel.place.title }}</li>
+                <li class="list-group-item">
+                    {{ 'my_travels.show.pictures'|trans }}
+
+                    {{ travel.countPicturesValidationInProgress }} {{ 'my_travels.show.validation_in_progress'|trans }},
+                    {{ travel.countPicturesValidated }} {{ 'my_travels.show.validated'|trans }}
+
+                    <a href="{{ path('app_travels_add_pictures', { 'id': travel.id }) }}" class="glyphicon glyphicon-upload" title="{{ 'my_travels.show.link_add_pictures'|trans }}"></a>
+                </li>
+                <li class="list-group-item">{{ 'my_travels.show.added'|trans }} {{ travel.createdAt|date('d/m/Y')}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    {% if travel.picturesValidated|length %}
+        <div class="col-md-12">
+            <div class="carousel">
+                {% for picture in travel.picturesValidated %}
+                    <div>
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><strong>{{ picture.title }}</strong></div>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        {{ 'my_travels.show.date'|trans }} {{ picture.date|date('d/m/Y') }}
+                                    </li>
+                                    <li class="list-group-item">{{ 'my_travels.show.place'|trans }} {{ picture.place.title }}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <img src="{{ asset(picture_path(picture)) }}"/>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

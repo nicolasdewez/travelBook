@@ -721,32 +721,32 @@
         },
         {
             "name": "doctrine/instantiator",
-            "version": "1.0.5",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d"
+                "reference": "185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8e884e78f9f0eb1329e445619e04456e64d8051d",
-                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
+                "reference": "185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3,<8.0-DEV"
+                "php": "^7.1"
             },
             "require-dev": {
                 "athletic/athletic": "~0.1.8",
                 "ext-pdo": "*",
                 "ext-phar": "*",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~2.0"
+                "phpunit/phpunit": "^6.2.3",
+                "squizlabs/php_codesniffer": "^3.0.2"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -771,7 +771,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2015-06-14T21:17:01+00:00"
+            "time": "2017-07-22T11:58:36+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -903,16 +903,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.5.10",
+            "version": "v2.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "c78afd51721804f4f76ff30d9b6f6159eb046161"
+                "reference": "249b737094f1e7cba4f0a8d19acf5be6cf3ed504"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/c78afd51721804f4f76ff30d9b6f6159eb046161",
-                "reference": "c78afd51721804f4f76ff30d9b6f6159eb046161",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/249b737094f1e7cba4f0a8d19acf5be6cf3ed504",
+                "reference": "249b737094f1e7cba4f0a8d19acf5be6cf3ed504",
                 "shasum": ""
             },
             "require": {
@@ -920,7 +920,7 @@
                 "doctrine/collections": "~1.2",
                 "doctrine/common": ">=2.5-dev,<2.9-dev",
                 "doctrine/dbal": ">=2.5-dev,<2.7-dev",
-                "doctrine/instantiator": "~1.0.1",
+                "doctrine/instantiator": "^1.0.1",
                 "ext-pdo": "*",
                 "php": ">=5.4",
                 "symfony/console": "~2.5|~3.0"
@@ -975,7 +975,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2017-08-18T19:17:35+00:00"
+            "time": "2017-09-18T06:50:20+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -1570,16 +1570,16 @@
         },
         {
             "name": "php-amqplib/php-amqplib",
-            "version": "v2.6.3",
+            "version": "v2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-amqplib/php-amqplib.git",
-                "reference": "fa2f0d4410a11008cb36b379177291be7ee9e4f6"
+                "reference": "f48748546e398d846134c594dfca9070c4c3b356"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-amqplib/php-amqplib/zipball/fa2f0d4410a11008cb36b379177291be7ee9e4f6",
-                "reference": "fa2f0d4410a11008cb36b379177291be7ee9e4f6",
+                "url": "https://api.github.com/repos/php-amqplib/php-amqplib/zipball/f48748546e398d846134c594dfca9070c4c3b356",
+                "reference": "f48748546e398d846134c594dfca9070c4c3b356",
                 "shasum": ""
             },
             "require": {
@@ -1636,7 +1636,7 @@
                 "queue",
                 "rabbitmq"
             ],
-            "time": "2016-04-11T14:30:01+00:00"
+            "time": "2017-08-03T22:06:21+00:00"
         },
         {
             "name": "php-amqplib/rabbitmq-bundle",
@@ -2947,16 +2947,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.19",
+            "version": "v1.0.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "e26bae9100740f20bcf19ebb6f2d82c2a9a0a1af"
+                "reference": "18e1d580367425ed6bc5e3046d40ec1d734d45e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/e26bae9100740f20bcf19ebb6f2d82c2a9a0a1af",
-                "reference": "e26bae9100740f20bcf19ebb6f2d82c2a9a0a1af",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/18e1d580367425ed6bc5e3046d40ec1d734d45e7",
+                "reference": "18e1d580367425ed6bc5e3046d40ec1d734d45e7",
                 "shasum": ""
             },
             "require": {
@@ -2989,7 +2989,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2017-09-13T13:13:23+00:00"
+            "time": "2017-09-14T19:04:54+00:00"
         },
         {
             "name": "symfony/form",
@@ -5726,16 +5726,16 @@
         },
         {
             "name": "phpmetrics/phpmetrics",
-            "version": "v2.2.0",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpmetrics/PhpMetrics.git",
-                "reference": "cc553d9ede844cd638e0d208b4f6eb6a201d2bbd"
+                "reference": "c6fc9a5ef08571ffa3b09d2f05017b4705715b95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpmetrics/PhpMetrics/zipball/cc553d9ede844cd638e0d208b4f6eb6a201d2bbd",
-                "reference": "cc553d9ede844cd638e0d208b4f6eb6a201d2bbd",
+                "url": "https://api.github.com/repos/phpmetrics/PhpMetrics/zipball/c6fc9a5ef08571ffa3b09d2f05017b4705715b95",
+                "reference": "c6fc9a5ef08571ffa3b09d2f05017b4705715b95",
                 "shasum": ""
             },
             "require": {
@@ -5783,7 +5783,7 @@
                 "quality",
                 "testing"
             ],
-            "time": "2017-04-13T05:18:28+00:00"
+            "time": "2017-09-22T09:33:03+00:00"
         },
         {
             "name": "phpspec/prophecy",

@@ -13,12 +13,16 @@
                 <ul class="list-group">
                     <li class="list-group-item">
                         {{ 'my_travels.list.dates'|trans }} {{ element.startDate|date('d/m/Y') }} - {{ element.endDate|date('d/m/Y') }}
-                        <a href="#" class="glyphicon glyphicon-search" title="{{ 'my_travels.list.link_show'|trans }}"></a>
+                        <a href="{{ path('app_travels_show', { 'id': element.id }) }}" class="glyphicon glyphicon-search" title="{{ 'my_travels.list.link_show'|trans }}"></a>
                     </li>
                     <li class="list-group-item">{{ 'my_travels.list.place'|trans }} {{ element.place.title }}</li>
                     <li class="list-group-item">
-                        {{ 'my_travels.list.pictures'|trans }} {{ element.pictures|length }}
-                        <a href="{{ path('app_travels_add_pictures', {'id': element.id}) }}" class="glyphicon glyphicon-upload" title="{{ 'my_travels.list.link_add_pictures'|trans }}"></a>
+                        {{ 'my_travels.list.pictures'|trans }}
+
+                        {{ element.countPicturesValidationInProgress }} {{ 'my_travels.list.validation_in_progress'|trans }},
+                        {{ element.countPicturesValidated }} {{ 'my_travels.list.validated'|trans }}
+
+                        <a href="{{ path('app_travels_add_pictures', { 'id': element.id }) }}" class="glyphicon glyphicon-upload" title="{{ 'my_travels.list.link_add_pictures'|trans }}"></a>
                     </li>
                     <li class="list-group-item">{{ 'my_travels.list.added'|trans }} {{ element.createdAt|date('d/m/Y')}}</li>
                 </ul>

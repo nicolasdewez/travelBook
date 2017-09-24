@@ -41,11 +41,12 @@ breadcrumb:
     app_admin_places_list: Places management
     app_admin_places_create: Create place
     app_admin_places_edit: Edit place
-    app_travels: My travels
     app_validation_pictures_list: Pictures validation
     app_validation_pictures_invalidation: Invalidation
     app_validation_pictures_list_processed: Pictures proccessed
     app_validation_pictures_revalidation: Validation
+    app_travels: My travels
+    app_travels_show: My travel
     app_travels_create: New travel
     app_travels_add_pictures: Add pictures
 
@@ -325,5 +326,17 @@ my_travels:
         place: "Place:"
         pictures: "Total pictures:"
         added: "Added at:"
+        validation_in_progress: validation in progress
+        validated: validated
         link_add_pictures: Add pictures
         link_show: Show the travel
+    show:
+        title: My travel
+        dates: "Dates:"
+        date: "Date:"
+        place: "Place:"
+        pictures: "Total pictures:"
+        added: "Added at:"
+        validation_in_progress: validation in progress
+        validated: validated
+        link_add_pictures: Add pictures

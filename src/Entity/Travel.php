@@ -215,6 +215,57 @@ class Travel extends Timestampable
     }
 
     /**
+     * @return array
+     */
+    public function getPicturesValidated(): array
+    {
+        $pictures = [];
+
+        /** @var Picture $picture */
+        foreach ($this->pictures as $picture) {
+            if ($picture->isValidated()) {
+                $pictures[] = $picture;
+            }
+        }
+
+        return $pictures;
+    }
+
+    /**
+     * @return int
+     */
+    public function countPicturesValidated(): int
+    {
+        $total = 0;
+
+        /** @var Picture $picture */
+        foreach ($this->pictures as $picture) {
+            if ($picture->isValidated()) {
+                ++$total;
+            }
+        }
+
+        return $total;
+    }
+
+    /**
+     * @return int
+     */
+    public function countPicturesValidationInProgress(): int
+    {
+        $total = 0;
+
+        /** @var Picture $picture */
+        foreach ($this->pictures as $picture) {
+            if ($picture->isValidationInProgress()) {
+                ++$total;
+            }
+        }
+
+        return $total;
+    }
+
+    /**
      * @param ExecutionContextInterface $context
      * @param Travel                    $payload
      *

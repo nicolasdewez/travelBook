@@ -69,6 +69,18 @@ class TravelController
     }
 
     /**
+     * @param Travel $travel
+     *
+     * @return Response
+     *
+     * @Route("/{id}", name="app_travels_show", requirements={"id": "^\d+$"}, methods={"GET"})
+     */
+    public function showTravelAction(Travel $travel): Response
+    {
+        return new Response($this->twig->render('travel/show-travel.html.twig', ['travel' => $travel]));
+    }
+
+    /**
      * @param Request       $request
      * @param UserInterface $user
      * @param TravelManager $manager

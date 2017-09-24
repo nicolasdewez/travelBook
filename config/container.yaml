@@ -4,7 +4,8 @@ parameters:
     router.request_context.scheme: '%env(APP_SCHEME)%'
     router.request_context.base_url: '%env(APP_BASE_URL)%'
     app_version: '1.0.0-dev'
-    app_path_data:  '%kernel.project_dir%/public/data'
+    app_path_public: '%kernel.project_dir%/public'
+    app_path_data: '%app_path_public%/data'
     app_path_data_pictures: '%app_path_data%/pictures'
     app_google_api_key: '%env(APP_GOOGLE_API_KEY)%'
     app_api_mock: false
@@ -86,6 +87,13 @@ services:
     App\Security\GenerateRegistrationCode:
         arguments:
             $secret: '%env(APP_SECRET)%'
+
+    App\Twig\PictureExtension:
+        arguments:
+            $pathPublic: '%app_path_public%'
+            $pathPictures: '%app_path_data_pictures%'
+        tags:
+            - 'twig.extension'
 
     App\Uploader\PictureUploader:
         arguments:
