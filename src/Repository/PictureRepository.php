@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Picture;
+use App\Entity\User;
 use App\Model\FilterPicture;
 use App\Pagination\DefinitionPagination;
 use App\Workflow\CheckPictureDefinitionWorkflow;
@@ -146,6 +147,24 @@ class PictureRepository extends EntityRepository
 
         return $query->getQuery()
             ->setParameters($parameters)
+            ->execute()
+        ;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return Picture[]
+     */
+    public function getByUser(User $user): array
+    {
+        $query = $this->createQueryBuilder('p')
+            ->innerJoin('p.travel', 't')
+            ->where('t.user = :user')
+        ;
+
+        return $query->getQuery()
+            ->setParameters(['user' => $user])
             ->execute()
         ;
     }

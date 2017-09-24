@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>{{ 'my_pictures.list.title'|trans }}</h2>
+
+    <div class="col-md-12">
+        <div class="carousel">
+        {% for element in elements %}
+            <div>
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><strong>{{ element.title }}</strong></div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                {{ 'my_pictures.list.date'|trans }} {{ element.date|date('d/m/Y') }}
+                            </li>
+                            <li class="list-group-item">{{ 'my_pictures.list.place'|trans }} {{ element.place.title }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <img src="{{ asset(picture_path(element)) }}"/>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

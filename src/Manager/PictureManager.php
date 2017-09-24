@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Entity\Picture;
+use App\Entity\User;
 use App\Logger\Log;
 use App\Model\FilterPicture;
 use App\Pagination\InformationPagination;
@@ -95,5 +96,15 @@ class PictureManager
         $pagination = $this->pagination->getLimitAndOffset($page);
 
         return $this->repository->getToReValidationByCriteria($filterPicture, $pagination);
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return Picture[]
+     */
+    public function listByUser(User $user): array
+    {
+        return $this->repository->getByUser($user);
     }
 }

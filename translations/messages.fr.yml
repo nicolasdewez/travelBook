@@ -49,6 +49,7 @@ breadcrumb:
     app_travels_show: Mon voyage
     app_travels_create: Nouveau voyage
     app_travels_add_pictures: Ajout de photos
+    app_pictures: Mes photos
 
 workflow:
     registration:
@@ -341,3 +342,9 @@ my_travels:
         validation_in_progress: en cours de validation
         validated: validées
         link_add_pictures: Ajouter des photos
+
+my_pictures:
+    list:
+        title: Mes photos
+        date: "Date :"
+        place: "Lieu :"
