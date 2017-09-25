@@ -18,7 +18,6 @@ menu:
     my_travels: My travels
     new_travel: New travel
     my_pictures: My pictures
-    search: Search
     admin:
         title: Admin
         users: Users

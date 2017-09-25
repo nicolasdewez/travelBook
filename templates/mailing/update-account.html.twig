@@ -1,1 +1,9 @@
-Information updated !
+{% extends 'mailing/base.html.twig' %}
+
+{% trans_default_domain 'mails' %}
+
+{% block body %}
+    <h2>{{ 'update_account.title'|trans }}</h2>
+
+    {{ 'update_account.body'|trans }}
+{% endblock %}

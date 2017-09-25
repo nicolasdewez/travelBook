@@ -1,1 +1,16 @@
-Picture invalid
+{% extends 'mailing/base.html.twig' %}
+
+{% trans_default_domain 'mails' %}
+
+{% block body %}
+    <h2>{{ 'picture_invalid.title'|trans }}</h2>
+
+    {{ 'picture_invalid.body'|trans }}
+
+    <ul>
+        <li>{{ 'picture_invalid.picture_title'|trans }} {{ invalidationPicture.picture.title }}</li>
+        <li>{{ 'picture_invalid.date'|trans }} {{ invalidationPicture.picture.date|date('d/m/Y') }}</li>
+        <li>{{ 'picture_invalid.place'|trans }} {{ invalidationPicture.picture.place.title }}</li>
+        <li>{{ 'picture_invalid.reason'|trans }} {{ invalidationPicture.reason }} {{ invalidationPicture.comment }}</li>
+    </ul>
+{% endblock %}

@@ -1,23 +1,54 @@
 registration:
     subject: "[Travelbook] Inscription"
+    title: "Inscription"
+    body: "Nous avons le plaisir de vous confirmer la création de votre compte."
+    username: "Votre login :"
+    password: "Mot de passe :"
+    active: "Pour activer votre compte, merci de cliquer sur ce lien :"
+    active_link: "ici"
 
 password_lost:
     subject: "[Travelbook] Création d'un nouveau mot de passe"
+    title: "Creation d'un mot de passe"
+    body: "Un nouveau mot de passe a été créé pour votre compte."
+    username: "Votre login :"
+    password: "Mot de passe :"
 
 change_password:
     subject: "[Travelbook] Mise à jour de votre mot de passe"
+    title: "Modification de mot de passe"
+    body: "Votre mot de passe a été mis à jour."
 
 update_account:
     subject: "[Travelbook] Mise à jour de votre compte"
+    title: "Modification de votre compte"
+    body: "Votre compte a été mis à jour."
 
 enable_account:
     subject: "[Travelbook] Réactivation de votre compte"
+    title: "Activation de compte"
+    body: "Votre compte a été activé. Vous pouvez contacter nos équipes pour avoir plus d'informations."
 
 disable_account:
     subject: "[Travelbook] Désactivation de votre compte"
+    title: "Désactivation de compte"
+    body: "Attention ! Votre compte a été désactivé. Vous pouvez contacter nos équipes pour avoir plus d'informations."
 
 picture_virus:
     subject: "[Travelbook] Attention ! L'image envoyée est un virus"
+    title: "Attention ! Virus !"
+    body: "Une image que vous avez téléchargé sur notre site est un virus ! Ci-dessous les informations enregistrées :"
+    picture_title: "Libellé :"
+    date: "Date :"
+    place: "Lieu :"
 
 picture_invalid:
     subject: "[Travelbook] Image invalidée"
+    title: "Invalidation d'image"
+    body: "Une image que vous avez téléchargé sur notre site a été invalidée ! Vous pouvez contacter nos équipes pour avoir plus d'informations. Ci-dessous les informations enregistrées :"
+    picture_title: "Libellé :"
+    date: "Date :"
+    place: "Lieu :"
+    reason: "Raison :"
+
+end: "Merci de votre confiance et à très bientôt."

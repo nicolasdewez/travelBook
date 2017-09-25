@@ -1,23 +1,54 @@
 registration:
     subject: "[Travelbook] Registration"
+    title: "Registration"
+    body: "We have the pleasure to confirm you the creation of your account"
+    username: "Your username:"
+    password: "Your password:"
+    active: "To activate your account, thank you for clicking this link:"
+    active_link: "here"
 
 password_lost:
     subject: "[Travelbook] Create new password"
+    title: "Create password"
+    body: "A new password has been created for your account"
+    username: "Your username:"
+    password: "Your password:"
 
 change_password:
     subject: "[Travelbook] Update of your password"
+    title: "Update password"
+    body: "Your password has been updated."
 
 update_account:
     subject: "[Travelbook] Update of your account"
+    title: "Update account"
+    body: "Your account has been updated."
 
 enable_account:
     subject: "[Travelbook] Enable your account"
+    title: "Enable account"
+    body: "Your account has been enabled. You can contact our teams for more information."
 
 disable_account:
     subject: "[Travelbook] Disable your account"
+    title: "Disable account"
+    body: "Warning! Your account has been disabled. You can contact our teams for more information."
 
 picture_virus:
     subject: "[Travelbook] Warning! Picture uploaded is virus"
+    title: "Warning! Virus!"
+    body: "A picture uploaded on our website is a virus! This is information saved:"
+    picture_title: "Title:"
+    date: "Date:"
+    place: "Place:"
 
 picture_invalid:
     subject: "[Travelbook] Picture invalidated"
+    title: "Picture invalidated"
+    body: "A picture uploaded on our website has been invalidated! This is information saved:"
+    picture_title: "Title:"
+    date: "Date:"
+    place: "Place:"
+    reason: "Reason:"
+
+end: "Thank you for your trust and see you soon"

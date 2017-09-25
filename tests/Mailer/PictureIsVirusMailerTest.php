@@ -46,7 +46,7 @@ class PictureIsVirusMailerTest extends TestCase
         $twig
             ->expects($this->once())
             ->method('render')
-            ->with('mailing/picture-virus.html.twig', ['user' => $user, 'picture' => $picture])
+            ->with('mailing/picture-virus.html.twig', ['picture' => $picture])
             ->willReturn('body')
         ;
 

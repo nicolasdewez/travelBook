@@ -1,0 +1,27 @@
+{% trans_default_domain 'mails' %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="{{ absolute_url(asset('build/style-app.css')) }}" />
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <a class="header-container-link" href="{{ url('app_home') }}">
+                <h1>Travelbook <small>{{ app_version }}</small></h1>
+            </a>
+        </div>
+    </header>
+
+    <div class="body">
+        {% block body %}{% endblock %}
+
+        <br>
+        {{ 'end'|trans }}
+    </div>
+
+</body>
+</html>

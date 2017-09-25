@@ -21,7 +21,6 @@ class PictureIsVirusMailer extends AbstractMailer
             $this->twig->render(
                 'mailing/picture-virus.html.twig',
                 [
-                    'user' => $user,
                     'picture' => $picture,
                 ]
             )

@@ -1,0 +1,15 @@
+{% extends 'mailing/base.html.twig' %}
+
+{% trans_default_domain 'mails' %}
+
+{% block body %}
+    <h2>{{ 'picture_virus.title'|trans }}</h2>
+
+    {{ 'picture_virus.body'|trans }}
+
+    <ul>
+        <li>{{ 'picture_virus.picture_title'|trans }} {{ picture.title }}</li>
+        <li>{{ 'picture_virus.date'|trans }} {{ picture.date|date('d/m/Y') }}</li>
+        <li>{{ 'picture_virus.place'|trans }} {{ picture.place.title }}</li>
+    </ul>
+{% endblock %}

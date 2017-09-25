@@ -1,1 +1,9 @@
-Account enabled !
+{% extends 'mailing/base.html.twig' %}
+
+{% trans_default_domain 'mails' %}
+
+{% block body %}
+    <h2>{{ 'enable_account.title'|trans }}</h2>
+
+    {{ 'enable_account.body'|trans }}
+{% endblock %}

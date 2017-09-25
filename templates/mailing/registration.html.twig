@@ -1,8 +1,17 @@
-<a href="{{ url('app_active', {'registrationCode': user.registrationCode}) }}">
-    Active link
-</a>
+{% extends 'mailing/base.html.twig' %}
 
-<ul>
-    <li>Username: {{ user.username }}</li>
-    <li>Password: {{ password }}</li>
-</ul>
+{% trans_default_domain 'mails' %}
+
+{% block body %}
+    <h2>{{ 'registration.title'|trans }}</h2>
+
+    {{ 'registration.body'|trans }}
+
+    <ul>
+        <li>{{ 'registration.username'|trans }} {{ user.username }}</li>
+        <li>{{ 'registration.password'|trans }} {{ password }}</li>
+    </ul>
+
+    {{ 'registration.active'|trans }}
+    <a href="{{ url('app_active', {'registrationCode': user.registrationCode}) }}">{{ 'registration.active_link'|trans }}</a>
+{% endblock %}

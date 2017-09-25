@@ -1,1 +1,9 @@
-Account disabled !
+{% extends 'mailing/base.html.twig' %}
+
+{% trans_default_domain 'mails' %}
+
+{% block body %}
+    <h2>{{ 'disable_account.title'|trans }}</h2>
+
+    {{ 'disable_account.body'|trans }}
+{% endblock %}
