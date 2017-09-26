@@ -45,6 +45,10 @@ services:
         tags:
             - 'doctrine.event_subscriber'
 
+    App\Processor\ClientProcessor:
+        tags:
+            - { name: 'monolog.processor', method: 'processRecord' }
+
     App\Producer\AnalyzePictureProducer:
         arguments:
             $producer: '@old_sound_rabbit_mq.analyze_picture_producer'

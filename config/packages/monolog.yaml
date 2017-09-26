@@ -1,0 +1,7 @@
+monolog:
+    handlers:
+        main:
+            type: 'rotating_file'
+            path: '%kernel.logs_dir%/app.%kernel.environment%.log'
+            level: '%env(APP_LOGGING_LEVEL)%'
+            max_files: 10

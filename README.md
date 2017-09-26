@@ -40,7 +40,6 @@ You can go to: [http://web.travelbook/](http://web.travelbook/)
 * Improvements style in user features
 * Live notifications
 * In user settings, can choice receive notifications
-* Logs: files, channels ? Add connected users and more information
 * Steps 1 and 2 travel: if place does not exists then create it
 * Add possibility to delete travel or picture
 * Add behat tests (with selenium)
