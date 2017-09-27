@@ -49,13 +49,36 @@ class UpdateAccountTest extends TestCase
         $this->assertSame('encoded', $user->getPassword());
     }
 
+    public function testExecuteWithNewPasswordAndWithoutMail()
+    {
+        $user = (new User())
+            ->setNewPassword('new')
+            ->setEmailNotification(false)
+        ;
+
+        $encoder = $this->createMock(UserPasswordEncoderInterface::class);
+        $encoder
+            ->expects($this->once())
+            ->method('encodePassword')
+            ->with($user, 'new')
+            ->willReturn('encoded')
+        ;
+
+        $updateAccount = $this->getUpdateAccount($encoder, $user, 0);
+
+        $updateAccount->execute($user);
+
+        $this->assertSame('encoded', $user->getPassword());
+    }
+
     /**
      * @param User                         $user
      * @param UserPasswordEncoderInterface $encoder
+     * @param int                          $countProducer
      *
      * @return UpdateAccount
      */
-    private function getUpdateAccount(UserPasswordEncoderInterface $encoder, User $user)
+    private function getUpdateAccount(UserPasswordEncoderInterface $encoder, User $user, int $countProducer = 1)
     {
         $manager = $this->createMock(EntityManagerInterface::class);
         $manager
@@ -73,7 +96,7 @@ class UpdateAccountTest extends TestCase
 
         $producer = $this->createMock(MailUpdateAccountProducer::class);
         $producer
-            ->expects($this->once())
+            ->expects($this->exactly($countProducer))
             ->method('execute')
             ->with($user)
         ;

@@ -311,6 +311,23 @@ validation:
                 comment: Comment
             link_validation: Validate
 
+home:
+    title: Welcome!
+    sub_title: Travelbook is an application allowing to share your travels through the photos which you wish to shar.
+    registration_title: Registration
+    registration_body_1: You can join by following
+    registration_body_2: this link.
+    registration_body_3: Some information will be asked you.
+    registration_body_4: Then you can take advantage completely of all the features.
+    connection_title: Connection
+    connection_body_1: You have already an account? Then click
+    connection_body_2: here.
+    password_lost_title: Password lost
+    password_lost_body_1: If you lost your password, no panic!
+    password_lost_body_2: Follow
+    password_lost_body_3: this link
+    password_lost_body_4: ", complete the form and a new password will be created."
+
 travels:
     create:
         title: Add travel

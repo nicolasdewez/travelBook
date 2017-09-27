@@ -59,4 +59,53 @@ class ValidFirstConnectionTest extends TestCase
         $this->assertSame('encoded', $user->getPassword());
         $this->assertFalse($user->isFirstConnection());
     }
+
+    public function testExecuteWithoutMail()
+    {
+        $user = (new User())
+            ->setNewPassword('password')
+            ->setEmailNotification(false)
+        ;
+
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager
+            ->expects($this->once())
+            ->method('flush')
+            ->withAnyParameters()
+        ;
+
+        $encoder = $this->createMock(UserPasswordEncoderInterface::class);
+        $encoder
+            ->expects($this->once())
+            ->method('encodePassword')
+            ->with($user, 'password')
+            ->willReturn('encoded')
+        ;
+
+        $refreshToken = $this->createMock(RefreshToken::class);
+        $refreshToken
+            ->expects($this->once())
+            ->method('execute')
+            ->withAnyParameters()
+        ;
+
+        $producer = $this->createMock(MailChangePasswordProducer::class);
+        $producer
+            ->expects($this->never())
+            ->method('execute')
+        ;
+
+        $validFirstConnection = new ValidFirstConnection(
+            $manager,
+            $encoder,
+            $refreshToken,
+            $producer,
+            new NullLogger()
+        );
+
+        $validFirstConnection->execute($user);
+
+        $this->assertSame('encoded', $user->getPassword());
+        $this->assertFalse($user->isFirstConnection());
+    }
 }

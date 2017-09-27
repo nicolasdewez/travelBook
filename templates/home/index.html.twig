@@ -1,11 +1,46 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    EXPLICATIONS ET LIENS VERS IDENTIFICATION / INSCRIPTIONS
 
-    <ul>
-        <li><a href="{{ path('app_registration') }}">Inscription</a></li>
-        <li><a href="{{ path('app_login') }}">Connexion</a></li>
-        <li><a href="{{ path('app_password_lost') }}">Mot de passe oublié</a></li>
-    </ul>
+    <h2>{{ 'home.title'|trans }}</h2>
+
+    <p><strong>{{ 'home.sub_title'|trans }}</strong></p>
+
+    <div class="col-md-4">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading"><strong>{{ 'home.registration_title'|trans }}</strong></div>
+
+            <div class="panel-body">
+                <p>{{ 'home.registration_body_1'|trans }} <a href="{{ path('app_registration') }}">{{ 'home.registration_body_2'|trans }}</a></p>
+                <p>{{ 'home.registration_body_3'|trans }}</p>
+                <p>{{ 'home.registration_body_4'|trans }}</p>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading"><strong>{{ 'home.connection_title'|trans }}</strong></div>
+
+            <div class="panel-body">
+                <p>{{ 'home.connection_body_1'|trans }} <a href="{{ path('app_login') }}">{{ 'home.connection_body_2'|trans }}</a></p>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading"><strong>{{ 'home.password_lost_title'|trans }}</strong></div>
+
+            <div class="panel-body">
+                <p>{{ 'home.password_lost_body_1'|trans }}</p>
+                <p>{{ 'home.password_lost_body_2'|trans }} <a href="{{ path('app_password_lost') }}">{{ 'home.password_lost_body_3'|trans }}</a>{{ 'home.password_lost_body_4'|trans }}</p>
+            </div>
+        </div>
+
+    </div>
+
 {% endblock %}
