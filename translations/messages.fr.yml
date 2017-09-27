@@ -90,6 +90,7 @@ form:
         firstname: Prénom
         lastname: Nom
         email: Email
+        email_notification: Notification par email
         locale: Langue
         current_password: Mot de passe actuel
         new_password_1: Nouveau mot de passe

@@ -56,11 +56,11 @@ install: ready ## Install application
 .PHONY: ready
 ready: pretty ## Check if environment is ready
 	@echo "[READY]" | $(call $(PRINT),READY,$(COLOR_READY))
-	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(APP):9000 ddn0/wait 2> /dev/null
-	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(WEB):80 ddn0/wait 2> /dev/null
-	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(DB):5432 ddn0/wait 2> /dev/null
-	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(RABBITMQ):5672 ddn0/wait 2> /dev/null
-	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(MAILER):1025 ddn0/wait 2> /dev/null
+	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(APP):9000 ddn0/wait 2> /dev/null | $(call $(PRINT),READY,$(COLOR_READY))
+	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(WEB):80 ddn0/wait 2> /dev/null | $(call $(PRINT),READY,$(COLOR_READY))
+	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(DB):5432 ddn0/wait 2> /dev/null | $(call $(PRINT),READY,$(COLOR_READY))
+	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(RABBITMQ):5672 ddn0/wait 2> /dev/null | $(call $(PRINT),READY,$(COLOR_READY))
+	@docker run --rm --net=$(NETWORK) -e TIMEOUT=30 -e TARGETS=$(MAILER):1025 ddn0/wait 2> /dev/null | $(call $(PRINT),READY,$(COLOR_READY))
 
 .PHONY: ps
 ps: ## List containers status
@@ -80,7 +80,7 @@ rm: ## Remove containers
 
 .PHONY: down
 down: ## Stop and remove containers, networks, volumes
-	@$(COMPOSE) down -v --remove-orphans
+	@$(COMPOSE) down -v --remove-orphans | $(call $(PRINT),DOWN,$(COLOR_INSTALL))
 
 .PHONY: destroy
 destroy: stop rm ## Stop and remove containers
@@ -205,8 +205,8 @@ app-reset: down app-clear ## Reset application
 
 
 
-.PHONY: db-connect
-db-connect: ## Run db cli (options: db_name [`travelbook`])
+.PHONY: db-exec
+db-exec: ## Run db cli (options: db_name [`travelbook`])
 	$(eval db_name ?= $(DB_NAME))
 	@$(COMPOSE) exec $(DB) psql -U travelbook
 

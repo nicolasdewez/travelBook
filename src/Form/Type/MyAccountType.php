@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Translation\Locale;
 use App\Validator\Group;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -25,6 +26,10 @@ class MyAccountType extends AbstractType
             ->add('firstname', TextType::class, ['label' => 'form.my_account.firstname'])
             ->add('lastname', TextType::class, ['label' => 'form.my_account.lastname'])
             ->add('email', EmailType::class, ['label' => 'form.my_account.email'])
+            ->add('emailNotification', CheckboxType::class, [
+                'label' => 'form.my_account.email_notification',
+                'required' => false,
+            ])
             ->add('locale', ChoiceType::class, [
                 'label' => 'form.my_account.locale',
                 'choices' => [

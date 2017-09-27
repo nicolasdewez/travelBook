@@ -141,6 +141,13 @@ class User extends Timestampable implements AdvancedUserInterface, SimpleEntityD
     private $registrationCode;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $emailNotification;
+
+    /**
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Travel", mappedBy="user", orphanRemoval=true)
@@ -176,6 +183,7 @@ class User extends Timestampable implements AdvancedUserInterface, SimpleEntityD
         $this->firstConnection = true;
         $this->enabled = false;
         $this->registrationState = RegistrationDefinitionWorkflow::PLACE_CREATED;
+        $this->emailNotification = true;
         $this->travels = new ArrayCollection();
         $this->pictures = [];
     }
@@ -422,6 +430,26 @@ class User extends Timestampable implements AdvancedUserInterface, SimpleEntityD
     public function setRegistrationCode(string $registrationCode): User
     {
         $this->registrationCode = $registrationCode;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmailNotification(): bool
+    {
+        return $this->emailNotification;
+    }
+
+    /**
+     * @param mixed $emailNotification
+     *
+     * @return User
+     */
+    public function setEmailNotification(bool $emailNotification): User
+    {
+        $this->emailNotification = $emailNotification;
 
         return $this;
     }

@@ -39,8 +39,8 @@ You can go to: [http://web.travelbook/](http://web.travelbook/)
 * Improvements js: datetimepicker bugs
 * Improvements style in user features
 * Live notifications
-* In user settings, can choice receive notifications
 * Steps 1 and 2 travel: if place does not exists then create it
 * Add possibility to delete travel or picture
 * Add behat tests (with selenium)
+* API
 * Add ELK for logs ?

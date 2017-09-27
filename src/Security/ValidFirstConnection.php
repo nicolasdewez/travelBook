@@ -63,6 +63,10 @@ class ValidFirstConnection
 
         $this->refreshToken->execute($user);
 
+        if (!$user->isEmailNotification()) {
+            return;
+        }
+
         $this->producer->execute($user);
     }
 }
