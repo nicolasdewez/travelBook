@@ -2,6 +2,7 @@
 
 namespace App\Tests\Session;
 
+use App\Model\FilterFeedback;
 use App\Model\FilterPicture;
 use App\Model\FilterPlace;
 use App\Model\FilterUser;
@@ -133,5 +134,36 @@ class FilterStorageTest extends TestCase
 
         $storage = new FilterStorage($session);
         $this->assertSame($filterPicture, $storage->getFilterPictureProcessed());
+    }
+    
+    public function testSaveFilterFeedback()
+    {
+        $filterFeedback = new FilterFeedback();
+
+        $session = $this->createMock(SessionInterface::class);
+        $session
+            ->expects($this->once())
+            ->method('set')
+            ->with(FilterStorage::FILTER_FEEDBACK, $filterFeedback)
+        ;
+
+        $storage = new FilterStorage($session);
+        $storage->saveFilterFeedback($filterFeedback);
+    }
+
+    public function testGetFilterFeedback()
+    {
+        $filterFeedback = new FilterFeedback();
+
+        $session = $this->createMock(SessionInterface::class);
+        $session
+            ->expects($this->once())
+            ->method('get')
+            ->with(FilterStorage::FILTER_FEEDBACK, new FilterFeedback())
+            ->willReturn($filterFeedback)
+        ;
+
+        $storage = new FilterStorage($session);
+        $this->assertSame($filterFeedback, $storage->getFilterFeedback());
     }
 }

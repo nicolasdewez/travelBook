@@ -14,7 +14,7 @@ security:
             security: false
 
         unsecured:
-            pattern: ^/(login|registration|password-lost|active/.*)?$
+            pattern: ^/(login|registration|password-lost|active/.*|feedback)?$
             anonymous: true
 
         # To change ?

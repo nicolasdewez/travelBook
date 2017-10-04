@@ -32,7 +32,6 @@ You can go to: [http://web.travelbook/](http://web.travelbook/)
 
 ## Future
 
-* Feedback
 * Date format function locale
 * Improvements css: filters -> 2 columns ? with in tables ? Using Saas
 * Improvements js: datetimepicker bugs

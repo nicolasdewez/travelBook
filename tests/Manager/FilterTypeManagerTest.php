@@ -2,10 +2,12 @@
 
 namespace App\Tests\Manager;
 
+use App\Form\Type\FilterFeedbackType;
 use App\Form\Type\FilterPictureType;
 use App\Form\Type\FilterPlaceType;
 use App\Form\Type\FilterUserType;
 use App\Manager\FilterTypeManager;
+use App\Model\FilterFeedback;
 use App\Model\FilterPicture;
 use App\Model\FilterPlace;
 use App\Model\FilterUser;
@@ -356,5 +358,90 @@ class FilterTypeManagerTest extends TestCase
 
         $manager = new FilterTypeManager($factory, $storage);
         $this->assertSame($form, $manager->executeToListPlaces($request));
+    }
+
+    public function testExecuteToListFeedbackWithFormNotSubmitted()
+    {
+        $request = new Request();
+        $filterFeedback = new FilterFeedback();
+
+        $storage = $this->createMock(FilterStorage::class);
+        $storage
+            ->expects($this->once())
+            ->method('getFilterFeedback')
+            ->withAnyParameters()
+            ->willReturn($filterFeedback)
+        ;
+        $storage
+            ->expects($this->never())
+            ->method('saveFilterFeedback')
+        ;
+
+        $form = $this->createMock(FormInterface::class);
+        $form
+            ->expects($this->once())
+            ->method('handleRequest')
+            ->with($request)
+        ;
+        $form
+            ->expects($this->once())
+            ->method('isSubmitted')
+            ->withAnyParameters()
+            ->willReturn(false)
+        ;
+
+        $factory = $this->createMock(FormFactoryInterface::class);
+        $factory
+            ->expects($this->once())
+            ->method('create')
+            ->with(FilterFeedbackType::class, $filterFeedback)
+            ->willReturn($form)
+        ;
+
+        $manager = new FilterTypeManager($factory, $storage);
+        $this->assertSame($form, $manager->executeToListFeedback($request));
+    }
+    
+    public function testExecuteToListFeedbackWithFormSubmitted()
+    {
+        $request = new Request();
+        $filterFeedback = new FilterFeedback();
+
+        $storage = $this->createMock(FilterStorage::class);
+        $storage
+            ->expects($this->once())
+            ->method('getFilterFeedback')
+            ->withAnyParameters()
+            ->willReturn($filterFeedback)
+        ;
+        $storage
+            ->expects($this->once())
+            ->method('saveFilterFeedback')
+            ->with($filterFeedback)
+        ;
+
+        $form = $this->createMock(FormInterface::class);
+        $form
+            ->expects($this->once())
+            ->method('handleRequest')
+            ->with($request)
+        ;
+        $form
+            ->expects($this->once())
+            ->method('isSubmitted')
+            ->withAnyParameters()
+            ->willReturn(true)
+        ;
+
+        $factory = $this->createMock(FormFactoryInterface::class);
+        $factory
+            ->expects($this->once())
+            ->method('create')
+            ->with(FilterFeedbackType::class, $filterFeedback)
+            ->willReturn($form)
+        ;
+
+        $manager = new FilterTypeManager($factory, $storage);
+        $this->assertSame($form, $manager->executeToListFeedback($request));
     }
 }

@@ -35,6 +35,7 @@ class EditUserType extends AbstractType
                     Role::TITLE_USER => Role::USER,
                     Role::TITLE_ADMIN => Role::ADMIN,
                     Role::TITLE_VALIDATOR => Role::VALIDATOR,
+                    Role::TITLE_CALLER => Role::CALLER,
                 ],
                 'required' => true,
                 'multiple' => true,

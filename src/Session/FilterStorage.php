@@ -2,6 +2,7 @@
 
 namespace App\Session;
 
+use App\Model\FilterFeedback;
 use App\Model\FilterPicture;
 use App\Model\FilterPlace;
 use App\Model\FilterUser;
@@ -13,6 +14,7 @@ class FilterStorage
     const FILTER_PLACE = 'app.filter.place';
     const FILTER_PICTURE = 'app.filter.picture';
     const FILTER_PICTURE_PROCESSED = 'app.filter.picture_processed';
+    const FILTER_FEEDBACK = 'app.filter.feedback';
 
     /** @var SessionInterface */
     private $session;
@@ -87,5 +89,21 @@ class FilterStorage
     public function getFilterPictureProcessed(): FilterPicture
     {
         return $this->session->get(self::FILTER_PICTURE_PROCESSED, new FilterPicture());
+    }
+
+    /**
+     * @param FilterFeedback $filterFeedback
+     */
+    public function saveFilterFeedback(FilterFeedback $filterFeedback)
+    {
+        $this->session->set(self::FILTER_FEEDBACK, $filterFeedback);
+    }
+
+    /**
+     * @return FilterFeedback|null
+     */
+    public function getFilterFeedback(): FilterFeedback
+    {
+        return $this->session->get(self::FILTER_FEEDBACK, new FilterFeedback());
     }
 }

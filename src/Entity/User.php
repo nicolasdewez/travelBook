@@ -109,6 +109,7 @@ class User extends Timestampable implements AdvancedUserInterface, SimpleEntityD
      * @ORM\Column(type="array")
      *
      * @Assert\NotBlank(groups={"edit"})
+     * @Assert\Choice(callback={"App\Security\Role", "getRoles"}, strict=true, multiple=true, groups={"edit"})
      */
     private $roles;
 

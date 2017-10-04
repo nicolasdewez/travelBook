@@ -55,6 +55,9 @@ app_validation_pictures_re_validation:
     title: 'breadcrumb.app_validation_pictures_revalidation'
     parent: 'app_validation_pictures_list_processed'
 
+app_call_feedback_list:
+    title: 'breadcrumb.app_call_feedback_list'
+
 app_travels:
     title: 'breadcrumb.app_travels'
 

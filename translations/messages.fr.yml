@@ -12,6 +12,10 @@ invalidation_picture_reason:
     pedophilia: Pédophilie
     others: Autre
 
+feedback_subject:
+    invalid_picture: Image invalide
+    other: Autre
+
 menu:
     my_account: Mon compte
     logout: Se déconnecter
@@ -26,6 +30,9 @@ menu:
         title: Validation
         pictures: Photos
         pictures_processed: Photos traitées
+    caller:
+        title: Contact
+        feedback: Retours
 
 breadcrumb:
     app_home: Bienvenue
@@ -44,6 +51,7 @@ breadcrumb:
     app_validation_pictures_invalidation: Invalidation
     app_validation_pictures_list_processed: Photos traitées
     app_validation_pictures_revalidation: Validation
+    app_call_feedback_list: Retours
     app_travels: Mes voyages
     app_travels_show: Mon voyage
     app_travels_create: Nouveau voyage
@@ -66,6 +74,7 @@ role:
     user: Utilisateur
     admin: Administrateur
     validator: Validateur
+    caller: Appelant
 
 form:
     save: Enregistrer
@@ -95,6 +104,10 @@ form:
         current_password: Mot de passe actuel
         new_password_1: Nouveau mot de passe
         new_password_2: Répêter le mot de passe
+    feedback:
+        user: Nom d'utilisateur
+        subject: Objet
+        comment: Commentaire
     admin:
         users:
             filter:
@@ -162,6 +175,19 @@ form:
                 invalidate: Invalider
                 validate: Valider
 
+    call:
+        feedback:
+            filter:
+                username: Nom d'utilisateur
+                subject: Objet
+                processed: Terminé
+                created_at_asc: Date de création croissant
+                created_at_desc: Date de création décroissant
+                id_asc: Identifiant croissant
+                id_desc: Identifiant décroissant
+                sort: Tri
+                submit: Rechercher
+
     travels:
         create:
             title: Libellé
@@ -225,6 +251,11 @@ change_password:
 my_account:
     title: Mise à jour de mes informations personnelles
     ok: Vos informations personnelles ont été mises à jour
+
+feedback:
+    title: Nous contacter
+    link_login: Je me connecte.
+    save_ok: Votre retour a été enregistré. Nous vous répondrons dans les plus brefs délais.
 
 admin:
     users:
@@ -311,6 +342,20 @@ validation:
                 reason: Raison
                 comment: Commentaire
             link_validation: Valider
+
+call:
+    feedback:
+        list:
+            title: Liste des prises de contact
+            table:
+                id: Id
+                user: Utilisateur
+                subject: Objet
+                comment: Commentaire
+                processed: Terminé
+                actions: Actions
+            link_finish: Terminer
+            process_feedback_ok: La prise de contact a été cloturée.
 
 home:
     title: Bienvenue !

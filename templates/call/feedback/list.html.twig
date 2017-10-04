@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block body %}
+    {% import 'common/icons.html.twig' as icons %}
+
+    <h2>{{ 'call.feedback.list.title'|trans }}</h2>
+
+    <div class="mini-body">
+        {{ form_start(form, {'action': path('app_call_feedback_list')}) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" value="{{ 'form.call.feedback.filter.submit'|trans }}" class="btn btn-primary pull-right" />
+        {{ form_end(form) }}
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="table-nbElements">{{ 'table.nb_elements'|transchoice(nbElements) }}</div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <tr>
+                <th>{{ 'call.feedback.list.table.id'|trans }}</th>
+                <th>{{ 'call.feedback.list.table.user'|trans }}</th>
+                <th>{{ 'call.feedback.list.table.subject'|trans }}</th>
+                <th>{{ 'call.feedback.list.table.comment'|trans }}</th>
+                <th>{{ 'call.feedback.list.table.processed'|trans }}</th>
+                <th>{{ 'call.feedback.list.table.actions'|trans }}</th>
+            </tr>
+            {% for element in elements %}
+                <tr>
+                    <td>{{ element.id }}</td>
+                    <td>{{ element.user.username }} ({{ element.user.firstname }} {{ element.user.lastname }})</td>
+                    <td>{{ element.getTitleSubject|trans }}</td>
+                    <td>{{ element.comment }}</td>
+                    <td>{{ icons.boolean(element.processed) }}</td>
+                    <td>
+                        {% if not element.processed %}
+                            <a href="{{ path('app_call_feedback_process', { 'id': element.id }) }}" class="glyphicon glyphicon-ok-sign" title="{{ 'call.feedback.list.link_finish'|trans }}"></a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <th colspan="6" class="text-center">{{ 'table.nb_elements'|transchoice(nbElements) }}</th>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    {% include 'common/pagination.html.twig' with {'page': page, 'nbPages': nbPages, 'route': 'app_call_feedback_list'} only %}
+{% endblock %}

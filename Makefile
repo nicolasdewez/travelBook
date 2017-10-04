@@ -126,8 +126,7 @@ check-security: ## Run security checker
 	@$(EXEC) $(APP) bin/console security:check
 
 .PHONY: check-schema
-check-schema: ## Run schema validate
-	@$(EXEC) $(APP) bin/console doctrine:schema:validate
+check-schema: db-validate
 
 .PHONY: check-twig
 check-twig: ## Run lint-twig
@@ -210,9 +209,17 @@ db-exec: ## Run db cli (options: db_name [`travelbook`])
 	$(eval db_name ?= $(DB_NAME))
 	@$(COMPOSE) exec $(DB) psql -U travelbook
 
+.PHONY: db-diff
+db-diff: ## Run doctrine migrations diff
+	@$(EXEC) $(APP) bin/console doctrine:migrations:diff
+
 .PHONY: db-migrate
 db-migrate: ## Run doctrine migrations
 	@$(EXEC) $(APP) bin/console doctrine:migrations:migrate --no-interaction
+
+.PHONY: db-validate
+db-validate: ## Run doctrine validation
+	@$(EXEC) $(APP) bin/console doctrine:schema:validate
 
 
 

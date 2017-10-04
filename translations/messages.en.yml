@@ -12,6 +12,10 @@ invalidation_picture_reason:
     pedophilia: Pedophilia
     others: Others
 
+feedback_subject:
+    invalid_picture: Invalid picture
+    other: Other
+
 menu:
     my_account: My account
     logout: Logout
@@ -26,6 +30,9 @@ menu:
         title: Validation
         pictures: Pictures
         pictures_processed: Processed pictures
+    caller:
+        title: Contact
+        feedback: Feedback
 
 breadcrumb:
     app_home: Welcome
@@ -44,6 +51,7 @@ breadcrumb:
     app_validation_pictures_invalidation: Invalidation
     app_validation_pictures_list_processed: Pictures proccessed
     app_validation_pictures_revalidation: Validation
+    app_call_feedback_list: Feedbacks
     app_travels: My travels
     app_travels_show: My travel
     app_travels_create: New travel
@@ -66,6 +74,7 @@ role:
     user: User
     admin: Administrator
     validator: Validator
+    caller: Caller
 
 form:
     save: Save
@@ -95,6 +104,10 @@ form:
         current_password: Current password
         new_password_1: New password
         new_password_2: Repeat password
+    feedback:
+        user: Username
+        subject: Subject
+        comment: Comment
     admin:
         users:
             filter:
@@ -123,7 +136,7 @@ form:
             filter:
                 title: Title
                 locale: Language
-                sort: Tri
+                sort: Sort
                 id_asc: Identifiant ascending
                 id_desc: Identifiant descending
                 title_asc: Title ascending
@@ -135,6 +148,19 @@ form:
                 title: Title
                 locale: Language
                 search: Search
+
+    call:
+        feedback:
+            filter:
+                username: Username
+                subject: Subject
+                processed: Finished
+                id_asc: Identifiant ascending
+                id_desc: Identifiant descending
+                created_at_asc: Create date ascending
+                created_at_desc: Create date descending
+                sort: Sort
+                submit: Search
 
     validation:
         pictures:
@@ -226,6 +252,11 @@ my_account:
     title: Edit my personal information
     ok: Your information are updated
 
+feedback:
+    title: Feedback
+    link_login: I sign in
+    save_ok: Your feedback has been saved. We shall answer you as soon as possible.
+
 admin:
     users:
         list:
@@ -310,6 +341,20 @@ validation:
                 reason: Reason
                 comment: Comment
             link_validation: Validate
+
+call:
+    feedback:
+        list:
+            title: List of feedback
+            table:
+                id: Id
+                user: User
+                subject: Object
+                comment: Comment
+                processed: Processed
+                actions: Actions
+            link_finish: Finish
+            process_feedback_ok: The feedback is closed.
 
 home:
     title: Welcome!

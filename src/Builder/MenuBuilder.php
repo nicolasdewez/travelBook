@@ -44,7 +44,7 @@ class MenuBuilder
         $items[] = $this->buildItem('menu.new_travel', 'app_travels_create');
         $items[] = $this->buildItem('menu.my_pictures', 'app_pictures');
 
-        if (!$this->isAdminUser($roles) && !$this->isValidatorUser($roles)) {
+        if (!$this->isAdminUser($roles) && !$this->isValidatorUser($roles) && !$this->isCallerUser($roles)) {
             return $items;
         }
 
@@ -74,6 +74,23 @@ class MenuBuilder
 
             $validatorItem = new MenuItem(
                 $this->translator->trans('menu.validator.title'),
+                '',
+                false,
+                $validatorItems
+            );
+
+            $validatorItem->setActiveFromItems();
+
+            $items[] = $validatorItem;
+        }
+
+        if ($this->isCallerUser($roles)) {
+            $validatorItems = [
+                $this->buildItem('menu.caller.feedback', 'app_call_feedback_list'),
+            ];
+
+            $validatorItem = new MenuItem(
+                $this->translator->trans('menu.caller.title'),
                 '',
                 false,
                 $validatorItems
@@ -122,5 +139,15 @@ class MenuBuilder
     private function isValidatorUser(array $roles): bool
     {
         return in_array(Role::VALIDATOR, $roles);
+    }
+
+    /**
+     * @param array $roles
+     *
+     * @return bool
+     */
+    private function isCallerUser(array $roles): bool
+    {
+        return in_array(Role::CALLER, $roles);
     }
 }

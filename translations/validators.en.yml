@@ -9,3 +9,6 @@ place:
 
 dates:
     start_before_end: Start date must be less or equal than end date
+
+user:
+    unknown: The username must be known

@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Form\Type\FilterFeedbackType;
 use App\Form\Type\FilterPictureType;
 use App\Form\Type\FilterPlaceType;
 use App\Form\Type\FilterUserType;
@@ -100,6 +101,24 @@ class FilterTypeManager
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $this->filterStorage->saveFilterPictureProcessed($filterPicture);
+        }
+
+        return $form;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return FormInterface
+     */
+    public function executeToListFeedback(Request $request): FormInterface
+    {
+        $filterFeedback = $this->filterStorage->getFilterFeedback();
+
+        $form = $this->formFactory->create(FilterFeedbackType::class, $filterFeedback);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $this->filterStorage->saveFilterFeedback($filterFeedback);
         }
 
         return $form;

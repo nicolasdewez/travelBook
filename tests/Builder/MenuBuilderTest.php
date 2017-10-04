@@ -13,7 +13,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class MenuBuilderTest extends TestCase
 {
-    public function testExecuteNoAdminAndNoValidator()
+    public function testExecuteUser()
     {
         $currentRequest = $this->createMock(Request::class);
         $currentRequest->method('getPathInfo')->willReturn('');
@@ -111,6 +111,39 @@ class MenuBuilderTest extends TestCase
         $this->assertEquals($expected, $builder->execute([Role::VALIDATOR]));
     }
 
+    public function testExecuteCaller()
+    {
+        $currentRequest = $this->createMock(Request::class);
+        $currentRequest->method('getPathInfo')->willReturn('');
+
+        $request = $this->createMock(RequestStack::class);
+        $request->method('getCurrentRequest')->willReturn($currentRequest);
+
+        $router = $this->createMock(RouterInterface::class);
+        $router->method('generate')->willReturnOnConsecutiveCalls('route1', 'route2', 'route3', 'route4');
+        $router->method('match')->willReturn(['_route' => 'currentRoute']);
+
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator->method('trans')->willReturnOnConsecutiveCalls('title1', 'title2','title3', 'title4', 'title5');
+
+        $builder = new MenuBuilder(
+            $request,
+            $router,
+            $translator
+        );
+
+        $expected = [
+            new MenuItem('title1', 'route1', false),
+            new MenuItem('title2', 'route2', false),
+            new MenuItem('title3', 'route3', false),
+            new MenuItem('title5', '', false, [
+                new MenuItem('title4', 'route4', false),
+            ]),
+        ];
+
+        $this->assertEquals($expected, $builder->execute([Role::CALLER]));
+    }
+
     public function testExecuteAdminAndValidator()
     {
         $currentRequest = $this->createMock(Request::class);
@@ -147,6 +180,121 @@ class MenuBuilderTest extends TestCase
         ];
 
         $this->assertEquals($expected, $builder->execute([Role::ADMIN, Role::VALIDATOR]));
+    }
+
+    public function testExecuteAdminAndCaller()
+    {
+        $currentRequest = $this->createMock(Request::class);
+        $currentRequest->method('getPathInfo')->willReturn('');
+
+        $request = $this->createMock(RequestStack::class);
+        $request->method('getCurrentRequest')->willReturn($currentRequest);
+
+        $router = $this->createMock(RouterInterface::class);
+        $router->method('generate')->willReturnOnConsecutiveCalls('route1', 'route2', 'route3', 'route4', 'route5', 'route6');
+        $router->method('match')->willReturn(['_route' => 'currentRoute']);
+
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator->method('trans')->willReturnOnConsecutiveCalls('title1', 'title2','title3', 'title4', 'title5', 'title6', 'title7', 'title8');
+
+        $builder = new MenuBuilder(
+            $request,
+            $router,
+            $translator
+        );
+
+        $expected = [
+            new MenuItem('title1', 'route1', false),
+            new MenuItem('title2', 'route2', false),
+            new MenuItem('title3', 'route3', false),
+            new MenuItem('title6', '', false, [
+                new MenuItem('title4', 'route4', false),
+                new MenuItem('title5', 'route5', false),
+            ]),
+            new MenuItem('title8', '', false, [
+                new MenuItem('title7', 'route6', false),
+            ]),
+        ];
+
+        $this->assertEquals($expected, $builder->execute([Role::ADMIN, Role::CALLER]));
+    }
+
+    public function testExecuteValidatorAndCaller()
+    {
+        $currentRequest = $this->createMock(Request::class);
+        $currentRequest->method('getPathInfo')->willReturn('');
+
+        $request = $this->createMock(RequestStack::class);
+        $request->method('getCurrentRequest')->willReturn($currentRequest);
+
+        $router = $this->createMock(RouterInterface::class);
+        $router->method('generate')->willReturnOnConsecutiveCalls('route1', 'route2', 'route3', 'route4', 'route5', 'route6');
+        $router->method('match')->willReturn(['_route' => 'currentRoute']);
+
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator->method('trans')->willReturnOnConsecutiveCalls('title1', 'title2','title3', 'title4', 'title5', 'title6', 'title7', 'title8');
+
+        $builder = new MenuBuilder(
+            $request,
+            $router,
+            $translator
+        );
+
+        $expected = [
+            new MenuItem('title1', 'route1', false),
+            new MenuItem('title2', 'route2', false),
+            new MenuItem('title3', 'route3', false),
+            new MenuItem('title6', '', false, [
+                new MenuItem('title4', 'route4', false),
+                new MenuItem('title5', 'route5', false),
+            ]),
+            new MenuItem('title8', '', false, [
+                new MenuItem('title7', 'route6', false),
+            ]),
+        ];
+
+        $this->assertEquals($expected, $builder->execute([Role::ADMIN, Role::CALLER]));
+    }
+
+    public function testExecuteAdminValidatorAndCaller()
+    {
+        $currentRequest = $this->createMock(Request::class);
+        $currentRequest->method('getPathInfo')->willReturn('');
+
+        $request = $this->createMock(RequestStack::class);
+        $request->method('getCurrentRequest')->willReturn($currentRequest);
+
+        $router = $this->createMock(RouterInterface::class);
+        $router->method('generate')->willReturnOnConsecutiveCalls('route1', 'route2', 'route3', 'route4', 'route5', 'route6', 'route7', 'route8');
+        $router->method('match')->willReturn(['_route' => 'currentRoute']);
+
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator->method('trans')->willReturnOnConsecutiveCalls('title1', 'title2','title3', 'title4', 'title5', 'title6', 'title7', 'title8', 'title9', 'title10', 'title11');
+
+        $builder = new MenuBuilder(
+            $request,
+            $router,
+            $translator
+        );
+
+        $expected = [
+            new MenuItem('title1', 'route1', false),
+            new MenuItem('title2', 'route2', false),
+            new MenuItem('title3', 'route3', false),
+            new MenuItem('title6', '', false, [
+                new MenuItem('title4', 'route4', false),
+                new MenuItem('title5', 'route5', false),
+            ]),
+            new MenuItem('title9', '', false, [
+                new MenuItem('title7', 'route6', false),
+                new MenuItem('title8', 'route7', false),
+            ]),
+            new MenuItem('title11', '', false, [
+                new MenuItem('title10', 'route8', false),
+            ]),
+        ];
+
+        $this->assertEquals($expected, $builder->execute([Role::ADMIN, Role::VALIDATOR, Role::CALLER]));
     }
 
     public function testBuildItem()
@@ -242,6 +390,23 @@ class MenuBuilderTest extends TestCase
 
         $this->assertTrue($method->invokeArgs($builder, [[Role::VALIDATOR]]));
         $this->assertTrue($method->invokeArgs($builder, [[Role::ADMIN, Role::VALIDATOR]]));
+        $this->assertFalse($method->invokeArgs($builder, [[Role::USER]]));
+    }
+
+    public function testIsCallUser()
+    {
+        $builder = new MenuBuilder(
+            $this->createMock(RequestStack::class),
+            $this->createMock(RouterInterface::class),
+            $this->createMock(TranslatorInterface::class)
+        );
+
+        $class = new \ReflectionClass($builder);
+        $method = $class->getMethod('isCallerUser');
+        $method->setAccessible(true);
+
+        $this->assertTrue($method->invokeArgs($builder, [[Role::CALLER]]));
+    $this->assertTrue($method->invokeArgs($builder, [[Role::ADMIN, Role::CALLER]]));
         $this->assertFalse($method->invokeArgs($builder, [[Role::USER]]));
     }
 }
