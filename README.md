@@ -29,6 +29,8 @@ make start
 
 You can go to: [http://web.travelbook/](http://web.travelbook/)
 
+For go to API documentation, you can follow this link: [http://web.travelbook/api/resources](http://web.travelbook/api/resources) 
+
 
 ## Future
 
@@ -40,5 +42,4 @@ You can go to: [http://web.travelbook/](http://web.travelbook/)
 * Steps 1 and 2 travel: if place does not exists then create it
 * Add possibility to delete travel or picture
 * Add behat tests (with selenium)
-* API
 * Add ELK for logs ?

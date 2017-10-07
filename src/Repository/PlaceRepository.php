@@ -73,29 +73,4 @@ class PlaceRepository extends EntityRepository
             ->execute()
         ;
     }
-
-    /**
-     * @param string $query
-     * @param string $locale
-     *
-     * @return Place[]
-     */
-    public function getByQuery(string $query, string $locale): array
-    {
-        $queryBuilder = $this->createQueryBuilder('p')
-            ->setMaxResults(10)
-            ->setFirstResult(0)
-            ->andWhere('LOWER(p.title) LIKE :title')
-            ->andWhere('p.locale = :locale')
-            ->orderBy('p.title', 'ASC')
-        ;
-
-        $parameters['title'] = sprintf('%%%s%%', strtolower($query));
-        $parameters['locale'] = $locale;
-
-        return $queryBuilder->getQuery()
-            ->setParameters($parameters)
-            ->execute()
-        ;
-    }
 }

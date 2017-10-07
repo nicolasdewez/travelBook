@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation as Serializer;
@@ -20,6 +21,17 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Entity(repositoryClass="App\Repository\PlaceRepository")
  *
  * @UniqueEntity(fields={"title", "locale"})
+ *
+ * @ApiResource(
+ *     iri="http://schema.org/Place",
+ *     collectionOperations={"get"={"method"="GET"}},
+ *     itemOperations={"get"={"method"="GET"}},
+ *     attributes={
+ *         "normalization_context"={"groups"={"api_place_get"}},
+ *         "filters"={"filter.api.search.place"},
+ *         "pagination_items_per_page"=5
+ *     }
+ * )
  */
 class Place extends Timestampable implements SimpleEntityDenormalizableInterface
 {
@@ -30,7 +42,7 @@ class Place extends Timestampable implements SimpleEntityDenormalizableInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @Serializer\Groups({"entity_place_get"})
+     * @Serializer\Groups({"entity_place_get", "api_place_get"})
      */
     private $id;
 
@@ -39,10 +51,10 @@ class Place extends Timestampable implements SimpleEntityDenormalizableInterface
      *
      * @ORM\Column(length=30)
      *
-     * @Serializer\Groups({"entity_place_get"})
-     *
      * @Assert\NotBlank
      * @Assert\Length(max=30)
+     *
+     * @Serializer\Groups({"entity_place_get", "api_place_get"})
      */
     private $title;
 
@@ -51,10 +63,10 @@ class Place extends Timestampable implements SimpleEntityDenormalizableInterface
      *
      * @ORM\Column(length=3)
      *
-     * @Serializer\Groups({"entity_place_get"})
-     *
      * @Assert\NotBlank
      * @Assert\Choice(callback={"App\Translation\Locale", "getLocales"}, strict=true)
+     *
+     * @Serializer\Groups({"entity_place_get", "api_place_get"})
      */
     private $locale;
 
@@ -63,7 +75,7 @@ class Place extends Timestampable implements SimpleEntityDenormalizableInterface
      *
      * @ORM\Column(type="decimal", scale=12, precision=18)
      *
-     * @Serializer\Groups({"entity_place_get"})
+     * @Serializer\Groups({"entity_place_get", "api_place_get"})
      */
     private $latitude;
 
@@ -72,7 +84,7 @@ class Place extends Timestampable implements SimpleEntityDenormalizableInterface
      *
      * @ORM\Column(type="decimal", scale=12, precision=18)
      *
-     * @Serializer\Groups({"entity_place_get"})
+     * @Serializer\Groups({"entity_place_get", "api_place_get"})
      */
     private $longitude;
 

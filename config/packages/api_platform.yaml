@@ -1,0 +1,5 @@
+api_platform:
+    title: 'Travelbook API'
+    version: '%app_version%'
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']

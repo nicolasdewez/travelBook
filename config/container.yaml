@@ -33,9 +33,9 @@ services:
             $pathPictures: '%app_path_data_pictures%'
 
     App\Connector\GoogleMapsConnector:
-            arguments:
-                $client: '@csa_guzzle.client.google_maps_api'
-                $apiKey: '%app_google_api_key%'
+        arguments:
+            $client: '@csa_guzzle.client.google_maps_api'
+            $apiKey: '%app_google_api_key%'
 
     App\Connector\PlaceConnectorInterface:
             alias: 'App\Connector\GoogleMapsConnector'
@@ -44,6 +44,12 @@ services:
         resource: '../src/EventSubscriber/Entity'
         tags:
             - 'doctrine.event_subscriber'
+
+    App\EventSubscriber\PictureFileSubscriber:
+        arguments:
+            $pathPictures: '%app_path_data_pictures%'
+        tags:
+            - 'kernel.event_subscriber'
 
     App\Processor\ClientProcessor:
         tags:
@@ -110,3 +116,11 @@ services:
     App\Workflow\CheckPictureWorkflow:
         arguments:
             $stateMachine: '@state_machine.check_picture'
+
+    filter.api.search.place:
+        autowire: false
+        public: false
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { locale: 'exact', title: 'ipartial' } ]
+        tags:
+            - 'api_platform.filter'

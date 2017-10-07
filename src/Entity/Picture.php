@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Workflow\CheckPictureDefinitionWorkflow;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,6 +15,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(name="pictures")
  * @ORM\Entity(repositoryClass="App\Repository\PictureRepository")
+ *
+ * @ApiResource(
+ *     iri="http://schema.org/Picture",
+ *     collectionOperations={"get"={"method"="GET"}},
+ *     itemOperations={"get"={"method"="GET"}},
+ *     attributes={
+ *         "normalization_context"={"groups"={"api_picture_get"}}
+ *     }
+ * )
  */
 class Picture extends Timestampable implements SimpleEntityDenormalizableInterface
 {
@@ -23,7 +34,7 @@ class Picture extends Timestampable implements SimpleEntityDenormalizableInterfa
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @Serializer\Groups({"event_analyze_picture"})
+     * @Serializer\Groups({"event_analyze_picture", "api_picture_get"})
      */
     private $id;
 
@@ -38,6 +49,8 @@ class Picture extends Timestampable implements SimpleEntityDenormalizableInterfa
      * @var string
      *
      * @ORM\Column
+     *
+     * @Serializer\Groups({"api_picture_get"})
      */
     private $title;
 
@@ -45,6 +58,8 @@ class Picture extends Timestampable implements SimpleEntityDenormalizableInterfa
      * @var \DateTime
      *
      * @ORM\Column(type="date")
+     *
+     * @Serializer\Groups({"api_picture_get"})
      */
     private $date;
 
@@ -59,6 +74,10 @@ class Picture extends Timestampable implements SimpleEntityDenormalizableInterfa
      * @var Place
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Place", cascade={"all"})
+     *
+     * @Serializer\Groups({"api_picture_get"})
+     *
+     * @ApiSubresource
      */
     private $place;
 
@@ -83,6 +102,13 @@ class Picture extends Timestampable implements SimpleEntityDenormalizableInterfa
      * @Assert\Image
      */
     private $file;
+
+    /**
+     * @var string
+     *
+     * @Serializer\Groups({"api_picture_get"})
+     */
+    private $content;
 
     public function __construct()
     {
@@ -281,6 +307,26 @@ class Picture extends Timestampable implements SimpleEntityDenormalizableInterfa
     public function setFile(UploadedFile $file): Picture
     {
         $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param string $content
+     *
+     * @return Picture
+     */
+    public function setContent(string $content): Picture
+    {
+        $this->content = $content;
 
         return $this;
     }

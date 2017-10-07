@@ -73,15 +73,4 @@ class PlaceManager
 
         return $this->repository->getByCriteria($filterPlace, $pagination);
     }
-
-    /**
-     * @param string $query
-     * @param string $locale
-     *
-     * @return array
-     */
-    public function searchElements(string $query, string $locale): array
-    {
-        return $this->repository->getByQuery($query, $locale);
-    }
 }

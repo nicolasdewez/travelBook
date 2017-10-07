@@ -2,15 +2,27 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Table(name="travels")
  * @ORM\Entity
+ *
+ * @ApiResource(
+ *     iri="http://schema.org/Travel",
+ *     collectionOperations={"get"={"method"="GET"}},
+ *     itemOperations={"get"={"method"="GET"}},
+ *     attributes={
+ *         "normalization_context"={"groups"={"api_travel_get"}}
+ *     }
+ * )
  */
 class Travel extends Timestampable
 {
@@ -20,6 +32,8 @@ class Travel extends Timestampable
      * @ORM\Column(type="integer", options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"api_travel_get"})
      */
     private $id;
 
@@ -31,6 +45,8 @@ class Travel extends Timestampable
      * @Assert\NotBlank
      * @Assert\Length(max=255)
      * @Assert\Type("string")
+     *
+     * @Serializer\Groups({"api_travel_get"})
      */
     private $title;
 
@@ -42,6 +58,8 @@ class Travel extends Timestampable
      * @Assert\NotBlank
      * @Assert\Date
      * @Assert\LessThanOrEqual("today")
+     *
+     * @Serializer\Groups({"api_travel_get"})
      */
     private $startDate;
 
@@ -53,6 +71,8 @@ class Travel extends Timestampable
      * @Assert\NotBlank
      * @Assert\Date
      * @Assert\LessThanOrEqual("today")
+     *
+     * @Serializer\Groups({"api_travel_get"})
      */
     private $endDate;
 
@@ -62,6 +82,10 @@ class Travel extends Timestampable
      * @ORM\ManyToOne(targetEntity="App\Entity\Place", cascade={"all"})
      *
      * @Assert\NotNull
+     *
+     * @Serializer\Groups({"api_travel_get"})
+     *
+     * @ApiSubresource
      */
     private $place;
 
@@ -78,6 +102,8 @@ class Travel extends Timestampable
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="travel", orphanRemoval=true)
+     *
+     * @Apisubresource
      */
     private $pictures;
 

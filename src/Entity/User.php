@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Security\Role;
 use App\Validator\Group;
 use App\Workflow\RegistrationDefinitionWorkflow;
@@ -23,6 +25,15 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  *
  * @UniqueEntity(fields={"username"}, groups={"registration"})
+ *
+ * @ApiResource(
+ *     iri="http://schema.org/User",
+ *     collectionOperations={"get"={"method"="GET"}},
+ *     itemOperations={"get"={"method"="GET"}},
+ *     attributes={
+ *         "normalization_context"={"groups"={"api_user_get"}}
+ *     }
+ * )
  */
 class User extends Timestampable implements AdvancedUserInterface, SimpleEntityDenormalizableInterface
 {
@@ -39,7 +50,8 @@ class User extends Timestampable implements AdvancedUserInterface, SimpleEntityD
      *     "event_update_account",
      *     "event_enable_account",
      *     "event_disable_account",
-     *     "event_password_lost"
+     *     "event_password_lost",
+     *     "api_user_get"
      * })
      */
     private $id;
@@ -52,6 +64,8 @@ class User extends Timestampable implements AdvancedUserInterface, SimpleEntityD
      * @Assert\NotBlank(groups={"registration"})
      * @Assert\Length(min=4, max=30, groups={"registration"})
      * @Assert\Regex(pattern="/^[a-z0-9_]+$/i", groups={"registration"})
+     *
+     * @Serializer\Groups({"api_user_get"})
      */
     private $username;
 
@@ -69,6 +83,8 @@ class User extends Timestampable implements AdvancedUserInterface, SimpleEntityD
      *
      * @Assert\NotBlank(groups={"my_account", "registration", "edit"})
      * @Assert\Length(min=2, max=50, groups={"my_account", "registration"})
+     *
+     * @Serializer\Groups({"api_user_get"})
      */
     private $firstname;
 
@@ -79,6 +95,8 @@ class User extends Timestampable implements AdvancedUserInterface, SimpleEntityD
      *
      * @Assert\NotBlank(groups={"my_account", "registration", "edit"})
      * @Assert\Length(min=2, max=50, groups={"my_account", "registration"})
+     *
+     * @Serializer\Groups({"api_user_get"})
      */
     private $lastname;
 
@@ -100,6 +118,8 @@ class User extends Timestampable implements AdvancedUserInterface, SimpleEntityD
      *
      * @Assert\NotBlank(groups={"my_account", "registration"})
      * @Assert\Choice(callback={"App\Translation\Locale", "getLocales"}, strict=true, groups={"my_account", "registration"})
+     *
+     * @Serializer\Groups({"api_user_get"})
      */
     private $locale;
 
@@ -124,6 +144,8 @@ class User extends Timestampable implements AdvancedUserInterface, SimpleEntityD
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     *
+     * @Serializer\Groups({"api_user_get"})
      */
     private $enabled;
 
@@ -145,6 +167,8 @@ class User extends Timestampable implements AdvancedUserInterface, SimpleEntityD
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     *
+     * @Serializer\Groups({"api_user_get"})
      */
     private $emailNotification;
 
@@ -152,6 +176,10 @@ class User extends Timestampable implements AdvancedUserInterface, SimpleEntityD
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Travel", mappedBy="user", orphanRemoval=true)
+     *
+     * @Serializer\Groups({"api_user_get"})
+     *
+     * @ApiSubresource
      */
     private $travels;
 

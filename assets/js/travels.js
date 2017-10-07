@@ -39,8 +39,8 @@ function SearchPlace()
         // Auto complete places
         this.searchField.easyAutocomplete({
             url: function(query) {
-                return Routing.generate('api_places_search', {
-                    query: query,
+                return Routing.generate('api_places_get_collection', {
+                    title: query,
                     locale: this.localeField.val()
                 }, true);
             }.bind(this),
