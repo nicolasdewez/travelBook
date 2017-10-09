@@ -42,7 +42,7 @@ class Place extends Timestampable implements SimpleEntityDenormalizableInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @Serializer\Groups({"entity_place_get", "api_place_get"})
+     * @Serializer\Groups({"api_place_get"})
      */
     private $id;
 
@@ -54,7 +54,7 @@ class Place extends Timestampable implements SimpleEntityDenormalizableInterface
      * @Assert\NotBlank
      * @Assert\Length(max=30)
      *
-     * @Serializer\Groups({"entity_place_get", "api_place_get"})
+     * @Serializer\Groups({"api_place_get"})
      */
     private $title;
 
@@ -66,7 +66,7 @@ class Place extends Timestampable implements SimpleEntityDenormalizableInterface
      * @Assert\NotBlank
      * @Assert\Choice(callback={"App\Translation\Locale", "getLocales"}, strict=true)
      *
-     * @Serializer\Groups({"entity_place_get", "api_place_get"})
+     * @Serializer\Groups({"api_place_get"})
      */
     private $locale;
 
@@ -75,7 +75,7 @@ class Place extends Timestampable implements SimpleEntityDenormalizableInterface
      *
      * @ORM\Column(type="decimal", scale=12, precision=18)
      *
-     * @Serializer\Groups({"entity_place_get", "api_place_get"})
+     * @Serializer\Groups({"api_place_get"})
      */
     private $latitude;
 
@@ -84,7 +84,7 @@ class Place extends Timestampable implements SimpleEntityDenormalizableInterface
      *
      * @ORM\Column(type="decimal", scale=12, precision=18)
      *
-     * @Serializer\Groups({"entity_place_get", "api_place_get"})
+     * @Serializer\Groups({"api_place_get"})
      */
     private $longitude;
 

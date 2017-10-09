@@ -14,12 +14,13 @@ before_script:
     - docker-compose -p travelbook -f docker-compose.yml run --rm app bin/install
 
 script:
-    - docker-compose -p travelbook -f docker-compose.yml run --rm app bin/console security:check
-    - docker-compose -p travelbook -f docker-compose.yml run --rm app vendor/bin/php-cs-fixer fix -v --dry-run --diff --config=.php_cs.dist
-    - docker-compose -p travelbook -f docker-compose.yml run --rm app bin/console lint:yaml config/
-    - docker-compose -p travelbook -f docker-compose.yml run --rm app bin/console lint:yaml translations/
-    - docker-compose -p travelbook -f docker-compose.yml run --rm app bin/console lint:twig templates/
-    - docker-compose -p travelbook -f docker-compose.yml exec -T app vendor/bin/phpunit
+    - docker-compose -p travelbook -f docker-compose.yml run --rm app 'bin/console security:check'
+    - docker-compose -p travelbook -f docker-compose.yml run --rm app 'vendor/bin/php-cs-fixer fix -v --dry-run --diff --config=.php_cs.dist'
+    - docker-compose -p travelbook -f docker-compose.yml run --rm app 'bin/console lint:yaml config/'
+    - docker-compose -p travelbook -f docker-compose.yml run --rm app 'bin/console lint:yaml translations/'
+    - docker-compose -p travelbook -f docker-compose.yml run --rm app 'bin/console lint:twig templates/'
+    - docker-compose -p travelbook -f docker-compose.yml exec -T app 'vendor/bin/phpunit'
+    - docker-compose -p travelbook -f docker-compose.yml exec -T app 'vendor/bin/behat'
 
 notifications:
     email:

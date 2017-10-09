@@ -37,7 +37,7 @@ services:
             - app
 
     db:
-        image: postgres:latest
+        image: postgres:9.6
         ports:
             - "5433:5432"
         networks:

@@ -12,6 +12,4 @@ final class Group
     const EVENT_DISABLE_ACCOUNT = 'event_disable_account';
     const EVENT_ANALYZE_PICTURE = 'event_analyze_picture';
     const EVENT_INVALID_PICTURE = 'event_invalid_picture';
-
-    const ENTITY_PLACE_GET = 'entity_place_get';
 }

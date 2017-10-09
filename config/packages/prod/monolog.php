@@ -5,14 +5,10 @@ use Symfony\Component\Console\Application;
 
 $handlers = [
     'main' => [
-        'type' => 'fingers_crossed',
-        'action_level' => 'error',
-        'handler' => 'nested',
-    ],
-    'nested' => [
-        'type' => 'stream',
-        'path' => '%kernel.logs_dir%/%kernel.environment%.log',
-        'level' => 'debug',
+        'type' => 'rotating_file',
+        'path' => '%kernel.logs_dir%/app.%kernel.environment%.log',
+        'level' => constant('Monolog\Logger::'.strtoupper(getenv('APP_LOGGING_LEVEL'))),
+        'max_files' => 10,
     ],
 ];
 

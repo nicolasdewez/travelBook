@@ -103,6 +103,8 @@ class Travel extends Timestampable
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="travel", orphanRemoval=true)
      *
+     * @Serializer\Groups({"api_travel_get"})
+     *
      * @Apisubresource
      */
     private $pictures;

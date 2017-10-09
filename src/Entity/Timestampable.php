@@ -23,7 +23,7 @@ abstract class Timestampable
     /**
      * @return \DateTime
      */
-    public function getCreatedAt(): \DateTime
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
@@ -43,7 +43,7 @@ abstract class Timestampable
     /**
      * @return \DateTime
      */
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }

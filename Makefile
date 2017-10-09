@@ -204,6 +204,9 @@ app-reset: down app-clear ## Reset application
 
 
 
+.PHONY: db-connect
+db-connect: db-exec ## Run db cli (options: db_name [`travelbook`])
+
 .PHONY: db-exec
 db-exec: ## Run db cli (options: db_name [`travelbook`])
 	$(eval db_name ?= $(DB_NAME))
@@ -223,13 +226,26 @@ db-validate: ## Run doctrine validation
 
 
 
+.PHONY: tests
+tests: tests-phpunit tests-behat ## Run all tests
+
+.PHONY: tests-unit
+tests-unit: tests-phpunit ## Run phpunit test suite (options: coverage [true])
+
 .PHONY: tests-phpunit
-tests-phpunit: ## Run phpunit test suite (options: coverage [true])
+tests-phpunit: app-clear ## Run phpunit test suite (options: coverage [true])
     ifeq ("$(coverage)","true")
 		@$(EXEC) $(APP) vendor/bin/phpunit --coverage-html build/html
     else
 		@$(EXEC) $(APP) vendor/bin/phpunit
     endif
+
+.PHONY: tests-behat
+tests-behat: app-clear ## Run behat test suite
+	@$(EXEC) $(APP) vendor/bin/behat
+
+.PHONY: tests-func
+tests-func: tests-behat ## Run behat test suite
 
 
 

@@ -1,0 +1,33 @@
+default:
+    suites:
+        default:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - Behatch\Context\RestContext
+                - Behatch\Context\JsonContext
+                - Knp\FriendlyContexts\Context\EntityContext
+                - Knp\FriendlyContexts\Context\ApiContext
+                #- FeatureContext:
+                #       kernel: '@kernel'
+
+    extensions:
+        Behat\Symfony2Extension:
+            kernel:
+                bootstrap: features/bootstrap/bootstrap.php
+                class: App\Kernel
+                debug: true
+                env: "test"
+
+        Behat\MinkExtension:
+            base_url: ~
+            sessions:
+                default:
+                    symfony2: ~
+                #javascript:
+                #    selenium2: ~
+
+        Knp\FriendlyContexts\Extension:
+            api:
+                base_url: 'http://web.travelbook'
+
+        Behatch\Extension: ~

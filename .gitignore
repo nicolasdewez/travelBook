@@ -8,3 +8,7 @@
 /node_modules/
 /public/build/
 /public/data/
+
+###> behat/symfony2-extension ###
+behat.yml
+###< behat/symfony2-extension ###
