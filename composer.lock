@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4ed22a4aec68f875f6b2d4fd8827f79f",
+    "content-hash": "de8253d57ce6223c47ee9ad7d1046f36",
     "packages": [
         {
             "name": "api-platform/core",
@@ -5521,6 +5521,43 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "alexandresalome/mailcatcher",
+            "version": "v1.2.0",
+            "target-dir": "Alex/MailCatcher",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alexandresalome/mailcatcher.git",
+                "reference": "e6eddc6752bd1ae26c1b64e337e3eeb48139bbf7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alexandresalome/mailcatcher/zipball/e6eddc6752bd1ae26c1b64e337e3eeb48139bbf7",
+                "reference": "e6eddc6752bd1ae26c1b64e337e3eeb48139bbf7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/dom-crawler": "~2.3|~3.0"
+            },
+            "require-dev": {
+                "behat/behat": "~3.0",
+                "phpunit/phpunit": "~4.6",
+                "swiftmailer/swiftmailer": "~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Alex\\MailCatcher": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A library to access MailCatcher",
+            "time": "2016-07-08T19:48:03+00:00"
+        },
         {
             "name": "behat/behat",
             "version": "v3.4.1",

@@ -3,14 +3,26 @@ default:
         default:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
-                - Behatch\Context\RestContext
                 - Behatch\Context\JsonContext
-                - Knp\FriendlyContexts\Context\EntityContext
+                - Behatch\Context\RestContext
                 - Knp\FriendlyContexts\Context\ApiContext
-                #- FeatureContext:
-                #       kernel: '@kernel'
+                - Knp\FriendlyContexts\Context\EntityContext
+                - CommandContext
+                - QueuingContext:
+                    - "@kernel"
+                - MailCatcherContext
 
     extensions:
+        Alex\MailCatcher\Behat\MailCatcherExtension\Extension:
+            url: http://mailer.travelbook:1080
+            purge_before_scenario: true
+
+        Behat\MinkExtension:
+            base_url: ~
+            sessions:
+                default:
+                    symfony2: ~
+
         Behat\Symfony2Extension:
             kernel:
                 bootstrap: features/bootstrap/bootstrap.php
@@ -18,16 +30,9 @@ default:
                 debug: true
                 env: "test"
 
-        Behat\MinkExtension:
-            base_url: ~
-            sessions:
-                default:
-                    symfony2: ~
-                #javascript:
-                #    selenium2: ~
+        Behatch\Extension: ~
 
         Knp\FriendlyContexts\Extension:
             api:
                 base_url: 'http://web.travelbook'
 
-        Behatch\Extension: ~
